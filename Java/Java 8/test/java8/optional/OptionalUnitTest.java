@@ -108,7 +108,6 @@ public class OptionalUnitTest {
         assertFalse(priceIsInRange1(new Modem(null)));
         assertFalse(priceIsInRange1(new Modem(15.5)));
         assertFalse(priceIsInRange1(null));
-
     }
 
     @Test
