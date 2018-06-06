@@ -38,34 +38,49 @@
 package prefixsums;
 
 
-public class MinAvgTwoSlice {
-	public static void main(String[] args) {
-		int[] A = new int[]{4,2,2,5,1,5,8}; 
-		System.out.println(solution1(A));
-	}
 
-	//using caterpillar method (min value will be inside 2 or 3 element slices)
+
+/*
+* The goal is to find the starting position 
+* of a slice whose average is minimal.
+*/
+public class MinAvgTwoSlice {
+	
+
+
+	/*
+	* using caterpillar method (min value 
+	* will be inside 2 or 3 element slices).
+	*/
 	public static int solution(int[] A) {
+
 		int front=1;
 		int back= 0;
 		int res = 0;
-		int curr = A[0]+A[1];
+		
+		int curr = A[0] + A[1];
+
 		double min = (double)curr/2;
 		double tmpMin = min;
 		
 		while (true) {
+
 			if (front - back == 1) {
+
 				front++;
-				if (front == A.length)
+				if (front == A.length){
 					return res;
+				}				
 				curr += A[front];
 			}
+
 			else {
 				curr -= A[back];
 				back++;
 			}
 
 			tmpMin=(double)curr/(front-back+1);
+
 			if (tmpMin < min) {
 				res = back;
 				min = tmpMin;
@@ -73,24 +88,36 @@ public class MinAvgTwoSlice {
 		}
 	}
 	
+
 	public static int solution1(int[] A) {
+	
 		int res = 0;
 		double min = (double)(A[0]+A[1])/2;
 		
 		for (int j = 0; j < A.length-2; j++) {
+
 			if ((double)(A[j] + A[j+1]) / 2 < min){
 				min = (double)(A[j] + A[j+1]) / 2;
 				res=j;
 			}
-			if ((double)(A[j] + A[j+1] + A[j+2]) / 3 < min){
+
+			if ((double)(A[j] + A[j+1] + A[j+2]) / 3 < min){				
 				min = (double)(A[j] + A[j+1] + A[j+2]) / 3;
 				res=j;
 			}
 		}
 		
-		if ((double)(A[A.length-1] + A[A.length-2])/2 < min)
+		if ((double)(A[A.length-1] + A[A.length-2])/2 < min){
 			return A.length - 2;
+		}
+		
 		return res;
 	}
 
+
+	public static void main(String[] args) {
+	
+		int[] A = new int[]{4,2,2,5,1,5,8}; 
+		System.out.println(solution1(A));
+	}
 }

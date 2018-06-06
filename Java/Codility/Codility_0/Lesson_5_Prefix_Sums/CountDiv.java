@@ -17,15 +17,22 @@
 package prefixsums;
 
 public class CountDiv {
+
+	public static int solution(int A, int B, int K) {
+
+		if (A%K==0){
+			return B/K - A/K + 1;
+		}		
+
+		return B/K - A/K;
+	}
+
 	public static void main(String[] args) {
+	
 		int A = 6;
 		int B = 11;
 		int K = 2;
+	
 		System.out.println(solution(A,B,K));
-	}
-	public static int solution(int A, int B, int K) {
-		if (A%K==0)
-			return B/K - A/K + 1;
-		return B/K - A/K;
 	}
 }
