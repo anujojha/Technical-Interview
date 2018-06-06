@@ -19,6 +19,16 @@
 	Elements of input arrays can be modified.
  */
 
+
+
+/*
+H[I] is the height of the wall from I to I+1 meters to the right of its left end. 
+
+Given an array H of N positive integers specifying the height of the wall, returns 
+the minimum number of blocks needed to build it.
+*/
+
+
 //SCORE: 100/100
 package stackandqueue;
 
@@ -26,18 +36,18 @@ import java.util.Stack;
 
 public class StoneWall {
 	
-	public static void main (String[] args) {
-		int[] A = new int[]{8,8,5,7,9,8,7,4,8};
-		System.out.println(solution(A));
-	}
 	
 	public static int solution(int[] H) {
+
 		Stack<Integer> stack = new Stack<Integer>();
+
 		int blocks = 1;
 		stack.push(H[0]);
+
 		for (int i = 1; i < H.length; i++) {
 			if (stack.peek() ==  H[i])
 				continue;
+
 			else if (H[i] > stack.peek()) {
 				stack.push(H[i]);
 				blocks++;
@@ -50,6 +60,13 @@ public class StoneWall {
 				}
 			}
 		}
+
 		return blocks;
+	}
+
+	public static void main (String[] args) {
+
+		int[] A = new int[]{8,8,5,7,9,8,7,4,8};
+		System.out.println(solution(A));
 	}
 }

@@ -37,15 +37,11 @@ import java.util.Stack;
 
 public class Fish {
 	
-	public static void main (String[] args) {
-		int[] A = new int[]{4,3,2,1,5};
-		int[] B = new int[]{0,1,0,0,0};
-		System.out.println(solution(A,B));
-	}
-	
 	public static int solution(int[] A, int[] B) {
+
 		Stack<Integer> stack = new Stack<Integer>();
 		int duels = 0;
+		
 		for (int i = 0; i < A.length; i++) {
 			if (B[i] == 0) {
 				while(!stack.isEmpty()) {
@@ -59,5 +55,11 @@ public class Fish {
 				stack.push(B[i]);			
 		}
 		return A.length - duels;
+	}
+
+	public static void main (String[] args) {
+		int[] A = new int[]{4,3,2,1,5};
+		int[] B = new int[]{0,1,0,0,0};
+		System.out.println(solution(A,B));
 	}
 }

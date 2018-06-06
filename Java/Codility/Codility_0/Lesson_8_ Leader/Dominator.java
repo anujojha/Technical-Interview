@@ -22,36 +22,51 @@
 	Elements of input arrays can be modified.
  */
 
+
+
 //SCORE: 100/100
 package leader;
 
 import java.util.Stack;
 
+
+
+/*
+The dominator of array A is the value that occurs in more 
+than half of the elements of A.
+
+Given an array A consisting of N integers, returns index 
+of any element of array A in which the dominator of A occurs. 
+The function should return −1 if array A does not have a 
+dominator.
+*/
+
 public class Dominator {
-	public static void main (String[] args) {
-		int[] A = new int[]{3, 4, 3, 2, 3, -1, 3, 3};
-		System.out.println(solution(A));
-		
-	}
 	
+
 	public static int solution(int[] A) {
+	
 		Stack<Integer> stack = new Stack<Integer>();
+	
 		for (int i = 0; i < A.length; i++) {
+			
 			if (stack.isEmpty()) {
 				stack.push(A[i]);
 				continue;
-			}
-			if (stack.peek() == A[i])
+			} if (stack.peek() == A[i])
 				stack.push(A[i]);
 			else
 				stack.pop();
 		}
+
 		if (stack.isEmpty())
 			return -1;
 		int domCandidate = stack.peek();
 		int occurances = 0;
 		int randomIndex=-1;
+
 		for (int i = 0; i < A.length; i++) {
+
 			if(A[i] == domCandidate) {
 				occurances++;
 				randomIndex = i;
@@ -59,5 +74,11 @@ public class Dominator {
 		}
 		
 		return occurances>A.length/2?randomIndex:-1;
+	}
+
+	public static void main (String[] args) {
+
+		int[] A = new int[]{3, 4, 3, 2, 3, -1, 3, 3};
+		System.out.println(solution(A));		
 	}
 }

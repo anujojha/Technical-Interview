@@ -24,12 +24,13 @@
 //SCORE: 100/100
 package maximumslice;
 
+
+/*
+* A non-empty array A consisting of N integers is given. A pair of 
+* integers (P, Q), such that 0 ≤ P ≤ Q < N, is called a slice of array 
+* A. The sum of a slice (P, Q) is the total of A[P] + A[P+1] + ... + A[Q].
+*/
 public class MaxSliceSum {
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int[] A = new int[]{3,2,-6,4,0};
-		System.out.println(solution(A));
-	}
 	
 	public static int solution(int[] A) {
 		int max=Integer.MIN_VALUE;
@@ -48,5 +49,9 @@ public class MaxSliceSum {
 		return maxSliceSum;
 	}
 	
-
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int[] A = new int[]{3,2,-6,4,0};
+		System.out.println(solution(A));
+	}
 }

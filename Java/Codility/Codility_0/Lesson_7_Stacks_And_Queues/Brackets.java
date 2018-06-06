@@ -22,32 +22,53 @@ package stackandqueue;
 import java.util.Stack;
 
 public class Brackets {
+
+	
+	public static int solution(String S) {
+
+		Stack<Character> chars = new Stack<Character>();
+
+		for (int i = 0; i < S.length(); i++) {
+
+			if (chars.size() == 0){
+				chars.push(S.charAt(i));
+			}else{							
+				if (isMatch(chars.peek(), S.charAt(i))){
+					chars.pop();
+				}else{
+					chars.push(S.charAt(i));
+				} 					
+			}
+		}		
+		return chars.size()==0?1:0;
+	}
+
+	
+	private static boolean isMatch(char a, char b) {
+		
+		switch(a) {
+
+			case '{':{
+				return b == '}';
+			}
+			case '(': {
+				return b == ')';
+			}
+			case '[':{
+				return b == ']';
+			}
+			
+			default: 
+				return false;
+		}
+	}
+
+
+
 	public static void main (String[] args) {
+
 		String S= "{[()()]}";
 		System.out.println(solution(S));
 	}
-	
-	public static int solution(String S) {
-		Stack<Character> chars = new Stack<Character>();
-		for (int i = 0; i < S.length(); i++) {
-			if (chars.size() == 0)
-				chars.push(S.charAt(i));
-			else {
-				if (isMatch(chars.peek(), S.charAt(i)))
-					chars.pop();
-				else 
-					chars.push(S.charAt(i));
-			}
-		}
-		return chars.size()==0?1:0;
-	}
-	
-	private static boolean isMatch(char a, char b) {
-		switch(a) {
-			case '{': return b == '}';
-			case '(': return b == ')';
-			case '[': return b == ']';
-			default: return false;
-		}
-	}
+
 }

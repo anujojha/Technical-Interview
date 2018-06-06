@@ -37,41 +37,60 @@ package leader;
 
 import java.util.Stack;
 
+
+
+/*
+	The leader of this array is the value that occurs in more than half of 
+	the elements of A.
+
+	An equi leader is an index S such that 0 ≤ S < N − 1 and two sequences 
+	A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N − 1] have leaders 
+	of the same value.
+*/
 public class EquiLeader {
-	public static void main (String[] args) {
-		int[] A = new int[]{4,3,4,4,4,2};
-		System.out.println(solution(A));
-		
-	}
+
+
 	public static int solution(int[] A) {
 		
 		//check if it is dominator at all
 		Stack<Integer> stack = new Stack<Integer>();
+
 		for (int i = 0; i < A.length; i++) {
+
 			if (stack.isEmpty()) {
 				stack.push(A[i]);
 				continue;
 			}
+
 			if (stack.peek() == A[i])
 				stack.push(A[i]);
+			
 			else
 				stack.pop();
 		}
-		if (stack.isEmpty())
+
+		if (stack.isEmpty()){
 			return 0; //there's no dominator
+		}
+		
 		int dominator = stack.peek();
 		int domOccurances = 0;
+		
 		for (int i = 0; i < A.length; i++) {
 			if(A[i] == dominator)
 				domOccurances++;
 		}
+
 		if (domOccurances <= A.length/2)
 			return 0;//not dominator
+
 		int nonDomOccurances = A.length - domOccurances;
 		stack.clear();
+
 		int dom=0;
 		int nonDom=0;
 		int equiLeaders=0;
+		
 		for (int i = 0; i < A.length; i++) {
 			if (A[i] == dominator)
 				dom++;
@@ -81,5 +100,13 @@ public class EquiLeader {
 				equiLeaders++;	
 		}
 		return equiLeaders;
+	}
+
+
+	public static void main (String[] args) {
+
+		int[] A = new int[]{4,3,4,4,4,2};
+		System.out.println(solution(A));
+		
 	}
 }

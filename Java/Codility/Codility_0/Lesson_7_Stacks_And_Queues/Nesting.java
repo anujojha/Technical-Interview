@@ -21,16 +21,16 @@ package stackandqueue;
 
 import java.util.Stack;
 
+
 public class Nesting {
 	
-	public static void main (String[] args) {
-		String S= "((()()))";
-		System.out.println(solution(S));
-	}
 	
 	public static int solution(String S) {
+
 		Stack<Character> chars = new Stack<Character>();
+
 		for (int i = 0; i < S.length(); i++) {
+
 			if (S.charAt(i) == '(') {
 				chars.push(S.charAt(i));
 			} else if (S.charAt(i) == ')' && chars.size()>0) {
@@ -38,5 +38,10 @@ public class Nesting {
 			} else return 0;
 		}
 		return chars.size()==0?1:0;
+	}
+
+	public static void main (String[] args) {
+		String S= "((()()))";
+		System.out.println(solution(S));
 	}
 }
