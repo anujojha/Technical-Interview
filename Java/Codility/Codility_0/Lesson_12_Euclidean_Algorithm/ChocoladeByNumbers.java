@@ -22,29 +22,36 @@ package euclideanalgorithm;
 
 public class ChocoladeByNumbers {
 
-	public static void main(String[] args) {
-		int N =12;
-		int M =3;
-		int res=1;
-		System.out.println(solution(N,M,res));
-	}
 
 	private static int solution(int N, int M, int res) {	
 		return N/greatestCommonDivisor(N,M,1);
 	}
 	
 	private static int greatestCommonDivisor(int a, int b, int res) {
+
 		if (a==b)
 			return res*a;
+
 		else if (a%2==0 && b%2==0)
 			return greatestCommonDivisor (a/2, b/2, res*2);
+
 		else if (a%2==0)
 			return greatestCommonDivisor (a/2, b, res);
+
 		else if (b%2==0)
 			return greatestCommonDivisor (a, b/2, res);
+
 		else if (a>b)
 			return greatestCommonDivisor (a - b, b, res);
+
 		else 
 			return greatestCommonDivisor (a, b - a, res);
+	}
+
+	public static void main(String[] args) {
+		int N =12;
+		int M =3;
+		int res=1;
+		System.out.println(solution(N,M,res));
 	}
 }

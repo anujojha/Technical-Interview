@@ -31,39 +31,47 @@
  */
 
 //Score: 100/100
-package sieveoferastothenes;
 
 import java.util.Arrays;
 
+
+
+/*
+* A semiprime is a natural number that is the product of two (not necessarily 
+* distinct) prime numbers. The first few semiprimes are 4, 6, 9, 10, 14, 15, 
+* 21, 22, 25, 26.
+*/
 public class CountSemiprimes {
 	
-	public static void main (String[] args) {
-		int[] A = new int[] {1,4,16};
-		int[] B = new int[]{26,10,20};
-		int N = 26;
-		System.out.println(Arrays.toString(solution(A,B,N)));
-		
-	}
-	
+
 	public static int[] solution(int[] A, int[] B, int N) {
+
 		int[] factArray = factorizationArray(N);
+		
 		int[] semiPrimes = new int[factArray.length];
+		
 		for (int i = 0; i < semiPrimes.length; i++) {
 			if (factArray[i] != 0 && factArray[i/factArray[i]] == 0)
 				semiPrimes[i] = 1;
 		}
+
 		int[] semiPrimesPreSum = prefixSum(semiPrimes);
 		int[] res = new int[A.length];
+
 		for (int i = 0; i < B.length; i++) {
 			res[i] = semiPrimesPreSum[B[i]] - semiPrimesPreSum[A[i]-1];
 		}
+
 		return res;
 	}
 
 	//preparing array for factorization (array with primes)
 	public static int[] factorizationArray(int n) {
+		
 		int[] F = new int[n+1];
+		
 		for (int i = 2; i*i <= n; i++) {
+		
 			if (F[i] == 0) {
 				for (int k = i*i; k<=n; k+=i) {
 					if (F[k] == 0)
@@ -82,5 +90,14 @@ public class CountSemiprimes {
 				prefSum[i] = prefSum[i-1] + A[i];
 		}
 		return prefSum;
+	}
+
+	public static void main (String[] args) {
+
+		int[] A = new int[] {1,4,16};
+		int[] B = new int[]{26,10,20};
+		int N = 26;
+		System.out.println(Arrays.toString(solution(A,B,N)));
+		
 	}
 }

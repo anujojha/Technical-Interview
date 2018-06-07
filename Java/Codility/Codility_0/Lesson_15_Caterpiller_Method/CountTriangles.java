@@ -30,11 +30,6 @@ import java.util.Arrays;
 
 public class CountTriangles {
 	
-	public static void main(String[] args) {
-		int[] A = new int[] {10, 2, 5, 1, 8, 12};
-		System.out.println(solution(A));
-	}
-	
 	public static int solution(int[] A) {
 		return caterpillarMethod(A);
 	}
@@ -42,9 +37,12 @@ public class CountTriangles {
 	public static int caterpillarMethod(int[] A) {
 		int N = A.length;
 		int res=0;
+		
 		if (N < 3)
 			return 0;
+		
 		int front;
+
 		Arrays.sort(A);
 		for (int i = 0; i < N-2; i++) {
 			front = i+2;
@@ -56,5 +54,11 @@ public class CountTriangles {
 			}
 		}
 		return res;
+	}
+
+
+	public static void main(String[] args) {
+		int[] A = new int[] {10, 2, 5, 1, 8, 12};
+		System.out.println(solution(A));
 	}
 }

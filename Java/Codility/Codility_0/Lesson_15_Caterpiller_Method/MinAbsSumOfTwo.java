@@ -43,17 +43,17 @@ import java.util.Arrays;
 
 public class MinAbsSumOfTwo {
 	
-	public static void main(String[] args) {
-		int[] A = new int[]{1, 4, -3};
-		System.out.println(solution1(A));
-	}
-	
+
 	public static int solution(int[] A) {
+	
 		Arrays.sort(A);
+	
 		int min = Integer.MAX_VALUE;
+	
 		for (int i = 0; i < A.length; i++) {
 			min = Math.min(min, Math.abs(A[i] + findBestMatch(-A[i],A)));
 		}
+
 		return min;
 	}
 	
@@ -63,19 +63,30 @@ public class MinAbsSumOfTwo {
 	}
 	
 	public static int findBestMatch(int target, int[] A) {
+
 		if (A.length == 1)
 			return A[0];
+
 		int beg = 0;
 		int end = A.length - 1;
-		while(beg<=end) {
+
+		while(beg <= end) {
+
 			int middle= (beg+end)/2;
-			if (A[middle] == target)
+
+			if (A[middle] == target){
 				return A[middle];
-			if (end - beg == 1)
-				return Math.abs(A[end] - target) < Math.abs(A[beg] - target)? A[end]: A[beg];
+			}
+			if (end - beg == 1){
+				return 					
+						Math.abs(A[end] - target) 
+						< Math.abs(A[beg] - target)? 
+						A[end]: A[beg];						
+			}
+
 			if (A[middle]>target){
 				end= middle;
-			}else {
+			} else {
 				beg = middle;
 			}
 		}
@@ -83,27 +94,41 @@ public class MinAbsSumOfTwo {
 	}
 	
 	public static int getMinSum(int[] A) {
+
 		//all positives
 		if (A[0]>=0)
 			return A[0]*2;
+		
 		//all negatives
 		if (A[A.length-1] <= 0)
 			return -A[A.length-1]*2;
+		
 		int front = A.length - 1;
 		int back = 0;
 		int min = Math.abs(A[back] + A[front]);
+		
 		while (back<=front) {
+		
 			int tmp = Math.abs(A[back] + A[front]);
+		
 			min = Math.min(min,tmp);
+		
 			if (Math.abs(A[back+1] + A[front]) <= tmp) 
 				back++;
+		
 			else if(Math.abs(A[back] + A[front-1]) <= tmp) 			
 				front--;
+		
 			else {
 				back++;
 				front--;
 			}
 		}
 		return min;
+	}
+
+	public static void main(String[] args) {
+		int[] A = new int[]{1, 4, -3};
+		System.out.println(solution1(A));
 	}
 }

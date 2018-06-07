@@ -42,15 +42,10 @@
 package binarysearch;
 
 public class MinMaxDivision {
-
-	public static void main(String[] args) {
-		int[] A = new int[]{2,1,5,1,2,2,2};
-		int M = 5;
-		int K = 3;
-		System.out.println(solution(K, M, A));
-	}
 	
-	 public static int solution(int K, int M, int[] A) {
+
+	public static int solution(int K, int M, int[] A) {
+
 		 int sum=0;
 		 int largestEl = 0;
 		 for (int i = 0; i < A.length; i++) {
@@ -59,7 +54,7 @@ public class MinMaxDivision {
 		}
 		int idealMin = Math.max((int)Math.ceil((double)sum/K), largestEl);
 		return binarySearchIterative(idealMin, sum, A, K);
-	 }
+	}
 	 
 	 public static int binarySearchRecursive(int min, int max, int[] A, int K) {
 		 if (max - min < 2)
@@ -75,6 +70,7 @@ public class MinMaxDivision {
 	 }
 	 
 	 public static int binarySearchIterative(int min, int max, int[] A, int K) {
+		 
 		 int res=0;
 		 int beg= min;
 		 int end = max;
@@ -104,4 +100,12 @@ public class MinMaxDivision {
 		}
 		 return true;
 	 }		
+
+
+	 public static void main(String[] args) {
+		int[] A = new int[]{2,1,5,1,2,2,2};
+		int M = 5;
+		int K = 3;
+		System.out.println(solution(K, M, A));
+	}
 }

@@ -54,28 +54,32 @@ import java.util.List;
 import java.util.Stack;
 
 public class FibFrog {
-	int number = 0;
-	public static void main(String[] args) {
-		int[] A = new int[]{0,0,0,1,1,0,1,0,0,0,0};
-		System.out.println(solution(A));
-	}
+	
+	int number = 0;	
 	
 	public static int solution(int[] A) {
+	
 		List<Integer> fibs = getFibonaciUpTo(A.length+1);
 		boolean[] visited = new boolean[A.length];
+	
 		Stack<Jump> stack= new Stack<Jump>();
 		stack.push(new Jump(-1,0));
+	
 		while(!stack.isEmpty()) {
+
 			Jump currJump = stack.firstElement();
 			stack.remove(0);
+
 			int i = 0;
 			while(currJump.pos + fibs.get(i)<= A.length) {
+
 				if (currJump.pos + fibs.get(i) == A.length)
 					return currJump.jumps + 1;
 				if(A[fibs.get(i)+currJump.pos] == 1 && !visited[currJump.pos + fibs.get(i)]) {
 					stack.push(new Jump(fibs.get(i)+currJump.pos, currJump.jumps+1));
 					visited[fibs.get(i)+currJump.pos] = true;
 				}
+				
 				i++;
 			}
 		}
@@ -83,9 +87,12 @@ public class FibFrog {
 	}
 	
     public static List<Integer> getFibonaciUpTo(int n) {
+
         List<Integer> fibs = new ArrayList<Integer>();
+
         fibs.add(0);
         fibs.add(1);
+
         int i =2;
         while(fibs.get(fibs.size()-1) <= n){
         	fibs.add(fibs.get(i-1)+fibs.get(i-2));
@@ -104,5 +111,9 @@ public class FibFrog {
     		jumps = j;
     	}
     }
-		
+
+    public static void main(String[] args) {
+		int[] A = new int[]{0,0,0,1,1,0,1,0,0,0,0};
+		System.out.println(solution(A));
+	}		
 }

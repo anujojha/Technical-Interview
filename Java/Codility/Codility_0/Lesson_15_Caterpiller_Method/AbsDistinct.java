@@ -37,22 +37,20 @@ import java.util.stream.IntStream;
 
 public class AbsDistinct {
 	
-	public static void main(String[] args) {
-		int[] A = new int[]{-5,-3,-1,0,3,6};
-		System.out.println(solution(A));
-	}
-	
 	//using Java 8
 	public static int solution(int[] A) {
 		return (int)IntStream.of(A).map(i->Math.abs(i)).distinct().count();
 	}
 	
 	public static int solution1(int[] A) {
+	
 		int dupls = 0;
+	
 		for (int i = 0; i < A.length; i++) {
 			if(A[i]<0)
 				A[i] = -A[i];
 		}
+		
 		Arrays.sort(A);
 		for (int i = 1; i < A.length; i++) {
 			if(A[i] == A[i-1])
@@ -61,5 +59,8 @@ public class AbsDistinct {
 		return A.length-dupls;
 	}
 
-
+	public static void main(String[] args) {
+		int[] A = new int[]{-5,-3,-1,0,3,6};
+		System.out.println(solution(A));
+	}
 }

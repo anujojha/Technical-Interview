@@ -41,23 +41,28 @@
 //SCORE: 100/100
 package greedyalgorithms;
 
-public class TieRope {
-	public static void main (String[] args) {
-		int[] A = new int[]{1,2,3,4,1,1,3};
-		int K = 4;
-		System.out.println(solution(A, K));	
-	}
+public class TieRope {	
 	
 	public static int solution(int[] A, int K) {
+
 		int res=0;
 		int tmp=0;
+
 		for (int i = 0; i < A.length; i++) {
+
 			tmp+=A[i];
+
 			if (tmp>=K) {
 				res++;
 				tmp=0;
 			}
 		}
 		return res;
+	}
+
+	public static void main (String[] args) {
+		int[] A = new int[]{1,2,3,4,1,1,3};
+		int K = 4;
+		System.out.println(solution(A, K));	
 	}
 }

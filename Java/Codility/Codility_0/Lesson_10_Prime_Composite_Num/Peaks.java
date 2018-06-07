@@ -57,38 +57,41 @@
 
 //Score: 100/100
 
-package primeandcompositenumbers;
-
 import java.util.ArrayList;
 
 public class Peaks {
 
-	public static void main(String[] args) {
-		int[] N = new int[] {1,2,3,4,3,4,1,2,3,4,6,2};
-		System.out.println(solution(N));
-	}
 	
 	public static int solution(int[] A) {
+		
 		int peakCount = 0;
 		ArrayList<Integer> peaks = new ArrayList<Integer>();
+	    
 	    for (int i = 1; i < A.length-1; i++) {
+
 			if (A[i]>A[i-1] && A[i]>A[i+1]) {
 				peaks.add(i);
 				peakCount++;
 			}
 		}
+
 		for (int size =  1; size <=A.length; size++) {
-			 int blocks = A.length/size;
-			 if (A.length % size != 0 || blocks>peakCount)
+
+			int blocks = A.length/size;
+
+			if (A.length % size != 0 || blocks>peakCount)
 				 continue;
 			 
-			 boolean ok = true;
-			 int threshold = 0;
-			 for (int j = 0; j < peaks.size(); j++) {
+			boolean ok = true;
+			int threshold = 0;
+
+			for (int j = 0; j < peaks.size(); j++) {
+
 				if(peaks.get(j) / size > threshold) {
 					ok = false;
 					break;
 				}
+
 				if (peaks.get(j)/size == threshold)
 					threshold++;
 			}
@@ -98,6 +101,12 @@ public class Peaks {
 			if(ok) 
 				return blocks;
 		}
+
 		return 0;
+	}
+
+	public static void main(String[] args) {
+		int[] N = new int[] {1,2,3,4,3,4,1,2,3,4,6,2};
+		System.out.println(solution(N));
 	}	
 }

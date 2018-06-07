@@ -28,26 +28,29 @@ package euclideanalgorithm;
 
 public class CommonPrimeDivisors {
 
-	public static void main(String[] args) {
-		int[] A = new int[]{15,10,3};
-		int[] B = new int[]{75,30,5};
-		System.out.println(solution(A,B));
-		
-	}
-	
+
 	private static int solution(int[] A, int[] B) {
+
 		int res=0;
+
 		for (int i = 0; i < A.length; i++) {
+
 			int x=A[i];
 			int y=B[i];
+
 			int gcd = gcd(x, y, 1);
 			int gcdTmp=0;
+
 			while(x!=1) {
+			
 				gcdTmp = gcd(x, gcd, 1);
-				if(gcdTmp==1)
+			
+				if(gcdTmp==1){
 					break;
+				}
 				x /= gcdTmp;
 			}
+
 			if (x!=1)
 				continue;
 			
@@ -65,17 +68,32 @@ public class CommonPrimeDivisors {
 	}
 	
 	private static int gcd(int a, int b, int res) {
+		
 		if (a==b)
 			return res*a;
+		
 		else if (a%2==0 && b%2==0)
 			return gcd (a/2, b/2, res*2);
+		
 		else if (a%2==0)
 			return gcd (a/2, b, res);
+		
 		else if (b%2==0)
 			return gcd (a, b/2, res);
+		
 		else if (a>b)
 			return gcd (a - b, b, res);
+		
 		else 
 			return gcd (a, b - a, res);		
+	}
+
+
+	public static void main(String[] args) {
+	
+		int[] A = new int[]{15,10,3};
+		int[] B = new int[]{75,30,5};
+	
+		System.out.println(solution(A,B));		
 	}
 }

@@ -412,8 +412,10 @@ class Element {
 
 class QuestionString {
 
+
     private Map<String, Byte> tagMap;
     private static final Byte[] END = { 0, 1 };
+
 
     private ArrayList<String> tokens;
     private int currentTokenIndex;
