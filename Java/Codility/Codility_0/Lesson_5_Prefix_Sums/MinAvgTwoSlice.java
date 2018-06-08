@@ -40,6 +40,9 @@ package prefixsums;
 
 
 
+// REQUIRES PRACTICE
+
+
 /*
 * The goal is to find the starting position 
 * of a slice whose average is minimal.
@@ -47,6 +50,8 @@ package prefixsums;
 public class MinAvgTwoSlice {
 	
 
+	// The goal is to find the starting position 
+	// of a slice whose average is minimal.
 
 	/*
 	* using caterpillar method (min value 
@@ -89,6 +94,10 @@ public class MinAvgTwoSlice {
 	}
 	
 
+
+	/*
+	* 
+	*/
 	public static int solution1(int[] A) {
 	
 		int res = 0;

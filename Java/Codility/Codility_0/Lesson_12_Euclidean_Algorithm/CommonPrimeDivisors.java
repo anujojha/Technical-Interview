@@ -29,6 +29,11 @@ package euclideanalgorithm;
 public class CommonPrimeDivisors {
 
 
+	/*
+	* You are given two positive integers N and M. The goal is to check 
+	* whether the sets of prime divisors of integers N and M are exactly 
+	* the same
+	*/
 	private static int solution(int[] A, int[] B) {
 
 		int res=0;
@@ -66,6 +71,7 @@ public class CommonPrimeDivisors {
 		}
 		return res;
 	}
+	
 	
 	private static int gcd(int a, int b, int res) {
 		

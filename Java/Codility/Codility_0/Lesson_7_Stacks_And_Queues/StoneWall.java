@@ -29,6 +29,9 @@ the minimum number of blocks needed to build it.
 */
 
 
+
+// REQUIRES PRACTICE
+
 //SCORE: 100/100
 package stackandqueue;
 
@@ -45,16 +48,22 @@ public class StoneWall {
 		stack.push(H[0]);
 
 		for (int i = 1; i < H.length; i++) {
-			if (stack.peek() ==  H[i])
+			
+			if (stack.peek() ==  H[i]){
 				continue;
+			}
 
+			// higher 
 			else if (H[i] > stack.peek()) {
 				stack.push(H[i]);
 				blocks++;
-			} else {
-				while(stack.size()>0 && stack.peek()>H[i])
+			} 
+
+			// lower 
+			else {				
+				while(stack.size() > 0 && stack.peek()>H[i]){
 					stack.pop();
-				if (stack.size() == 0 || stack.peek() != H[i]) {
+				}if(stack.size() == 0 || stack.peek() != H[i]) {
 					stack.push(H[i]);
 					blocks++;
 				}

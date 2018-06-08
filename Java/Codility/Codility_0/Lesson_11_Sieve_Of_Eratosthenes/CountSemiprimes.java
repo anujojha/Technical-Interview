@@ -36,6 +36,9 @@ import java.util.Arrays;
 
 
 
+
+// REQUIRES PRACTICE 
+
 /*
 * A semiprime is a natural number that is the product of two (not necessarily 
 * distinct) prime numbers. The first few semiprimes are 4, 6, 9, 10, 14, 15, 

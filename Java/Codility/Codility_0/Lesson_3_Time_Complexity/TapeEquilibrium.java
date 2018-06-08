@@ -36,24 +36,51 @@
 //SCORE: 100/100
 package timecomplexity;
 
-public class TapeEquilibrium {
 
-	public static void main(String[] args) {
-		int[] A = new int[]{3,1,2,4,3};
-		System.out.println(solution(A));
-	}
+/*
+	For example, consider array A such that:
+
+	  A[0] = 3
+	  A[1] = 1
+	  A[2] = 2
+	  A[3] = 4
+	  A[4] = 3
+	------------  
+	ALL SUM = 13 
+
+
+	We can split this tape in four places:
+
+	P = 1, difference = |3 − 10| = 7 
+	P = 2, difference = |4 − 9| = 5 
+	P = 3, difference = |6 − 7| = 1 
+	P = 4, difference = |10 − 3| = 7 
+
+Given a non-empty array A of N integers, returns the minimal difference 
+that can be achieved.
+*/
+public class TapeEquilibrium {
 	
+
 	public static int solution(int[] A) {
+	
 		int res = Integer.MAX_VALUE;
 		int tmp=0;
 		int sum = 0;
+	
 		for (int i = 0; i < A.length; i++) {
 			sum += A[i];
 		}
+	
 		for (int i = 0; i < A.length-1; i++) {
 			tmp+=A[i];
 			res = Math.min(res, Math.abs(tmp - (sum - tmp)));
 		}
 		return res;
 	}	
+
+	public static void main(String[] args) {
+		int[] A = new int[]{3,1,2,4,3};
+		System.out.println(solution(A));
+	}
 }

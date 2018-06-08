@@ -44,7 +44,7 @@ public class MaxProfit {
 		}
 
 		int[] array = new int[A.length];
-		array[0] = 0;
+		// array[0] = 0;
 
 		for (int i = 1; i < A.length; i++) {
 			array[i] = A[i] - A[i-1];
@@ -62,12 +62,15 @@ public class MaxProfit {
 			return arrMax;
 		}
 
+		// keep track of all the loss and profit
 		int maxEnding = 0;
+
+		// keep track of max profit 
 		int maxSlice = 0;
 
 		for (int i = 0; i < A.length; i++) {
 			maxEnding = (maxEnding + A[i]) > 0? (maxEnding + A[i]): 0;
-			maxSlice = maxSlice>maxEnding? maxSlice:maxEnding;
+			maxSlice = maxSlice > maxEnding? maxSlice : maxEnding;
 		}
 		
 		return maxSlice;

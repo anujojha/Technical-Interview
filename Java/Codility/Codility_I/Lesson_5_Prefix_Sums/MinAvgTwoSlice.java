@@ -37,17 +37,21 @@
  */
  
 /*1. Solution. time complexity is O(N)*/
-The key to solve this task is these two patterns:  
-(1) There must be some slices, with length of two or three, having the minimal average value among all the slices. 
-(2) And all the longer slices with minimal average are built up with these 2-element and/or 3-element small slices.
+
+
+// The key to solve this task is these two patterns:  
+// (1) There must be some slices, with length of two or three, having the minimal average value among all the slices. 
+// (2) And all the longer slices with minimal average are built up with these 2-element and/or 3-element small slices.
+
+
 class Solution {
+
     public int solution(int[] A) {
     
         double minAvg = 100000;
         int index=0;
     
         if(A.length<=2) {
-    
             return 0;
         }
     

@@ -40,6 +40,8 @@
 //SCORE: 100/100
 package sieveoferastothenes;
 
+// REQUIRES PRACTICE 
+
 import java.util.Arrays;
 
 public class CountNonDivisible {
@@ -47,7 +49,7 @@ public class CountNonDivisible {
 	
 	public static int[] solution(int[] A) {
 	    
-	    int[][] D = new int[2*A.length + 1][2];
+	    int[][] D = new int[2 * A.length + 1][2];
 	    int[] res = new int[A.length];
 	    
 	    for (int i = 0; i < A.length; i++) {
@@ -62,8 +64,10 @@ public class CountNonDivisible {
 	    		D[A[i]][1]=0;
 
 	    		for (int j = 1; j*j <= A[i]; j++) {
+
 					if(A[i] % j == 0) {
 						D[A[i]][1]+= D[j][0];
+						
 						if (A[i]/j != j)
 							D[A[i]][1]+= D[A[i]/j][0];
 					}

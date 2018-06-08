@@ -21,8 +21,20 @@
 //Score: 100/100
 package primeandcompositenumbers;
 
+
+
+// The goal is to find the minimal perimeter of any rectangle whose area equals N. 
 public class MinPerimeterRectangle {
 
+
+		// BODMAS
+		// --------------
+		// Brackets (parts of a calculation inside brackets always come first).
+		// Orders (numbers involving powers or square roots).
+		// Division.
+		// Multiplication.
+		// Addition.
+		// Subtraction.
 
 	public static int solution(int N) {
 

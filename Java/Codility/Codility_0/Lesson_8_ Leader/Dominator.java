@@ -44,6 +44,17 @@ dominator.
 public class Dominator {
 	
 
+	/*
+		// algorithms 
+		// ----------
+		This ensures the element that occurs max in an array
+
+		a. If the stack is empty, push inside
+		b. If not empty and same element as previous,
+		push again
+		c. if not empty and not same elelemnt, pop the stack
+	*/
+
 	public static int solution(int[] A) {
 	
 		Stack<Integer> stack = new Stack<Integer>();
@@ -53,7 +64,8 @@ public class Dominator {
 			if (stack.isEmpty()) {
 				stack.push(A[i]);
 				continue;
-			} if (stack.peek() == A[i])
+			} 
+			if (stack.peek() == A[i])
 				stack.push(A[i]);
 			else
 				stack.pop();
@@ -61,6 +73,7 @@ public class Dominator {
 
 		if (stack.isEmpty())
 			return -1;
+
 		int domCandidate = stack.peek();
 		int occurances = 0;
 		int randomIndex=-1;

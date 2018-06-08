@@ -64,11 +64,6 @@ A[K] represents the position where one leaf falls at time K, measured in seconds
 
 public class FrogRiverOne {
 
-    public static void main(String[] args) {
-        int[] A = new int[]{1,3,1,4,2,3,5,4};
-        int X = 5;
-        System.out.println(solution(A,X));
-    }
 
     public static int solution(int[] A, int X) {
 
@@ -87,57 +82,13 @@ public class FrogRiverOne {
         }
         return -1;
     }
+
+
+    public static void main(String[] args) {
+
+        int[] A = new int[]{1,3,1,4,2,3,5,4};
+        int X = 5;
+
+        System.out.println(solution(A,X));
+    }
 }
-
-
-
-
-// solution-a
-// def solution(X, A):
-
-//     covered_time = [-1]*X  # Record the time, each position is covered
-//     uncovered = X          # Record the number of uncovered position
-
-//     for index in range(0,len(A)):
-
-//         if covered_time[A[index]-1] != -1:
-//             # This position is already covered
-//             continue
-
-//         else:
-//             # This position is to be covered
-//             covered_time[A[index]-1] = index
-//             uncovered -= 1
-
-//             if uncovered == 0:
-//                 # All positions are covered
-//                 return index
-
-//     # Finally, some positions are not covered
-//     return -1
-
-
-
-
-// solution-b
-// def solution1(X, A):
-
-//     passable = [False] * X
-//     uncovered = X
- 
-//     for idx in xrange(len(A)):
-
-//         if A[idx] <= 0 or A[idx] > X:
-//             raise Exception("Invalid value", A[idx])
-
-//         if passable[A[idx]-1] == False:
-
-//             passable[A[idx]-1] = True
-//             uncovered -= 1
-//             if uncovered == 0:
-//                 return idx
- 
-//     return -1
-
-
-// ----------------------------------------------------------------------------------

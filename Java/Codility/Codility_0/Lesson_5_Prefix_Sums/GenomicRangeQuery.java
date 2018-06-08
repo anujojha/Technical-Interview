@@ -42,6 +42,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+// REQUIRES PRACTICE
+/*
+Nucleotides of types A, C, G and T have impact factors of 1, 2, 3 and 4, respectively. 
+*/
 public class GenomicRangeQuery {
 	
 

@@ -48,6 +48,11 @@
 	Elements of input arrays can be modified.
  */
 
+
+
+// REQUIRE PRACTICE 
+
+
 //Score: 100/14
 package primeandcompositenumbers;
 
@@ -55,40 +60,18 @@ import java.util.ArrayList;
 
 public class Flags {
 	
-	public static int[] nextPeak(int[] A) {
-		
-		int N = A.length;
-		ArrayList<Integer>  peaks = createPeaks(A);
-		
-		int[] next = new int[N];
-		next[N-1] = -1;
-		
-		for (int i = N-2; i > -1; i--) {
-			if(peaks.contains(i))
-				next[i] = i;
-			else
-				next[i] = next[i+1];
-		}
-		return next;
+
+	public static int solution(int[] A) {
+		return flags(A);
 	}
-	
-	public static ArrayList<Integer> createPeaks(int[] A) {
-		
-		ArrayList<Integer> peaks = new ArrayList<Integer>();
-		
-		for (int i = 1; i < A.length-1; i++)
-			if (A[i] > A[i-1] && A[i] > A[i+1])
-				peaks.add(i);
-		return peaks;
-	}
-	
+
 	public static int flags(int[] A) {
 
 		int N = A.length;
 		int[] next = nextPeak(A);
+
 		int i = 1;
 		int result = 0;
-
 
 		while ((i-1)*i <= N) {
 		
@@ -100,6 +83,7 @@ public class Flags {
 				pos = next[pos];
 				if (pos == -1)
 					break;
+
 				num += 1;
 				pos += i;
 			}
@@ -111,8 +95,40 @@ public class Flags {
 		return result;
 	}
 
-	public static int solution(int[] A) {
-		return flags(A);
+
+	/*
+	* we have an array with peak values and -1 		
+	*/
+	public static int[] nextPeak(int[] A) {
+		
+		int N = A.length;
+		ArrayList<Integer>  peaks = createPeaks(A);
+		
+		int[] next = new int[N];
+		next[N-1] = -1;
+
+		
+		for (int i = N-2; i > -1; i--) {
+			if(peaks.contains(i))
+				next[i] = i;
+			else
+				next[i] = next[i+1];
+		}
+		return next;
+	}
+	
+
+	/*
+	* find all the peaks for the mountain
+	*/
+	public static ArrayList<Integer> createPeaks(int[] A) {
+		
+		ArrayList<Integer> peaks = new ArrayList<Integer>();
+		
+		for (int i = 1; i < A.length-1; i++)
+			if (A[i] > A[i-1] && A[i] > A[i+1])
+				peaks.add(i);
+		return peaks;
 	}
 
 	public static void main(String[] args) {

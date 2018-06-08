@@ -57,19 +57,23 @@
 
 //Score: 100/100
 
+
+// REQUIRES PRACTICE 
+
+
 import java.util.ArrayList;
 
 public class Peaks {
 
 	
 	public static int solution(int[] A) {
-		
+
 		int peakCount = 0;
 		ArrayList<Integer> peaks = new ArrayList<Integer>();
 	    
 	    for (int i = 1; i < A.length-1; i++) {
 
-			if (A[i]>A[i-1] && A[i]>A[i+1]) {
+			if (A[i] > A[i-1] && A[i] > A[i+1]) {
 				peaks.add(i);
 				peakCount++;
 			}

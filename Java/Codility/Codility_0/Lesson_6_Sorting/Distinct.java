@@ -40,7 +40,9 @@ public class Distinct {
     }
 
 
-
+    /*
+	* 
+    */
 	public static int solution(int[] A) {
 		
 		Arrays.sort(A);

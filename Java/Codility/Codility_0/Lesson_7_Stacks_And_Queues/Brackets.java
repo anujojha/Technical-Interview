@@ -23,8 +23,10 @@ import java.util.Stack;
 
 public class Brackets {
 
-	
+
+	// For example, the string "{[()()]}" is properly nested but "([)()]" is not	
 	public static int solution(String S) {
+
 
 		Stack<Character> chars = new Stack<Character>();
 

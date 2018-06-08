@@ -35,7 +35,21 @@ package stackandqueue;
 
 import java.util.Stack;
 
+
+
+
+// REQUIRES PRACTICE 
+/*
+	Fish number P is represented by A[P] and B[P]. Array A contains 
+	the sizes of the fish. All its elements are unique. Array B contains 
+	the directions of the fish. It contains only 0s and/or 1s, where:
+
+	0 represents a fish flowing upstream,
+	1 represents a fish flowing downstream.
+*/
 public class Fish {
+
+
 	
 	public static int solution(int[] A, int[] B) {
 

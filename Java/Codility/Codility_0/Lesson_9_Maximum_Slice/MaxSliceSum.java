@@ -32,20 +32,47 @@ package maximumslice;
 */
 public class MaxSliceSum {
 	
+
+	// A = {5, -1, -8, 3, 4}
+	/*
+		A[0] = 3  A[1] = 2  A[2] = -6
+		A[3] = 4  A[4] = 0
+		the function should return 5 because:
+		(3, 4) is a slice of A that has sum 4,
+		(2, 2) is a slice of A that has sum −6,
+		(0, 1) is a slice of A that has sum 5,
+		no other slice of A has sum greater than (0, 1).
+	*/
 	public static int solution(int[] A) {
+	
 		int max=Integer.MIN_VALUE;
+
+		// find the max value 
 		for (int i = 0; i < A.length; i++) {
-			max = A[i]>max?A[i]:max;
+			max = A[i] > max?A[i]:max;
 		}
-		if(max<=0)
+	
+		if(max<=0){
 			return max;
+		}
 		
 		int maxSliceSum = 0;
 		int currentSum = 0;
-		for (int i = 0; i < A.length; i++) {
-			currentSum = (currentSum+A[i])>0?(currentSum+A[i]):0;
-			maxSliceSum=currentSum>maxSliceSum?currentSum:maxSliceSum;
+
+		/*
+			// Algorithms 
+			// ----------
+			
+			a. Keep incrementing the slice as long as its > 0
+			b. Otherwise, put the current slice = 0
+			c. compare the currSlice with maxSlice and return
+		*/
+
+		for (int i = 0; i < A.length; i++) {			
+			currentSum = (currentSum + A[i]) > 0 ? (currentSum + A[i]):0;
+			maxSliceSum= currentSum > maxSliceSum ? currentSum : maxSliceSum;
 		}
+
 		return maxSliceSum;
 	}
 	

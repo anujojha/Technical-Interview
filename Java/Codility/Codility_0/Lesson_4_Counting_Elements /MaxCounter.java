@@ -61,9 +61,6 @@ array represents consecutive operations:
 	if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X),
 	if A[K] = N + 1 then operation K is max counter.
 */
-
-
-
 public class MaxCounter {
 
 
@@ -96,11 +93,11 @@ public class MaxCounter {
 		return counters;
 	}
 
-
 	public static void main(String[] args) {
 
 		int[] A = new int[]{3,4,4,6,1,4,4};
 		int N = 5;
+
 		System.out.println(Arrays.toString(solution(N, A)));
 	}
 }

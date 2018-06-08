@@ -39,6 +39,8 @@ import java.util.Stack;
 
 
 
+// REQUIRES PRACTICE 
+
 /*
 	The leader of this array is the value that occurs in more than half of 
 	the elements of A.
@@ -51,6 +53,7 @@ public class EquiLeader {
 
 
 	public static int solution(int[] A) {
+
 		
 		//check if it is dominator at all
 		Stack<Integer> stack = new Stack<Integer>();

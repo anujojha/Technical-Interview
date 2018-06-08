@@ -17,6 +17,7 @@ package primeandcompositenumbers;
 
 public class CountFactors {
 	
+	
 	public static int solution(int N) {
 
 		int res = 0;

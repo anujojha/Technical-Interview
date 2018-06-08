@@ -3,7 +3,6 @@
 public  class Extra {
 	
 
-
     // ZooPlus AG test
     /*question: Given an array of values, design and code 
     an algorithm that returns whether there are two duplicates 
@@ -11,7 +10,6 @@ public  class Extra {
     or minus l (value) of each other? Do all, even the latter, 
     in O(n) running time and O(k) space.*/
     /*END OF SOLUTION*/
-
 
 
 

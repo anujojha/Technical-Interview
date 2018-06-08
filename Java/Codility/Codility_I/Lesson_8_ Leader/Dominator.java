@@ -23,7 +23,11 @@
  */
 
 class Solution {
+
+
+
     public int solution(int[] A) {
+    
         if(A.length == 0) {
             return -1;    
         }
@@ -34,6 +38,7 @@ class Solution {
         
         int value = A[0];
         int size=0;
+
         for(int i=0;i<A.length;i++) {
             if(size==0) {
                 size++;    

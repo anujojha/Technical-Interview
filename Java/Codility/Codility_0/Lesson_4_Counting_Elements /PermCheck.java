@@ -43,6 +43,7 @@ import java.util.Arrays;
 public class PermCheck {
 
 	public static int solution(int[] A) {
+		
 		Arrays.sort(A);
 
 		for (int i = 0; i < A.length; i++) {
@@ -60,45 +61,3 @@ public class PermCheck {
 		System.out.println(solution(A));
 	}
 }
-
-
-
-
-
-
-
-// solution-a
-def solution(A):
-   
-    Bol = [False] * len(A)
-    
-    for value in A:
-        if(0< value <= len(A)):
-            if(Bol[value-1]):
-                continue
-            Bol[value-1] = True  
-            
-    for idx, item in enumerate(Bol):
-        if item is False:
-            return idx+1
-
-
-
-// solution-b 
-def solution(A):
-    rst = A[0]
-    for idx in xrange(1, len(A)):
-        rst ^= A[idx]
-
-    if(rst == len(A)):
-        return 1
-    return -1
-
-
-
-
-
-
-
-
-
