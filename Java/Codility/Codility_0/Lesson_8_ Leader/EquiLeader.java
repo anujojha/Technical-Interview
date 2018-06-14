@@ -49,9 +49,12 @@ import java.util.Stack;
 	A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N − 1] have leaders 
 	of the same value.
 */
+
+
 public class EquiLeader {
 
 
+	// The goal is to count the number of equi leaders
 	public static int solution(int[] A) {
 
 		
@@ -72,9 +75,11 @@ public class EquiLeader {
 				stack.pop();
 		}
 
+		//there's no dominator
 		if (stack.isEmpty()){
-			return 0; //there's no dominator
+			return 0; 
 		}
+
 		
 		int dominator = stack.peek();
 		int domOccurances = 0;
@@ -84,8 +89,16 @@ public class EquiLeader {
 				domOccurances++;
 		}
 
-		if (domOccurances <= A.length/2)
-			return 0;//not dominator
+		//not dominator
+		/*
+		An equi leader is an index S such that 0 ≤ S < N − 1 and two sequences 
+		A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N − 1] have leaders 
+		of the same value.
+		*/
+		// so no leader == no equi leader
+		if (domOccurances <= A.length/2){
+			return 0;
+		}
 
 		int nonDomOccurances = A.length - domOccurances;
 		stack.clear();
@@ -95,13 +108,19 @@ public class EquiLeader {
 		int equiLeaders=0;
 		
 		for (int i = 0; i < A.length; i++) {
-			if (A[i] == dominator)
+			if (A[i] == dominator){
 				dom++;
-			else 
+			}
+			else {
 				nonDom++;
-			if (dom>nonDom && (domOccurances - dom) > (nonDomOccurances-nonDom))
+			}
+
+			// core algo 
+			if (dom>nonDom && (domOccurances - dom) > (nonDomOccurances-nonDom)){
 				equiLeaders++;	
+			}
 		}
+
 		return equiLeaders;
 	}
 

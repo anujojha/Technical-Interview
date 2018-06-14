@@ -50,13 +50,22 @@ import java.util.Stack;
 public class Fish {
 
 
-	
+	/*
+	N voracious fish are moving along a river. Calculate how many fish are alive.
+	Fish number P is represented by A[P] and B[P]. Array A contains the 
+	sizes of the fish. All its elements are unique. Array B contains the 
+	directions of the fish. It contains only 0s and/or 1s, where:
+
+	0 represents a fish flowing upstream,
+	1 represents a fish flowing downstream.
+	*/
 	public static int solution(int[] A, int[] B) {
 
 		Stack<Integer> stack = new Stack<Integer>();
 		int duels = 0;
 		
 		for (int i = 0; i < A.length; i++) {
+
 			if (B[i] == 0) {
 				while(!stack.isEmpty()) {
 					duels++;

@@ -34,7 +34,8 @@ public class Brackets {
 
 			if (chars.size() == 0){
 				chars.push(S.charAt(i));
-			}else{							
+			}
+			else{							
 				if (isMatch(chars.peek(), S.charAt(i))){
 					chars.pop();
 				}else{

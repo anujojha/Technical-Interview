@@ -37,18 +37,35 @@
  * Elements of input arrays can be modified.
  */
 
+
+/*
+* For a given integer K, the goal is to tie the ropes in such 
+* a way that the number of ropes whose length is greater than 
+* or equal to K is maximal.
+*/
 class Solution {
+  
+
     public int solution(int K, int[] A) {
+  
         int N = A.length;
+
         int result = 0;
         int length = 0;
+  
         for (int rope : A) {
+
             length += rope;
+
             if (length >= K) {
                 result++;
                 length = 0;
             }
         }
+
         return result;
     }
 }
+
+
+

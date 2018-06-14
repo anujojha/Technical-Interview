@@ -1,5 +1,6 @@
 /*
 	A zero-indexed array A consisting of N integers is given. A triplet (P, Q, R) is triangular if it is possible to build a triangle with sides of lengths A[P], A[Q] and A[R]. In other words, triplet (P, Q, R) is triangular if 0 ≤ P < Q < R < N and:
+	
 	A[P] + A[Q] > A[R],
 	A[Q] + A[R] > A[P],
 	A[R] + A[P] > A[Q].
@@ -24,38 +25,94 @@
  */
 
 //SCORE: 100/100
-package caterpillar;
+// BRILLIANT ALGO
 
 import java.util.Arrays;
 
 public class CountTriangles {
 	
+
 	public static int solution(int[] A) {
-		return caterpillarMethod(A);
-	}
-	
-	public static int caterpillarMethod(int[] A) {
+
 		int N = A.length;
 		int res=0;
 		
-		if (N < 3)
+		if (N < 3){
 			return 0;
+		}
 		
 		int front;
 
 		Arrays.sort(A);
+
 		for (int i = 0; i < N-2; i++) {
+
 			front = i+2;
+
 			for (int j = i+1; j < N-1; j++) {
-				while(front < N && A[i] + A[j] > A[front]){
+
+				while(front < N && (A[i] + A[j]) > A[front]){
 					front++;
 				}
+
 				res+=front-j-1;
 			}
 		}
+		
 		return res;
 	}
 
+
+	/*
+	* 
+	*/
+	public int solution1(int[] A) {
+    
+        int N = A.length;
+        Arrays.sort(A);
+    
+        int result = 0;
+    
+        for (int i=0; i < N; i++) {
+            int k = i + 2;
+            for (int j=i+1; j < N; j++) {
+                while(k<N && A[i]+A[j]>A[k]) {
+                    k++;    
+                }
+                result += k-j-1; 
+            }
+        }
+        
+        return result;     
+    }
+	
+	// public static int caterpillarMethod(int[] A) {
+
+	// 	int N = A.length;
+	// 	int res=0;
+		
+	// 	if (N < 3){
+	// 		return 0;
+	// 	}
+		
+	// 	int front;
+
+	// 	Arrays.sort(A);
+
+	// 	for (int i = 0; i < N-2; i++) {
+
+	// 		front = i+2;
+
+	// 		for (int j = i+1; j < N-1; j++) {
+	// 			while(front < N && A[i] + A[j] > A[front]){
+	// 				front++;
+	// 			}
+	// 			res+=front-j-1;
+	// 		}
+	// 	}
+		
+	// 	return res;
+	// }
 
 	public static void main(String[] args) {
 		int[] A = new int[] {10, 2, 5, 1, 8, 12};

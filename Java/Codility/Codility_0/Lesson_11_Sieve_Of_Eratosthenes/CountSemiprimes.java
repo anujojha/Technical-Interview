@@ -54,8 +54,9 @@ public class CountSemiprimes {
 		int[] semiPrimes = new int[factArray.length];
 		
 		for (int i = 0; i < semiPrimes.length; i++) {
-			if (factArray[i] != 0 && factArray[i/factArray[i]] == 0)
+			if (factArray[i] != 0 && factArray[i/factArray[i]] == 0){
 				semiPrimes[i] = 1;
+			}
 		}
 
 		int[] semiPrimesPreSum = prefixSum(semiPrimes);
@@ -77,20 +78,24 @@ public class CountSemiprimes {
 		
 			if (F[i] == 0) {
 				for (int k = i*i; k<=n; k+=i) {
-					if (F[k] == 0)
+					if (F[k] == 0){
 						F[k] = i;
+					}
 				}
 			}
 		}
 		return F;
 	}
 	public static int[] prefixSum(int[] A) {
+
 		int[] prefSum = new int[A.length];
 		for (int i = 0; i < A.length; i++) {
-			if (i==0)
+			if (i==0){
 				prefSum[i] =  A[i];
-			else 
+			}
+			else { 
 				prefSum[i] = prefSum[i-1] + A[i];
+			}
 		}
 		return prefSum;
 	}

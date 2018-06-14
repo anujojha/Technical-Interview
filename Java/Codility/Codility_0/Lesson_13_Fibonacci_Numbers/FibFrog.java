@@ -53,8 +53,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+
+/*
+	Given an array A consisting of N integers, returns the minimum number of 
+	jumps by which the frog can get to the other side of the river. If the 
+	frog cannot reach the other side of the river, the function should return −1.
+*/
 public class FibFrog {
 	
+
+    public static class Jump {
+
+    	int pos;
+    	int jumps;
+
+    	Jump(int p, int j) {
+    		this.pos = p;
+    		this.jumps = j;
+    	}
+    }
+
+
 	int number = 0;	
 	
 	public static int solution(int[] A) {
@@ -63,6 +82,8 @@ public class FibFrog {
 		boolean[] visited = new boolean[A.length];
 	
 		Stack<Jump> stack= new Stack<Jump>();
+
+		// positio and number of jumps 
 		stack.push(new Jump(-1,0));
 	
 		while(!stack.isEmpty()) {
@@ -73,9 +94,13 @@ public class FibFrog {
 			int i = 0;
 			while(currJump.pos + fibs.get(i)<= A.length) {
 
-				if (currJump.pos + fibs.get(i) == A.length)
+				if (currJump.pos + fibs.get(i) == A.length){
 					return currJump.jumps + 1;
-				if(A[fibs.get(i)+currJump.pos] == 1 && !visited[currJump.pos + fibs.get(i)]) {
+				}
+				
+				if(A[fibs.get(i) + currJump.pos] == 1 && 
+							!visited[currJump.pos + fibs.get(i)]) {
+
 					stack.push(new Jump(fibs.get(i)+currJump.pos, currJump.jumps+1));
 					visited[fibs.get(i)+currJump.pos] = true;
 				}
@@ -83,8 +108,11 @@ public class FibFrog {
 				i++;
 			}
 		}
+
+
 		return -1;
 	}
+
 	
     public static List<Integer> getFibonaciUpTo(int n) {
 
@@ -93,23 +121,17 @@ public class FibFrog {
         fibs.add(0);
         fibs.add(1);
 
-        int i =2;
+        int i = 2;
+
         while(fibs.get(fibs.size()-1) <= n){
         	fibs.add(fibs.get(i-1)+fibs.get(i-2));
         	i++;
         }
+
         fibs.remove(0);
         fibs.remove(1);
+
         return fibs;
-    }
-    
-    public static class Jump {
-    	int pos;
-    	int jumps;
-    	Jump(int p, int j) {
-    		pos = p;
-    		jumps = j;
-    	}
     }
 
     public static void main(String[] args) {

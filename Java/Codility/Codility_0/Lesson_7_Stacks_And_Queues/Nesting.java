@@ -25,16 +25,13 @@ import java.util.Stack;
 public class Nesting {
 	
 
-	// For example, string "(()(())())" is properly nested but string "())" isn't
-
-
+	// String "(()(())())" is properly nested but string "())" isn't
 	/*
-	//    Algorithms
-		-------------
-
-		a. Only push the "(" in the stack
-		b. If we get a ")", then pop from the stack
-		c. return the size of the stack
+	ALGORITHMS 
+	----------
+	i.   Only push the "(" in the stack
+	ii.  If we get a ")", then pop from the stack
+	iii. return the size of the stack
 	*/
 	public static int solution(String S) {
 

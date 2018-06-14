@@ -39,6 +39,7 @@ In your solution, focus on correctness. The performance of your solution will no
 
 public  class CyclicRotation {
 	
+
 	/*solution-a*/
 	public static int swap(int itself , int dummy){
 		return itself;
@@ -85,26 +86,41 @@ public  class CyclicRotation {
     *  A = [9, 7, 6, 3, 8]
     */
 
-	/*End of solution-b*/
-	public static int[] solution1(int[] arr, int n) {
+    /*
+	 [3, 8, 9, 7, 6] -> [6, 3, 8, 9, 7]
+     [6, 3, 8, 9, 7] -> [7, 6, 3, 8, 9]
+     [7, 6, 3, 8, 9] -> [9, 7, 6, 3, 8]
 
-		Map<Integer, Integer> map = new HashMap<>();
+	-------------------------
+	 k = 3
+     start = [3, 8, 9, 7, 6]
+	 end   = [9, 7, 6, 3, 8]     
+	-------------------------
+    */
+    
+	/*solution-b*/
+	public static int[] solution1(int[] A, int K) {
 
-		for(int j = 0; j < arr.length; j++){
+        Map<Integer, Integer> map = new HashMap<>();
 
-			if(j+n > arr.length -1){
-				map.put(j+n - arr.length, arr[j]);
-				continue;
-			}
-			map.put(j+n, arr[j]);
-		}
+        int N = A.length;
 
-		for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-			arr[entry.getKey()] = entry.getValue();
-		}
+        for (int index = 0; index < N; index++) {
 
-		return arr;
-	}
+            if (index + K > N - 1) {
+                map.put(index + K - N, A[index]);
+                continue;
+            }
+
+            map.put(index + K, A[index]);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            A[entry.getKey()] = entry.getValue();
+        }
+
+        return A;
+    }
 	/*ENd of solution-b*/
 
 

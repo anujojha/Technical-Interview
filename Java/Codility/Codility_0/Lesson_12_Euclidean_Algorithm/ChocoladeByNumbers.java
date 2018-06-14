@@ -23,29 +23,59 @@ package euclideanalgorithm;
 public class ChocoladeByNumbers {
 
 
-	private static int solution(int N, int M, int res) {	
-		return N/greatestCommonDivisor(N,M,1);
+	/*
+		If you ate chocolate number X, then you will next eat the chocolate with 
+		number (X + M) modulo N (remainder of division).
+
+		You stop eating when you encounter an empty wrapper.
+
+		For example, given integers N = 10 and M = 4. You will eat the following 
+		chocolates: 0, 4, 8, 2, 6.
+
+		The goal is to count the number of chocolates that you will eat. 
+	*/
+
+
+	// ƒ0, 1, ƒ2, 3, ƒ4, 5, ƒ6, 7, ƒ8, 9	
+
+	// Greatest common divisor (gcd) of two or more integers, which are not all 
+	// zero, is the largest positive integer that divides each of the integers. 
+
+	// N = Chocolate circle 
+	// M = Gap 	
+	private static int solution(int N, int M) {	
+		
+		int a = gcd(N,M,1);
+		return N/a;
 	}
-	
-	private static int greatestCommonDivisor(int a, int b, int res) {
 
-		if (a==b)
+	// a = Num. of chocolate 
+	// b = Gap 	
+	private static int gcd(int a, int b, int res) {
+
+		if (a==b){
 			return res*a;
+		}
 
-		else if (a%2==0 && b%2==0)
-			return greatestCommonDivisor (a/2, b/2, res*2);
+		else if (a%2==0 && b%2==0){
+			return gcd (a/2, b/2, res*2);
+		}
 
-		else if (a%2==0)
-			return greatestCommonDivisor (a/2, b, res);
+		else if (a%2==0){
+			return gcd (a/2, b, res);
+		}
 
-		else if (b%2==0)
-			return greatestCommonDivisor (a, b/2, res);
+		else if (b%2==0){
+			return gcd (a, b/2, res);
+		}
 
-		else if (a>b)
-			return greatestCommonDivisor (a - b, b, res);
+		else if (a>b){
+			return gcd (a - b, b, res);
+		}
 
-		else 
-			return greatestCommonDivisor (a, b - a, res);
+		else {
+			return gcd (a, b - a, res);
+		} 			
 	}
 
 	public static void main(String[] args) {

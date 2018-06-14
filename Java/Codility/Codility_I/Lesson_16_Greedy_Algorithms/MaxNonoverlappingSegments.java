@@ -1,4 +1,4 @@
-/**
+/*
  * Located on a line are N segments, numbered from 0 to N − 1, whose positions are given in zero-indexed arrays A and B. For each I (0 ≤ I < N) the position of segment I is from A[I] to B[I] (inclusive). The segments are sorted by their ends, which means that B[K] ≤ B[K + 1] for K such that 0 ≤ K < N − 1.
  * Two segments I and J, such that I ≠ J, are overlapping if they share at least one common point. In other words, A[I] ≤ A[J] ≤ B[I] or A[J] ≤ A[I] ≤ B[J].
  * We say that the set of segments is non-overlapping if it contains no two overlapping segments. The goal is to find the size of a non-overlapping set containing the maximal number of segments.
@@ -24,10 +24,21 @@
  * expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
  * Elements of input arrays can be modified.
  */
- 
+
+
+
+/*
+* Two segments I and J, such that I ≠ J, are overlapping if 
+* they share at least one common point. In other words, 
+* A[I] ≤ A[J] ≤ B[I] or A[J] ≤ A[I] ≤ B[J].
+*/ 
 class Solution {
+
+
     public int solution(int A[], int B[]) {
+
         int N = A.length;
+
         if (N <= 1) {
             return N;
         }
@@ -36,6 +47,7 @@ class Solution {
         int prev_end = B[0];
         
         int curr;
+
         for (curr = 1; curr < N; curr++) {
             if (A[curr] > prev_end) {
                 cnt++;
@@ -46,4 +58,4 @@ class Solution {
         return cnt;
     }
 }
-/*Score: 100%*/
+/*Score: 100%

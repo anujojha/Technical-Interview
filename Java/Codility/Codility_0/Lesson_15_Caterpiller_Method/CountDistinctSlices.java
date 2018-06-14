@@ -35,27 +35,31 @@ package caterpillar;
 
 public class CountDistinctSlices {
 	
+
 	public static int solution(int[] A, int M) {
-		return caterpillarMethod(A, M);
-	}
-	
-	public static int caterpillarMethod(int[] A, int M) {	
 	
 		int res = 0; 
 		int front = 0; 
 		int back =0;
 	
+		// All integers in array A are less than or equal to M.
 		boolean[] seen = new boolean [M+1];
-	
-		while(front<A.length && back<A.length) {
+
+
+		// int[] arr = {3, 4, 5, 5, 2};
+		// M = 6
+		// boolean[] seen = {false, false, false, false, false, false};
+
+		// The function should return 9, as explained above.
+		while(front < A.length && back < A.length) {
 			
-			while(front<A.length && !seen[A[front]]) {
+			while(front < A.length && !seen[A[front]]) {
 				res += front - back + 1;
 				seen[A[front]] = true;
 				front++;
 			}
 
-			while(front<A.length && back<A.length && A[back] != A[front]) {
+			while(front < A.length && back<A.length && A[back] != A[front]) {
 				seen[A[back]] = false;
 				back++;
 			}
@@ -64,10 +68,15 @@ public class CountDistinctSlices {
 			back++;
 		}
 		
+		/*
+		If the number of distinct slices is greater than 1,000,000,000, 
+		the function should return 1,000,000,000.
+		*/
 		return Math.min(res, 1000000000);
 	}
 
 	public static void main(String[] args) {
+
 		int[] A = new int[]{3, 4, 5, 5, 2};
 		int M = 6;
 		System.out.println(solution(A, M));

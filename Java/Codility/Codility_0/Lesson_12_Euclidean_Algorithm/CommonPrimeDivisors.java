@@ -24,9 +24,17 @@
  */
 
 //SCORE: 100/100
-package euclideanalgorithm;
-
 public class CommonPrimeDivisors {
+
+
+	/*
+	A prime is a positive integer X that has exactly two distinct divisors: 
+	1 and X. The first few prime integers are 2, 3, 5, 7, 11 and 13.
+
+	A prime D is called a prime divisor of a positive integer P if there exists 
+	a positive integer K such that D * K = P. For example, 2 and 5 are prime 
+	divisors of 20.
+	*/
 
 
 	/*
@@ -36,9 +44,11 @@ public class CommonPrimeDivisors {
 	*/
 	private static int solution(int[] A, int[] B) {
 
+		// D x K = P
 		int res=0;
+		int N = A.length;
 
-		for (int i = 0; i < A.length; i++) {
+		for (int i = 0; i < N; i++) {
 
 			int x=A[i];
 			int y=B[i];
@@ -53,26 +63,41 @@ public class CommonPrimeDivisors {
 				if(gcdTmp==1){
 					break;
 				}
+				
 				x /= gcdTmp;
 			}
 
-			if (x!=1)
+			// this will send to the for loop
+			if (x!=1){
 				continue;
+			}
 			
-			while(y!=1) {
+			while(y!=1) {			
 				gcdTmp = gcd(y,gcd,1);
-				if (gcdTmp==1)
+				if (gcdTmp==1){
 					break;
+				}				
 				y /= gcdTmp;
 			}
-			if (y!=1)
+
+			// this will send to the for loop
+			if (y!=1){
 				continue;
+			}
+
 			res++;
 		}
+
 		return res;
 	}
 	
 	
+
+	/*
+	* find the greatest common divisor (gcd)
+	* GCD is the two or more integers, which are not all zero, is the 
+	* largest positive integer that divides each of the integers
+	*/
 	private static int gcd(int a, int b, int res) {
 		
 		if (a==b)

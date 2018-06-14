@@ -21,7 +21,11 @@ expected worst-case space complexity is O(1).
 */
 
 public  class BinaryGap {
+
 	
+	/*
+	* solution - a
+	*/
 	public static int solution(int n) {
 
 		int len = Stream.of(Integer.toBinaryString(n)
@@ -31,6 +35,31 @@ public  class BinaryGap {
 
         return len;
 	}
+
+
+
+	/*
+	* solution -b 
+	*/
+	public static int solution(int N) {
+
+        int max = 0;
+
+        // get the binary representation of int as String
+        String binary = String.valueOf(Integer.toBinaryString(N));
+
+        // get the array of binary gaps
+        String[] arr = binary.replaceAll("0+$", "").split("1+");
+
+        // find the max value of the binary gap
+        for (String s : arr) {
+            if (s != null) {
+                max = max > s.length() ? max : s.length();
+            }
+        }
+
+        return max;
+    }
 
 	public static void main(String[] args) {
 		

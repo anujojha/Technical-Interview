@@ -41,6 +41,13 @@
 //SCORE: 100/100
 package greedyalgorithms;
 
+
+
+/*
+For a given integer K, the goal is to tie the ropes in such 
+a way that the number of ropes whose length is greater than 
+or equal to K is maximal.
+*/
 public class TieRope {	
 	
 	public static int solution(int[] A, int K) {

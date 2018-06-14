@@ -35,15 +35,15 @@ public class MinPerimeterRectangle {
 		// Multiplication.
 		// Addition.
 		// Subtraction.
-
 	public static int solution(int N) {
 
 		int min = Integer.MAX_VALUE;
 
 		for (int i = 1; i*i <= N; i++) {
 			
-			if (N % i == 0) 
-				min = 2*(i+N/i)<min?2*(i+N/i):min;
+			if (N % i == 0){
+				min = 2*(i + N/i) < min ? 2*(i+N/i):min;
+			} 				
 		}
 		return min;
 	}

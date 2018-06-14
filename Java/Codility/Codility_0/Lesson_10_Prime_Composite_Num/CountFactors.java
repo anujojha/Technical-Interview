@@ -17,18 +17,22 @@ package primeandcompositenumbers;
 
 public class CountFactors {
 	
-	
+	/*
+	* 
+	*/
 	public static int solution(int N) {
 
 		int res = 0;
 
 		for (int i = 1; (long)i*i <=N ; i++) {
 
-			if (i*i == N)
+			if (i*i == N){
 				return ++res;
+			}
 
-			else if(N%i == 0)
+			else if(N%i == 0){
 				res+=2;
+			}
 		}
 		return res;
 	}

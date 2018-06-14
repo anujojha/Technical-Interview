@@ -40,12 +40,27 @@ import java.util.Stack;
 public class StoneWall {
 	
 	
+
+	/*
+		Cover "Manhattan skyline" using the minimum number of rectangles
+	*/
 	public static int solution(int[] H) {
 
 		Stack<Integer> stack = new Stack<Integer>();
 
 		int blocks = 1;
 		stack.push(H[0]);
+
+
+		//  Algorithms 
+		//  ==========
+
+		// a. set the block count = 1
+		// b. If the height is same as previous, keep going
+		// c. If the curr height is higher, push in the stack and increase count
+		// d. If the curr height is lower, keep poping till the curr >= peek 
+		//  now, if the stack size = 0 OR 
+		// 
 
 		for (int i = 1; i < H.length; i++) {
 			
@@ -61,12 +76,22 @@ public class StoneWall {
 
 			// lower 
 			else {				
+				// H[6] = 7    H[7] = 4    H[8] = 8
+				
+				// pop till we reach where stack peek 
+				// has lower or equal height
 				while(stack.size() > 0 && stack.peek()>H[i]){
 					stack.pop();
-				}if(stack.size() == 0 || stack.peek() != H[i]) {
-					stack.push(H[i]);
-					blocks++;
-				}
+				} 
+
+				stack.push(H[i]);
+				blocks++;
+				
+				// H[i] >= peek 
+				// if(stack.size() == 0 || stack.peek() != H[i]) {
+				// 	stack.push(H[i]);
+				// 	blocks++;
+				// }
 			}
 		}
 

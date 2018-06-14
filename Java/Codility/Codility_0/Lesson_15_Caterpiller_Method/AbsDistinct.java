@@ -37,6 +37,7 @@ import java.util.stream.IntStream;
 
 public class AbsDistinct {
 	
+	
 	//using Java 8
 	public static int solution(int[] A) {
 		return (int)IntStream.of(A).map(i->Math.abs(i)).distinct().count();

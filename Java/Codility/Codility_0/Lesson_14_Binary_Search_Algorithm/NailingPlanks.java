@@ -48,16 +48,32 @@
  */
 
 //SCORE: 100/100
-package binarysearch;
+	package binarysearch;
 
-import java.util.Arrays;
+	import java.util.Arrays;
+
+
+/*
+	We say that a plank (A[K], B[K]) is nailed if there 
+	exists a nail C[I] such that A[K] ≤ C[I] ≤ B[K].
+
+	The goal is to find the minimum number of nails that 
+	must be used until all the planks are nailed. In other 
+	words, you should find a value J such that all planks 
+	will be nailed after using only the first J nails.
+*/
 
 public class NailingPlanks {
 
-	 public static int solution(int[] A, int[] B, int[] C) {
+
+	public static int solution(int[] A, int[] B, int[] C) {
+
+		// A and B are also in the ascending sorted order
+		// Otherwise, do the soring please 
 
 		int N = A.length;
 		int M = C.length;
+
 		int[][] sortedNails = new int[M][2];
 
 		for (int i = 0; i < M; i++) {
@@ -65,58 +81,84 @@ public class NailingPlanks {
 			sortedNails[i][1] = i;
 		}
 
+		// sort based on the size of the nail in ascending order
 		Arrays.sort(sortedNails, (int[] x, int[] y) -> (Integer.compare(x[0], y[0])));
-	
+
 		int res = 0;
 
 		for (int i = 0; i < N; i++) {
 
-			res = minIndex(A[i], B[i], sortedNails, res);
+			// insert the plank sizes, nails and the approx. result in the 
 
-			if (res == -1)
+			// Thus, four is the minimum number of nails that, used sequentially, 
+			// allow all the planks to be nailed.
+			res = minIndex(A[i], B[i], sortedNails, res);
+			
+			if (res == -1){
 				return -1;
+			}
 		}
-		 return res+1;
-	 }
-	 
-	 public static int minIndex(int pStart, int pEnd, int[][] nails, int oldRes) {
+
+		return res+1;
+	}
+
+
+	/*
+	* get the minimum index for the nail 
+	*/
+	public static int minIndex(int pStart, int pEnd, int[][] nails, int oldRes) {
 
 		int beg = 0;
 		int end = nails.length-1;
+
 		int res=-1;
-		
+
+		// find the index of the best nail for given plank 
 		while(beg<=end) {
-		
+
 			int middle= (beg + end) / 2;
+
 			if (nails[middle][0] < pStart) {
 				beg = middle+1;
+			}
 
-			}else if(nails[middle][0] >pEnd) {
+			else if(nails[middle][0] > pEnd) {
 				end = middle -1;
 			}
+
 			else {
 				end = middle-1;
 				res = middle;
 			}
 		}
-		if (res == -1 || nails[res][0] > pEnd)
+
+		if (res == -1 || nails[res][0] > pEnd){
 			return -1;
+		}
+
 		int min= nails[res][1];
-		while(res < nails.length && nails[res][0] <= pEnd) {
+
+		while(res < nails.length && nails[res][0] <= pEnd) {			
+
+			// we get the index for the min. nail
 			min = Math.min(min, nails[res][1]);
-			if(min<=oldRes)
+
+			if(min <= oldRes){
 				return oldRes;
+			}
+
 			res++;
 		}
 
 		return min;
 	}
 
+	
 	public static void main(String[] args) {
+
 		int[] A = new int[]{1,4,5,8};
 		int[] B = new int[]{4,5,9,10};
 		int[] C = new int[]{4,6,7,10,2};
-
 
 		System.out.println(solution(A, B, C));
 	} 	

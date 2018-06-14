@@ -62,35 +62,40 @@ public class Flags {
 	
 
 	public static int solution(int[] A) {
-		return flags(A);
-	}
-
-	public static int flags(int[] A) {
 
 		int N = A.length;
+
+		// [1, 1, 3, 3, 5, 5, 10, 10, 10, 10, 10, -1]
 		int[] next = nextPeak(A);
 
 		int i = 1;
 		int result = 0;
 
-		while ((i-1)*i <= N) {
-		
-			int pos = 0;
-			int num = 0;
 
-			while (pos < N && num < i) {
+		// this is for reducing the number of iteration
+        while ((i - 1) * i <= N) {
 
-				pos = next[pos];
-				if (pos == -1)
-					break;
+        // while (i * i <= N) {
+        // while (i <= N) {
 
-				num += 1;
-				pos += i;
-			}
+            int positionalIndex = 0;
+            int numberOfFlags = 0;
 
-			result = Math.max(result, num);
-			i++;
-		}
+            while (positionalIndex < N && numberOfFlags < i) {
+
+                positionalIndex = next[positionalIndex];
+
+                if (positionalIndex == -1) {
+                    break;
+                }
+
+                numberOfFlags += 1;
+                positionalIndex += i;
+            }
+
+            result = Math.max(result, numberOfFlags);
+            i++;
+        }
 
 		return result;
 	}
@@ -100,20 +105,29 @@ public class Flags {
 	* we have an array with peak values and -1 		
 	*/
 	public static int[] nextPeak(int[] A) {
-		
+
 		int N = A.length;
-		ArrayList<Integer>  peaks = createPeaks(A);
+
+		ArrayList<Integer> peaks = new ArrayList<Integer>();
+		
+		// addition is deterministic and sequential 
+		for (int i = 1; i < A.length-1; i++){			
+			if (A[i] > A[i-1] && A[i] > A[i+1]){			
+				peaks.add(i);
+			}
+		}
 		
 		int[] next = new int[N];
 		next[N-1] = -1;
 
-		
-		for (int i = N-2; i > -1; i--) {
-			if(peaks.contains(i))
+		for (int i = N-2; i >= 0; i--) {
+			if(peaks.contains(i)){
 				next[i] = i;
-			else
+			} else {
 				next[i] = next[i+1];
+			}
 		}
+
 		return next;
 	}
 	
@@ -121,17 +135,18 @@ public class Flags {
 	/*
 	* find all the peaks for the mountain
 	*/
-	public static ArrayList<Integer> createPeaks(int[] A) {
+	// public static ArrayList<Integer> createPeaks(int[] A) {
 		
-		ArrayList<Integer> peaks = new ArrayList<Integer>();
+	// 	ArrayList<Integer> peaks = new ArrayList<Integer>();
 		
-		for (int i = 1; i < A.length-1; i++)
-			if (A[i] > A[i-1] && A[i] > A[i+1])
-				peaks.add(i);
-		return peaks;
-	}
+	// 	for (int i = 1; i < A.length-1; i++)
+	// 		if (A[i] > A[i-1] && A[i] > A[i+1])
+	// 			peaks.add(i);
+	// 	return peaks;
+	// }
 
 	public static void main(String[] args) {
+		
 		int[] N = new int[] {1,5,3,4,3,4,1,2,3,4,6,2};
 		System.out.println(solution(N));
 	}

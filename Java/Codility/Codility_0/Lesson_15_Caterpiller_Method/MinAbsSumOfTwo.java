@@ -44,6 +44,63 @@ import java.util.Arrays;
 public class MinAbsSumOfTwo {
 	
 
+	/*
+	* solution - a
+	*/
+	public static int solution1(int[] A) {
+        Arrays.sort(A);
+        return getMinSum(A);
+    }
+
+    public static int getMinSum(int[] A) {
+
+        //all positives
+        if (A[0]>=0){
+            return A[0]*2;
+        }
+
+        //all negatives
+        if (A[A.length-1] <= 0){
+            return -A[A.length-1]*2;
+        }
+
+        int end = A.length - 1;
+        int start = 0;
+        int min = Math.abs(A[start] + A[end]);
+
+
+        while (start<=end) {
+
+            int tmp = Math.abs(A[start] + A[end]);
+
+            min = Math.min(min,tmp);
+
+            if (Math.abs(A[start+1] + A[end]) <= tmp){
+                start++;
+            }
+
+            else if(Math.abs(A[start] + A[end-1]) <= tmp){
+                end--;
+            }
+
+            else {
+                start++;
+                end--;
+            }
+        }
+        return min;
+    }
+    /*
+    * solution -a
+    */
+
+
+
+
+
+	/*
+	* solution - b
+	*/
 	public static int solution(int[] A) {
 	
 		Arrays.sort(A);
@@ -56,12 +113,7 @@ public class MinAbsSumOfTwo {
 
 		return min;
 	}
-	
-	public static int solution1(int[] A) {
-		Arrays.sort(A);
-		return getMinSum(A);
-	}
-	
+		
 	public static int findBestMatch(int target, int[] A) {
 
 		if (A.length == 1)
@@ -93,39 +145,6 @@ public class MinAbsSumOfTwo {
 		return A[0];
 	}
 	
-	public static int getMinSum(int[] A) {
-
-		//all positives
-		if (A[0]>=0)
-			return A[0]*2;
-		
-		//all negatives
-		if (A[A.length-1] <= 0)
-			return -A[A.length-1]*2;
-		
-		int front = A.length - 1;
-		int back = 0;
-		int min = Math.abs(A[back] + A[front]);
-		
-		while (back<=front) {
-		
-			int tmp = Math.abs(A[back] + A[front]);
-		
-			min = Math.min(min,tmp);
-		
-			if (Math.abs(A[back+1] + A[front]) <= tmp) 
-				back++;
-		
-			else if(Math.abs(A[back] + A[front-1]) <= tmp) 			
-				front--;
-		
-			else {
-				back++;
-				front--;
-			}
-		}
-		return min;
-	}
 
 	public static void main(String[] args) {
 		int[] A = new int[]{1, 4, -3};

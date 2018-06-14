@@ -25,6 +25,11 @@ package timecomplexity;
 
 public class PermMissingElements {
 	
+
+	// Find the missing element in a given permutation
+	/*
+	* solution -a 
+	*/	
 	public static int solution(int[] A) {
 
 		int[] counters = new int[A.length+2];
@@ -33,14 +38,83 @@ public class PermMissingElements {
 			counters[A[i]] = 1;
 		}
 
-		for (int i = 1; i < counters.length; i++) {
-			if (counters[i] == 0)
+		for (int i = 1; i < counters.length; i++) {			
+			if (counters[i] == 0){
 				return i;
+			}
 		}
 		
 		//no element is missing
 		return -1;
 	}
+
+
+	/*
+	* solution -b
+	*/
+	public int solution(int[] A) {
+
+        int N = A.length + 2;
+        long sum = N * (N + 1) / 2;
+
+        for (final int a : A) {
+            sum -= a;
+        }
+        return (int) sum;
+    }
+
+
+
+    /*
+	* solution - c
+	*/
+    public int solution(int[] A) {
+    
+        // write your code in Java SE 8
+        int realSum = 0;
+        int N = A.length;
+    
+        for (int i=0; i<N;i++){
+            realSum = realSum + A[i];            
+        }        
+
+        int originalSum = (N+1)*(N+2)/2;
+        return (originalSum - realSum);
+    }
+
+
+    /*
+	* solution -d
+	*/
+    // This idea is, if A[i]= n, then set A[n-1] = 0. The space j !=0, then return j+1 is missing*/
+    public int solution(int[] A){
+
+        for (int i = 0; i < A.length; i++){
+
+            if (A[i] == 0){
+                continue;   
+            }
+            
+            int n = A[i] - 1;
+            while (n != -1 && n < A.length)
+            {
+                int next = A[n] - 1;
+                A[n] = 0;
+                n = next;
+            }
+        }
+        
+        for (int i = 0; i < A.length; i++){
+
+            if (A[i] != 0){            
+                return i + 1;   
+            }
+        }
+        
+        return A.length + 1;
+    }
+
+
 
 	public static void main(String[] args) {
 		int[] A = new int[]{2,3,1,5};

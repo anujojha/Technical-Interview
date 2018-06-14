@@ -12,12 +12,14 @@
 	class Solution { public int solution(int[] A); }
 	that, given a zero-indexed array A consisting of N integers containing daily prices of a stock share for a period of N consecutive days, returns the maximum possible profit from one transaction during this period. The function should return 0 if it was impossible to gain any profit.
 	For example, given array A consisting of six elements such that:
+	  
 	  A[0] = 23171  
 	  A[1] = 21011  
 	  A[2] = 21123
 	  A[3] = 21366  
 	  A[4] = 21013  
 	  A[5] = 21367
+
 	the function should return 356, as explained above.
 	Assume that:
 	N is an integer within the range [0..400,000];
@@ -44,8 +46,10 @@ public class MaxProfit {
 		}
 
 		int[] array = new int[A.length];
-		// array[0] = 0;
+		array[0] = 0;
 
+		// amount of profit if bought a day 
+		// earlier and sold the current day
 		for (int i = 1; i < A.length; i++) {
 			array[i] = A[i] - A[i-1];
 		}
@@ -58,11 +62,13 @@ public class MaxProfit {
 
 		int arrMax = Arrays.stream(A).max().getAsInt();
 		
+		// if the max. is -ve, then no profit occured 
 		if (arrMax < 0){
-			return arrMax;
+			// return arrMax;
+			return 0;
 		}
 
-		// keep track of all the loss and profit
+		// keep track of the current profit 
 		int maxEnding = 0;
 
 		// keep track of max profit 

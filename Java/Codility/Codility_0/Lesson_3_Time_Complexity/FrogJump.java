@@ -24,32 +24,53 @@
 package timecomplexity;
 
 public class FrogJump {
-	
+
 	/*
-		double has higher precision, whereas floats take up less memory and 
-		are faster. In general you should use float unless you have a case 
-		where it isn't accurate enough. 
-
-		float is represented in 32 bits, with 1 sign bit, 8 bits of exponent, 
-		and 23 bits of the significand (or what follows from a scientific-notation 
-		number: 2.33728*1012; 33728 is the significand).
-
-		double is represented in 64 bits, with 1 sign bit, 11 bits of exponent, and 
-		52 bits of significand.
-
-		By default, Java uses double to represent its floating-point numerals (so a 
-		literal 3.14 is typed double). It's also the data type that will give you a 
-		much larger number range, so I would strongly encourage its use over float.
+	* solution -a 
 	*/
 	public static int solution(int x, int y, int d) {
 		return (int)Math.ceil((double)(y-x)/d);
 	}
+
+	/*
+	* solution -b
+	*/
+	public int solution(int x, int y, int d) {
+        final int diff = y - x;
+        int result = diff / d;
+        if (result * d != diff) {
+            result++;
+        }
+        return result;
+    }    
+
+    /*
+	* solution -c
+    */	
+    public int solution(int X, int Y, int D) {
+
+        // write your code in Java SE 8
+        if (X>=Y){
+            return 0;
+        }
+
+        int remainder = (Y-X)%D;//Find the remainder 
+        int step = (Y-remainder-X)/D;//Find the quotient
+        
+        if (remainder>0){
+          return step+1;    
+        }
+        else {
+          return step;    
+        }        
+    }
 
 	public static void main(String[] args) {
 
 		int A = 10;
 		int B = 85;
 		int D = 30;
+		
 		System.out.println(solution(A,B, D));
 	}
 }

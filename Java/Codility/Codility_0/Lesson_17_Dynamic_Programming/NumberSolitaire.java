@@ -50,29 +50,61 @@ Complexity:
 expected worst-case time complexity is O(N);
 expected worst-case space complexity is O(N) (not counting the storage required for input arguments).
 */
-
-
-
 public  class NumberSolitaire {
+
 	
+    /*
+        The goal of the game is to move the pebble from 0 to square number N − 1.
+
+        Given a non-empty array A of N integers, returns the maximal result that 
+        can be achieved on the board represented by array A
+    */
 	public int solution(int[] A) {
+
         int[] store = new int[A.length];
         store[0] = A[0];
+
+
+        // Vale of CELL i = Vale of CELL i + Max(previous 1 to 6 cells) 
         for (int i = 1; i < A.length; i++) {
-            store[i] = store[i-1];
-            for (int minus = 2; minus <= 6; minus++) {
+
+            
+//            store[i] = store[i - 1];
+//
+//            for (int minus = 2; minus <= 6; minus++) {
+//
+//                if (i >= minus) {
+//                    store[i] = Math.max(store[i], store[i - minus]);
+//                } else {
+//                    break;
+//                }
+//            }
+
+            // store[i] = A[i] + Max(store[j], where, 0 <= j<= i-1)
+            for (int minus = 1; minus <= 6; minus++) {
+
                 if (i >= minus) {
                     store[i] = Math.max(store[i], store[i - minus]);
                 } else {
                     break;
                 }
             }
+
             store[i] += A[i];
         }
+
         return store[A.length - 1];
     }
 
 	public static void main(String[] args) {
-		
+        
+        int[] A = new int[6];
+
+        A[0] = 1;
+        A[1] = -2;
+        A[2] = 0;
+        A[3] = 9;
+        A[4] = -1;
+        A[5] = -2;		
 	}
 }

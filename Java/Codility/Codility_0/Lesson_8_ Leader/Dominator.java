@@ -53,26 +53,38 @@ public class Dominator {
 		b. If not empty and same element as previous,
 		push again
 		c. if not empty and not same elelemnt, pop the stack
+
+		finally we will have the elelemt in the stack occurs max num.
 	*/
 
+
+	// The dominator of array A is the value that occurs 
+	// in more than half of the elements of A.
 	public static int solution(int[] A) {
 	
 		Stack<Integer> stack = new Stack<Integer>();
-	
+		
+		// this memery ensures that the element occurs 
+		// the max times. Not the denominator 	
 		for (int i = 0; i < A.length; i++) {
 			
 			if (stack.isEmpty()) {
 				stack.push(A[i]);
 				continue;
 			} 
-			if (stack.peek() == A[i])
+			
+			if (stack.peek() == A[i]){
 				stack.push(A[i]);
-			else
+			}
+			
+			else {
 				stack.pop();
+			}
 		}
 
-		if (stack.isEmpty())
+		if (stack.isEmpty()){
 			return -1;
+		}
 
 		int domCandidate = stack.peek();
 		int occurances = 0;
@@ -85,6 +97,9 @@ public class Dominator {
 				randomIndex = i;
 			}
 		}
+
+		// index of the first occurance of "domCandidate"
+		// int indexOfTwo = ArrayUtils.indexOf(arr, domCandidate);
 		
 		return occurances>A.length/2?randomIndex:-1;
 	}

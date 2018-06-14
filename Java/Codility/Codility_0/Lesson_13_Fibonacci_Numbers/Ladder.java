@@ -50,19 +50,28 @@ public class Ladder {
 	
 	int number = 0;
 	
+
+	/*
+	* Count the number of different ways of climbing to the top of the ladder
+	*/
 	public static int[] solution(int[] A, int[] B) {
 
-		BigInteger[] fibs = new BigInteger[A.length+2];
+		BigInteger[] fibs = new BigInteger[A.length + 2];
 		
 		fibs[0] = new BigInteger("0");
 		fibs[1] = new BigInteger("1");
 		
-		for (int i = 2; i < A.length+2; i++) {
+		// 0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597
+		
+		// 1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597
+		for (int i = 2; i < A.length + 2; i++) {
 			fibs[i] = fibs[i-1].add(fibs[i-2]);
 		}
 
 		int[] res = new int[A.length];
 
+		// position I should contain the number of different ways of 
+		// climbing the ladder with A[I] rungs modulo 2B[I]
 		for (int i = 0; i < B.length; i++) {
 			BigInteger currPow = new BigInteger(String.valueOf((long)Math.pow(2, B[i])));
 			res[i] = fibs[A[i]+1].mod(currPow).intValue();
@@ -70,7 +79,6 @@ public class Ladder {
 		
 		return res;
 	}
-
 
 	public static void main(String[] args) {
 	
