@@ -13,16 +13,21 @@ import java.lang.StringBuilder;
 class SwapMinMax {
 	
 	public static int getMinIndex(int[] array) {
+	
 		int minIndex = 0;
+
 		for (int i = 1; i < array.length; i++) {
+
 			if (array[i] < array[minIndex]) {
 				minIndex = i;
 			}
 		}
+
 		return minIndex;
 	}
 	
 	public static int getMaxIndex(int[] array) {
+
 		int maxIndex = 0;
 		for (int i = 1; i < array.length; i++) {
 			if (array[i] > array[maxIndex]) {
@@ -90,6 +95,7 @@ class CompareBinaryToHex {
 	}
 	
 	public static int convertToBase(String number, int base) {
+
 		if (base < 2 || (base > 10 && base != 16)) return -1;
 		int value = 0;
 		for (int i = number.length() - 1; i >= 0; i--) {
@@ -103,7 +109,9 @@ class CompareBinaryToHex {
 		return value;
 	}
 	
+
 	public static boolean compareBinToHex(String binary, String hex) {
+
 		int n1 = convertToBase(binary, 2);
 		int n2 = convertToBase(hex, 16);
 		if (n1 < 0 || n2 < 0) {

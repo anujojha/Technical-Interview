@@ -7,8 +7,8 @@ INSERT INTO votes VALUES
 author Julio Cesar Pescuite Gonçalves Batista - juliopescuite@gmail.com
 version 1.0
 since 2016-09-16
-
 */
+
 
 SELECT 0 INTO @r;
 SELECT (@r:=@r+1) AS rank,votes FROM votes ORDER BY votes DESC;

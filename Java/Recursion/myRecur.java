@@ -14,6 +14,7 @@ public class myRecur {
 
 	/*solution-a*/
 	public static int fibonacci(int i) {
+
 		if (i == 0) {
 			return 0;
 		}
@@ -28,6 +29,7 @@ public class myRecur {
 	/*solution-b*/
 	public static int max = 100; // Make this as big as you want! (Though you'll exceed the bounds of a long around 46)
 	public static int[] fib = new int[max];
+
 	public static int fibonacci(int i) {
 		if (i == 0) {
 			return 0;
@@ -97,6 +99,7 @@ public class myRecur {
 	}
 	
 	public static boolean getPath(int x, int y, ArrayList<Point> path) {
+
 		// If out of bounds or not available, return.
 		if (y < 0 || x < 0 || !isFree(x, y)) {
 			return false;
