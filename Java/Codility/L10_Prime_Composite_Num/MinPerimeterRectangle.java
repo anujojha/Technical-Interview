@@ -28,13 +28,14 @@ public class MinPerimeterRectangle {
 
 
 	// BODMAS
-	// --------------
+	// ------
 	// Brackets (parts of a calculation inside brackets always come first).
 	// Orders (numbers involving powers or square roots).
 	// Division.
 	// Multiplication.
 	// Addition.
 	// Subtraction
+
 	/*
 	* solution -a 
 	*/
@@ -48,6 +49,7 @@ public class MinPerimeterRectangle {
 				min = 2*(i + N/i) < min ? 2*(i+N/i):min;
 			} 				
 		}
+
 		return min;
 	}
 
@@ -60,14 +62,17 @@ public class MinPerimeterRectangle {
 	public int solution(int N) {
 
         int min = 1+N;
-        int i=1;
+        int i = 1;
 
         while(i*i<=N) {
+
             if(N % i == 0) {
                 min = Math.min(min, N/i+i);
             }
+        
             i++;
         }
+
         return 2*min;
     }
 

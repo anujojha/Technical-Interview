@@ -4,17 +4,21 @@
 	We say that a plank (A[K], B[K]) is nailed if there exists a nail C[I] such that A[K] ≤ C[I] ≤ B[K].
 	The goal is to find the minimum number of nails that must be used until all the planks are nailed. In other words, you should find a value J such that all planks will be nailed after using only the first J nails. More precisely, for every plank (A[K], B[K]) such that 0 ≤ K < N, there should exist a nail C[I] such that I < J and A[K] ≤ C[I] ≤ B[K].
 	For example, given arrays A, B such that:
+
 	    A[0] = 1    B[0] = 4
 	    A[1] = 4    B[1] = 5
 	    A[2] = 5    B[2] = 9
 	    A[3] = 8    B[3] = 10
+
 	four planks are represented: [1, 4], [4, 5], [5, 9] and [8, 10].
 	Given array C such that:
-	    C[0] = 4
+	    
+        C[0] = 4
 	    C[1] = 6
 	    C[2] = 7
 	    C[3] = 10
 	    C[4] = 2
+
 	if we use the following nails:
 	0, then planks [1, 4] and [4, 5] will both be nailed.
 	0, 1, then planks [1, 4], [4, 5] and [5, 9] will be nailed.
@@ -26,7 +30,8 @@
 	that, given two non-empty zero-indexed arrays A and B consisting of N integers and a non-empty zero-indexed array C consisting of M integers, returns the minimum number of nails that, used sequentially, allow all the planks to be nailed.
 	If it is not possible to nail all the planks, the function should return −1.
 	For example, given arrays A, B, C such that:
-	    A[0] = 1    B[0] = 4
+	    
+        A[0] = 1    B[0] = 4
 	    A[1] = 4    B[1] = 5
 	    A[2] = 5    B[2] = 9
 	    A[3] = 8    B[3] = 10
@@ -36,6 +41,7 @@
 	    C[2] = 7
 	    C[3] = 10
 	    C[4] = 2
+
 	the function should return 4, as explained above.
 	Assume that:
 	N and M are integers within the range [1..30,000];
@@ -167,7 +173,10 @@ public class NailingPlanks {
 
         while(res < nails.length && nails[res][0] <= plankEnd) {
 
-            // we get the index for the minIndex. nail
+            // we get the index for the minIndex nail
+            // nails are already sorted by their length
+            // so the min index will be the smaller height 
+            // as well
             minIndex = Math.min(minIndex, nails[res][1]);
 
             if(minIndex <= oldResult){
@@ -188,6 +197,7 @@ public class NailingPlanks {
 	* solution - b
 	*/
 	public int solution(int[] A, int[] B, int[] C) {
+
     
         // the main algorithm is that getting the minimal index of nails which
         // is needed to nail every plank by using the binary search
@@ -281,6 +291,7 @@ public class NailingPlanks {
 	*/
     public int solution(int[] a, int[] b, int[] c) {
 
+
         final int[] nails = new int[2 * c.length + 1];
         int begin = 0;
 
@@ -346,8 +357,11 @@ public class NailingPlanks {
 	 
 	    for(int r=0; r<grid.length; r++) {
 	 
-	       for(int c=0; c<grid[r].length; c++)
+	       for(int c=0; c<grid[r].length; c++){
+            
 	           System.out.print(grid[r][c] + " ");
+           }
+
 	       System.out.println();
 	    }
 	}

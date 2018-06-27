@@ -72,11 +72,13 @@ public class PassingCars {
 	* silution - b
 	*/
 	public int solution(int[] A) {
-        // write your code in Java SE 8
+
+
         int countOne = 0;
         int countZero= 0;
         int pair = 0;
         int counter = 0;
+
         for (int i = A.length-1; i>=0;i--){
             counter++;
             if (A[i]==1){
@@ -98,21 +100,21 @@ public class PassingCars {
     /*
 	* solution -c
     */
-    public int solution(int[] a) {
-        int ones = 0;
-        int result = 0;
-        for (int i = a.length - 1; i >= 0; i--) {
-            if (a[i] == 1) {
-                ones++;
-            } else {
-                result += ones;
-            }
-            if (result > 1000000000) {
-                return -1;
-            }
-        }
-        return result;
-    }
+    // public int solution(int[] a) {
+    //     int ones = 0;
+    //     int result = 0;
+    //     for (int i = a.length - 1; i >= 0; i--) {
+    //         if (a[i] == 1) {
+    //             ones++;
+    //         } else {
+    //             result += ones;
+    //         }
+    //         if (result > 1000000000) {
+    //             return -1;
+    //         }
+    //     }
+    //     return result;
+    // }
 
 	public static void main(String[] args) {
 

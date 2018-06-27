@@ -84,6 +84,7 @@ public class CountSemiprimes {
 			if (F[i] == 0) {
 
 				for (int k = i*i; k<=n; k += i) {
+
 					if (F[k] == 0){
 						F[k] = i;
 					}
@@ -211,18 +212,25 @@ public class CountSemiprimes {
     public int[] solution(int N, int[] P, int[] Q) {
 
         int length = P.length;
+
         int[] prime = sieve(N);
         int[] semiprime = semiprime(prime);
+
         int[] result = new int[length];
         int[] semiprimesAggreation = new int[N+1];
+
         
         for(int i=1;i<N+1;i++) {
+
             semiprimesAggreation[i] = semiprime[i];
             semiprimesAggreation[i] += semiprimesAggreation[i-1];    
         }
         
         for(int i=0;i<length;i++) { 
-            result[i] = semiprimesAggreation[Q[i]] - semiprimesAggreation[P[i]] + semiprime[P[i]];
+            
+            result[i] = semiprimesAggreation[Q[i]] 
+                        - semiprimesAggreation[P[i]] 
+                        + semiprime[P[i]];
         }
 
         return result;
@@ -233,8 +241,11 @@ public class CountSemiprimes {
         int[] prime = new int[N+1];
         
         for(int i=2; i<=(double)Math.sqrt(N); i++) {
+
             if(prime[i] == 0) {
+            
                 int k = i*i;
+            
                 while(k <= N) {
                     if(prime[k] == 0){
                         prime[k] = i;    
@@ -247,11 +258,20 @@ public class CountSemiprimes {
     }
     
     public int[] semiprime(int[] prime) {
+
         int semiprime[] = new int[prime.length];
+        
         for(int i=0;i<prime.length;i++) {
-            if(prime[i] == 0) continue;
+        
+            if(prime[i] == 0) {
+                continue;
+            }
+
             int firstFactor = prime[i];
-            if(prime[i/firstFactor] == 0) semiprime[i]=1;   
+
+            if(prime[i/firstFactor] == 0) {
+                semiprime[i]=1;   
+            }
         }  
         return semiprime;
     }
@@ -268,14 +288,16 @@ public class CountSemiprimes {
         int i = 2;
       
         // mark all non-prime numbers with minimal prime factor
-        while ((long) i * (long) i <= n) {
+        while ((long) i * i <= n) {
 
             int k = i * i;
 
             while (k <= n) {
+
                 if (m[k - 1] == 0) {
                     m[k - 1] = i;
                 }
+
                 k += i;
             }
 
@@ -284,6 +306,7 @@ public class CountSemiprimes {
         
         // if number / it's minimal prime factor is not a prime number, unmark
         for (i = m.length - 1; i >= 0; i--) {
+
             if (m[i] > 0 && m[(i + 1) / m[i] - 1] != 0) {
                 m[i] = 0;
             }
@@ -291,21 +314,29 @@ public class CountSemiprimes {
 
         // memorize number semiprimes from 0 to i
         int c = 0;
+
         for (i = 0; i < m.length; i++) {
+
             if (m[i] > 0) {
                 c++;
             }
+
             m[i] = c;
         }
 
         // calculate result for ranges
-        final int[] result = new int[p.length];
+        int[] result = new int[p.length];
+
         for (i = 0; i < p.length; i++) {
-            final int from = p[i] - 1;
-            final int to = q[i] - 1;
+
+            int from = p[i] - 1;
+            int to = q[i] - 1;
+
             if (from == 0) {
                 result[i] = m[to];
-            } else {
+            } 
+
+            else {
                 result[i] = m[to] - m[from - 1];
             }
         }

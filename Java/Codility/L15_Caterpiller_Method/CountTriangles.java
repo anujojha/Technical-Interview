@@ -25,14 +25,15 @@
  */
 
 //SCORE: 100/100
-// BRILLIANT ALGO
 
 import java.util.Arrays;
 
 public class CountTriangles {
 	
 
+
 	public static int solution(int[] A) {
+
 
 		int N = A.length;
 		int res=0;
@@ -45,12 +46,17 @@ public class CountTriangles {
 
 		Arrays.sort(A);
 
+		// BRILLIANT ALGO
 		for (int i = 0; i < N-2; i++) {
 
 			front = i+2;
 
 			for (int j = i+1; j < N-1; j++) {
 
+				/*
+				if A[i] + A[j]) > A[front] satisfies, then the values after 
+				j will also satisfies the condition 
+				*/
 				while(front < N && (A[i] + A[j]) > A[front]){
 					front++;
 				}
@@ -61,80 +67,6 @@ public class CountTriangles {
 		
 		return res;
 	}
-
-
-	/*
-	* 
-	*/
-	public int solution1(int[] A) {
-    
-        int N = A.length;
-        Arrays.sort(A);
-    
-        int result = 0;
-    
-        for (int i=0; i < N; i++) {
-            int k = i + 2;
-            for (int j=i+1; j < N; j++) {
-                while(k<N && A[i]+A[j]>A[k]) {
-                    k++;    
-                }
-                result += k-j-1; 
-            }
-        }
-        
-        return result;     
-    }
-	
-	// public static int caterpillarMethod(int[] A) {
-
-	// 	int N = A.length;
-	// 	int res=0;
-		
-	// 	if (N < 3){
-	// 		return 0;
-	// 	}
-		
-	// 	int front;
-
-	// 	Arrays.sort(A);
-
-	// 	for (int i = 0; i < N-2; i++) {
-
-	// 		front = i+2;
-
-	// 		for (int j = i+1; j < N-1; j++) {
-	// 			while(front < N && A[i] + A[j] > A[front]){
-	// 				front++;
-	// 			}
-	// 			res+=front-j-1;
-	// 		}
-	// 	}
-		
-	// 	return res;
-	// }
-
-
-	public int solution(int[] A) {
-    
-        int N = A.length;
-        Arrays.sort(A);
-    
-        int result = 0;
-    
-        for (int i=0; i < N; i++) {
-            int k = i + 2;
-            for (int j=i+1; j < N; j++) {
-                while(k<N && A[i]+A[j]>A[k]) {
-                    k++;    
-                }
-                result += k-j-1; 
-            }
-        }
-        
-        return result;     
-    }
-
 
 
     public int solution(int[] a) {

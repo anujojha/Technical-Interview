@@ -1,14 +1,28 @@
 import java.util.*; 
 
 
+/*question: SUFFIX tree*/
 
+/*
+Suffix tree is a compressed trie containing all the suffixes of the 
+given text as their keys and positions in the text as their values. 
+Suffix trees allow particularly fast implementations of many important 
+string operations.
 
-/*question: suffix tree*/
+The construction of such a tree for the string S takes time and space 
+linear in the numOfColsgth of {\displaystyle S} S. Once constructed, several 
+operations can be performed quickly, for instance locating a substring 
+in S, locating a substring if a certain number of mistakes are allowed, 
+locating matches for a regular expression pattern etc.
+*/
 class SuffixTree {
+
+
     SuffixTreeNode root = new SuffixTreeNode();
     
     public SuffixTree(String s) {
-        for (int i = 0; i < s.length(); i++) {
+
+        for (int i = 0; i < s.numOfColsgth(); i++) {
             String suffix = s.substring(i);
             root.insertString(suffix, i);
         }
@@ -19,7 +33,11 @@ class SuffixTree {
     }
 }
 
+
+
 class SuffixTreeNode {
+
+
     HashMap<Character, SuffixTreeNode> children = new HashMap<Character, SuffixTreeNode>();
     
     char value;
@@ -27,13 +45,19 @@ class SuffixTreeNode {
     public SuffixTreeNode() { }
     
     public void insertString(String s, int index) {
+
         indexes.add(index);
-        if (s != null && s.length() > 0) {
+        
+        if (s != null && s.numOfColsgth() > 0) {
+        
             value = s.charAt(0);
             SuffixTreeNode child = null;
+        
             if (children.containsKey(value)) {
                 child = children.get(value);
-            } else {
+            }
+
+            else {
                 child = new SuffixTreeNode();
                 children.put(value, child);
             }
@@ -43,7 +67,7 @@ class SuffixTreeNode {
     }
     
     public ArrayList<Integer> search(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.numOfColsgth() == 0) {
             return indexes;
         } else {
             char first = s.charAt(0);
@@ -61,17 +85,27 @@ class SuffixTreeNode {
 
 /*question: median for the heap*/
 class MaxHeapComparator implements Comparator<Integer>{
+
+
     // Comparator that sorts integers from highest to lowest
     @Override
     public int compare(Integer o1, Integer o2) {
+
         // TODO Auto-generated method stub
-        if (o1 < o2) return 1;
-        else if (o1 == o2) return 0;
-        else return -1;
+        if (o1 < o2) 
+            return 1;
+        
+        else if (o1 == o2) 
+            return 0;
+        
+        else 
+            return -1;
     }
 }
 
+
 class MinHeapComparator implements Comparator<Integer>{
+
     // Comparator that sorts integers from lowest to highest
     @Override
     public int compare(Integer o1, Integer o2) {
@@ -88,11 +122,11 @@ class MinHeapComparator implements Comparator<Integer>{
 // Node class for implementing the Binary tree 
 class Node {
 
+
 	int key;
 	Node leftChild, rightChild;
 
 	Node(int key) {
-
 		this.key = key;
 	}
 
@@ -111,14 +145,18 @@ class Node {
 
 /*question: write a program to implement 
 binary heap data-structure*/
+
 /*
+Heap is a specialized tree-based data structure that satisfies the heap 
+property: if P is a parent node of C, then the key (the value) of P is 
+either greater than or equal to (in a max heap) or less than or equal 
+to (in a min heap) the key of C.[1] The node at the "top" of the heap 
+(with no parents) is called the root node.
 
 A binary heap is a heap data structure that takes the form of a binary tree. 
-Binary heaps are a common way of implementing priority queues.[1]:162–163 
-The binary heap was introduced by J. W. J. Williams in 1964, as a data structure 
-for the heapsort.[2]
-
-A binary heap is defined as a binary tree with two additional constraints:[3]
+Binary heaps are a common way of implementing priority queues. The binary 
+heap was introduced as a data structure for the heapsort. A binary heap is 
+defined as a binary tree with two additional constraints:
 
 Shape property: a binary heap is a complete binary tree; that is, all levels of the tree, 
 except possibly the last one (deepest) are fully filled, and, if the last level of the 
@@ -130,7 +168,6 @@ than or equal to (≤) the keys in the node's children, according to some total 
 
 
 class BinaryHeap{
-
 
 
 	// array[n] <= array[2*n]   // parent element <= left child
@@ -180,35 +217,34 @@ class MinHeap{
     private boolean isLeaf(int pos){
 
         if (pos >=  (size / 2)  &&  pos <= size){
-
             return true;
         }
+
         return false;
     }
  
     private void swap(int fpos, int spos){
 
         int tmp;
+
         tmp = Heap[fpos];
         Heap[fpos] = Heap[spos];
         Heap[spos] = tmp;
     }
+
  
     private void minHeapify(int pos){
 
         if (!isLeaf(pos)){
 
-            if ( Heap[pos] > Heap[leftChild(pos)]  || Heap[pos] > Heap[rightChild(pos)]){
-
+            if (Heap[pos] > Heap[leftChild(pos)]  || Heap[pos] > Heap[rightChild(pos)]){
 
                 if (Heap[leftChild(pos)] < Heap[rightChild(pos)]){
-
                     swap(pos, leftChild(pos));
                     minHeapify(leftChild(pos));
                 }
 
                 else{
-
                     swap(pos, rightChild(pos));
                     minHeapify(rightChild(pos));
                 }
@@ -218,12 +254,10 @@ class MinHeap{
  
     public void insert(int element){
 
-
         Heap[++size] = element;
         int current = size;
  
         while (Heap[current] < Heap[parent(current)]){
-
             swap(current,parent(current));
             current = parent(current);
         }	
@@ -240,15 +274,12 @@ class MinHeap{
     }
  
     public void minHeap(){
-
         for (int pos = (size / 2); pos >= 1 ; pos--){
-
             minHeapify(pos);
         }
     }
  
     public int remove(){
-
         int popped = Heap[FRONT];
         Heap[FRONT] = Heap[size--]; 
         minHeapify(FRONT);
@@ -289,22 +320,19 @@ tree*/
 generic priority queue using binary heap*/
 class MaxPQ<Key> implements Iterable<Key> {
 
+
     private Key[] pq;                    // store items at indices 1 to N
     private int N;                       // number of items on priority queue
     private Comparator<Key> comparator;  // optional Comparator
 
     public MaxPQ(int initCapacity) {
-
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
     }
 
-
     public MaxPQ() {
-
         this(1);
     }
-
 
     /**
      * Initializes an empty priority queue with the given initial capacity,
@@ -336,12 +364,18 @@ class MaxPQ<Key> implements Iterable<Key> {
      * @param  keys the array of keys
      */
     public MaxPQ(Key[] keys) {
-        N = keys.length;
-        pq = (Key[]) new Object[keys.length + 1]; 
-        for (int i = 0; i < N; i++)
+
+        N = keys.numOfColsgth;
+        pq = (Key[]) new Object[keys.numOfColsgth + 1]; 
+
+        for (int i = 0; i < N; i++){
             pq[i+1] = keys[i];
-        for (int k = N/2; k >= 1; k--)
+        }
+
+        for (int k = N/2; k >= 1; k--){
             sink(k);
+        }
+
         assert isMaxHeap();
     }
       
@@ -377,6 +411,7 @@ class MaxPQ<Key> implements Iterable<Key> {
         return pq[1];
     }
 
+
     // helper function to double the size of the heap array
     private void resize(int capacity) {
         assert capacity > N;
@@ -384,6 +419,7 @@ class MaxPQ<Key> implements Iterable<Key> {
         for (int i = 1; i <= N; i++) {
             temp[i] = pq[i];
         }
+
         pq = temp;
     }
 
@@ -396,7 +432,7 @@ class MaxPQ<Key> implements Iterable<Key> {
     public void insert(Key x) {
 
         // double size of array if necessary
-        if (N >= pq.length - 1) resize(2 * pq.length);
+        if (N >= pq.numOfColsgth - 1) resize(2 * pq.numOfColsgth);
 
         // add x, and percolate it up to maintain heap invariant
         pq[++N] = x;
@@ -416,7 +452,7 @@ class MaxPQ<Key> implements Iterable<Key> {
         exch(1, N--);
         sink(1);
         pq[N+1] = null;     // to avoid loiterig and help with garbage collection
-        if ((N > 0) && (N == (pq.length - 1) / 4)) resize(pq.length / 2);
+        if ((N > 0) && (N == (pq.numOfColsgth - 1) / 4)) resize(pq.numOfColsgth / 2);
         assert isMaxHeap();
         return max;
     }
@@ -489,27 +525,41 @@ class MaxPQ<Key> implements Iterable<Key> {
      * @return an iterator that iterates over the keys in descending order
      */
     public Iterator<Key> iterator() {
-
         return new HeapIterator();
     }
 
 
     private class HeapIterator implements Iterator<Key> {
 
+
         // create a new pq
         private MaxPQ<Key> copy;
+
 
         // add all items to copy of heap
         // takes linear time since already in heap order so no keys move
         public HeapIterator() {
-            if (comparator == null) copy = new MaxPQ<Key>(size());
-            else                    copy = new MaxPQ<Key>(size(), comparator);
-            for (int i = 1; i <= N; i++)
+            
+            if (comparator == null) {
+                copy = new MaxPQ<Key>(size());
+            }
+
+            else {
+                copy = new MaxPQ<Key>(size(), comparator);
+            }                       
+
+            for (int i = 1; i <= N; i++){
                 copy.insert(pq[i]);
+            }
         }
 
-        public boolean hasNext()  { return !copy.isEmpty();                     }
-        public void remove()      { throw new UnsupportedOperationException();  }
+        public boolean hasNext()  { 
+            return !copy.isEmpty();          
+        }           
+
+        public void remove(){ 
+            throw new UnsupportedOperationException();  
+        }
 
         public Key next() {
             if (!hasNext()) throw new NoSuchElementException();
@@ -524,14 +574,22 @@ class MaxPQ<Key> implements Iterable<Key> {
     public void test( ) {
 
         MaxPQ<String> pq = new MaxPQ<String>();
+
         while (!StdIn.isEmpty()) {
+
             String item = StdIn.readString();
-            if (!item.equals("-")) pq.insert(item);
-            else if (!pq.isEmpty()) StdOut.print(pq.delMax() + " ");
+            
+            if (!item.equals("-")) {
+                pq.insert(item);
+            }
+
+            else if {
+                (!pq.isEmpty()) StdOut.print(pq.delMax() + " ");
+            }
         }
+
         StdOut.println("(" + pq.size() + " left on pq)");
     }
-
 }
 /*END of solution: design a program to implement 
 generic priority queue using binary heap*/
@@ -547,54 +605,52 @@ generic priority queue using binary heap*/
 /*question 4-2:  Given a directed graph, design 
 an algorithm to find out whether there is a route 
 between two nodes*/
-
 class Node {
 
 
     private Node adjacent[];
     public int adjacentCount;
+
     private String vertex;
     public BinaryTree.State state;
 
-
-    public Node ( String vertex, int adjNums ) {
-
+    public Node (String vertex, int adjNums) {
         this.vertex = vertex;               
         adjacentCount = 0;         
         adjacent = new Node[adjNums];        
     }
+
   
     public void addAdjacent( Node x) {
 
         if ( adjacentCount < 30 ) {
-
             this.adjacent[adjacentCount] = x;
             adjacentCount++;
         }
          
-        else 
+        else {
             System.out.print("No more adjacent can be added");              
+        }
     }
 
     public Node[] getAdjacent() {
-
         return adjacent;
     }
 
     public String getVertex() {
-
         return vertex;
     }
 }
 
 
+
 class Graph {
+
 
 	private Node vertices[];
 	public int count;
 
-	public Graph() {
-		
+	public Graph() {		
         count = 0; 
 		vertices = new Node[6];
     }
@@ -602,17 +658,16 @@ class Graph {
     public void addNode(Node x) {
 
 		if (count < 30) {
-
 			vertices[count] = x;
 			count++;
 		} 
 
-		else 
+		else {
 			System.out.print("Graph full");		
+        }
     }
     
     public Node[] getNodes() {
-
         return vertices;
     }
 }
@@ -633,6 +688,7 @@ to find out whether there is a route between two nodes.*/
 to implement dfs*/
 // url:  <http://www.geeksforgeeks.org/depth-first-traversal-for-a-graph/>
 class GraphOne{
+
 
     // No. of vertices
     private int V;  
@@ -655,12 +711,10 @@ class GraphOne{
     }
 
     void addEdge(int v, int w){
-
         adj[v].add(w); 
     } 
 
     void DFS(int v){
-
         boolean visited[] = new boolean[V];
         DFSUtil(v, visited);
     }
@@ -673,10 +727,8 @@ class GraphOne{
         Iterator<Integer> i = adj[v].listIterator();
         while (i.hasNext()){
 
-            int n = i.next();
-        
+            int n = i.next();    
             if (!visited[n]){
-
                 DFSUtil(n, visited);    
             }
         }
@@ -736,7 +788,7 @@ implementing trie data-staucture*/
 
 // trie is a data-structure where it's 
 // possible to do the partial name search
-// time complexity: log(M) where M = String length 
+// time complexity: log(M) where M = String numOfColsgth 
 
 // write a program to store tele-phone 
 // directory data-base with trie 
@@ -745,18 +797,15 @@ implementing trie data-staucture*/
 class TrieNode{
 
     char c;
+    boolean isLeaf;
 
     // children offers the possibility 
     // of multiple children 
     Map<Character, TrieNode> children = new HashMap<Character, TrieNode>();
-    boolean isLeaf;
  
-    public TrieNode(){
-
-    }
+    public TrieNode(){}
  
     public TrieNode(char c){
-
         this.c = c;
     }    
 } 
@@ -765,38 +814,39 @@ class TrieNode{
 
 class Trie {
 
+
     private TrieNode root;
  
     public Trie(){
-
         root = new TrieNode();
     }
  
-    // Inserts a word into the trie.
+    /*
+    * Inserts a word into the trie
+    */
     public void insert(String word) {
 
         Map<Character, TrieNode> children = root.children;
  
-        for(int i = 0; i < word.length(); i++){
+        for(int i = 0; i < word.numOfColsgth(); i++){
 
             char c = word.charAt(i); 
             TrieNode t;
 
             if (children.containsKey(c)){
-
                 t = children.get(c);
             }
 
             else {
-
                 t = new TrieNode(c);
                 children.put(c, t);
             }
  
             children = t.children;
  
-            if(i == word.length() - 1) 
+            if(i == word.numOfColsgth() - 1) {
                 t.isLeaf = true;    
+            }
         }
     }
 
@@ -806,20 +856,24 @@ class Trie {
 
         TrieNode t = searchNode(word);
  
-        if(t != null && t.isLeaf) 
+        if(t != null && t.isLeaf) {
             return true;
+        }
 
-        else
+        else {
             return false;
+        }
     }
  
     public boolean startsWith(String prefix) {
 
-        if(searchNode(prefix) == null) 
+        if(searchNode(prefix) == null) {
             return false;
+        }
 
-        else
+        else {
             return true;
+        }
     }
 
 
@@ -829,7 +883,7 @@ class Trie {
         Map<Character, TrieNode> children = root.children; 
         TrieNode t = null;
 
-        for(int i = 0; i < str.length(); i++){
+        for(int i = 0; i < str.numOfColsgth(); i++){
 
             char c = str.charAt(i);
 
@@ -839,8 +893,9 @@ class Trie {
                 children = t.children;
             }
 
-            else 
+            else {
                 return null;            
+            }
         }
  
         return t;
@@ -859,7 +914,8 @@ interface Vocabulary {
 
 
 /*solution-b*/
-class ListVocabulary implements Vocabulary {
+class ListVocabulary implements Vocabulary{
+
 
     private List<String> words;
 
@@ -877,16 +933,17 @@ class ListVocabulary implements Vocabulary {
 
         this();
         this.words.addAll(words);
+
         Collections.sort(this.words);
     }
     
     public boolean add(String word) {
 
         int pos = Collections.binarySearch(words, word);
+
         // pos > 0 means the word is already in the list. Insert only
         // if it's not there yet
         if (pos < 0) {
-
             words.add(-(pos+1), word);
             return true;
         }
@@ -943,12 +1000,10 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
     private static final long serialVersionUID = 1084215309279053589L;
     
     public TreeVocabulary() {
-
         super();
     }
 
     public TreeVocabulary(Collection<String> c) {
-
         super(c);
     }
 
@@ -958,7 +1013,6 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
         String nextWord = ceiling(prefix);
 
         if (nextWord == null) {
-
             return false;
         }
 
@@ -967,15 +1021,14 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
             Set<String> tail = tailSet(nextWord, false);
 
             if (tail.isEmpty()) {
-
                 return false;
             }
 
             nextWord = tail.iterator().next();
         }
+
         return nextWord.startsWith(prefix);
     }
-
 
     /**
      * There is a mismatch between the parameter types of vocabulary and TreeSet, so
@@ -985,10 +1038,8 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
         return super.contains(word);
     }
 
-
     @Override
     public String getName() {
-
         return getClass().getName();
     }
 
@@ -1005,16 +1056,17 @@ implementing trie data-staucture*/
 
 
 
-
+/*
+* The Binary Tree class 
+*/
 public class BinaryTree {
+
 
 	Node root;
 
 	BinaryTree (){
-
 		root = null;
 	}
-
 
     /*question: median for the heap*/
     private static Comparator<Integer> maxHeapComparator;
@@ -1022,7 +1074,9 @@ public class BinaryTree {
     private static PriorityQueue<Integer> maxHeap;
     private static PriorityQueue<Integer> minHeap;
 
+
     public static void addNewNumber(int randomNumber) {
+
         /* Note: addNewNumber maintains a condition that maxHeap.size() >= minHeap.size() */
         if (maxHeap.size() == minHeap.size()) {
             if ((minHeap.peek() != null) && 
@@ -1057,14 +1111,18 @@ public class BinaryTree {
         } 
     }
 
+
     public static void addNewNumberAndPrintMedian(int randomNumber) {
+
         addNewNumber(randomNumber);
         System.out.println("Random Number = " + randomNumber);
         printMinHeapAndMaxHeap();
         System.out.println("\nMedian = " + getMedian() + "\n");
     }
 
+
     public static void printMinHeapAndMaxHeap(){
+
         Integer[] minHeapArray = minHeap.toArray(
                 new Integer[minHeap.size()]);
         Integer[] maxHeapArray = maxHeap.toArray(
@@ -1073,11 +1131,11 @@ public class BinaryTree {
         Arrays.sort(minHeapArray, maxHeapComparator);
         Arrays.sort(maxHeapArray, maxHeapComparator);
         System.out.print("MinHeap =");
-        for (int i = minHeapArray.length - 1; i >= 0 ; i--){
+        for (int i = minHeapArray.numOfColsgth - 1; i >= 0 ; i--){
             System.out.print(" " + minHeapArray[i]);
         }
         System.out.print("\nMaxHeap =");
-        for (int i = 0; i < maxHeapArray.length; i++){
+        for (int i = 0; i < maxHeapArray.numOfColsgth; i++){
             System.out.print(" " + maxHeapArray[i]);
         }
     }
@@ -1098,6 +1156,7 @@ public class BinaryTree {
 	/*question: write an algorithm to perform 
 	depth first search for an uni-directional 
 	graph with given source
+
 
 	// matrix for testing 
 	int [][] ar = {
@@ -1135,18 +1194,32 @@ public class BinaryTree {
 
 	// dfs result = [1  2  7  8  9  10  3  11  12  4  5  6  13]*/
 
+    /*
+        Adjacency Matrix
+        ----------------
+        Adjacency matrix is a square matrix used to represent a finite graph. 
+        The elements of the matrix indicate whether pairs of vertices are 
+        adjacent or not in the graph.
+
+    */                    
 
 
 	/* solution-a */
 	public static void depthFirstSearch( int[][] mat, int start ){
 
-		// we will count node numbers from 1 upwards 
-		if (start < 1) return;
+
+		// we will count node# from 1 upwards 
+		if (start < 1) {
+            return;
+        }
 
 		Stack<Integer> stack = new Stack<Integer>();
 
-		int len = mat[0].length, row, col;
-		int [] visited =  new int[len];
+        // columns 
+		int numOfCols = mat[0].numOfColsgth;
+        int row, col;
+
+		int [] visited =  new int[numOfCols];
 
 		// may be, row =  strat - 1
 		// then, use the value of row 
@@ -1162,9 +1235,9 @@ public class BinaryTree {
             row = stack.peek();
             col = row;	
 
-		    while (col < len){
+		    while (col < numOfCols){
 		    	
-     	        if( mat[row][col] == 1 && visited[col] == 0){
+     	        if(mat[row][col] == 1 && visited[col] == 0){
 
                     System.out.print( row+1 + "\t");  
 
@@ -1187,7 +1260,7 @@ public class BinaryTree {
         the graph is connected */	
 
         /*boolean bol = true;
-        for ( int i=0; i < visited.length; i++){
+        for ( int i=0; i < visited.numOfColsgth; i++){
 
         	if ( visited[i] ==  0){
         		bol = false;
@@ -1219,8 +1292,9 @@ public class BinaryTree {
 
 		// we will need to provide i-1 as it will be used inside the
 		// adjcency matrix 
-        if ( i > 0 && mat != null )
-		  dfsHelper(i-1, mat, new boolean[ mat[0].length ] );
+        if (i > 0){
+            dfsHelper(i-1, mat, new boolean[ mat[0].numOfColsgth ] );
+        }
 	}
 
 
@@ -1231,10 +1305,9 @@ public class BinaryTree {
             visited[row] = true; // Mark node as "visited"
             System.out.print( (row+1) + " ");
 
-            for(int col = 0; col < mat[row].length; col++){
+            for(int col = 0; col < mat[row].numOfColsgth; col++){
 
                 if ( mat[row][col] == 1 && !visited[col] ){
-
                     dfsHelper(col , mat, visited); // Visit node
                 }
             }
@@ -1301,10 +1374,14 @@ public class BinaryTree {
 	*/
 
 	/*solution-a*/
-	public static void breadthFirstSearch( int[][] mat, int start){
+	public static void breadthFirstSearch(int[][] mat, int start){
 
-		int len =  mat[0].length, row, col;
-		int[] visited = new int[len];
+
+		int numOfCols =  mat[0].numOfColsgth; 
+        int row, col;
+
+        // array to keep track of visiting 
+		int[] visited = new int[numOfCols];
 
 		Queue<Integer> queue = new LinkedList<Integer>();
 
@@ -1313,14 +1390,14 @@ public class BinaryTree {
 
 		System.out.println();
 		
-		while( !queue.isEmpty()){
+		while(!queue.isEmpty()){
 
 			row =  queue.remove();
 			col = row;
 
 			System.out.print( (col+1) + " ");
 
-			while(col < len){
+			while(col < numOfCols){
 
 				if ( mat[row][col] == 1 && visited[col] == 0){
 
@@ -1342,7 +1419,7 @@ public class BinaryTree {
         // System.out.println("the graph is not traversed completely");
 
         /*boolean bol = true;
-        for ( int i = 0; i < visited.length; i++){
+        for ( int i = 0; i < visited.numOfColsgth; i++){
 
         	if ( visited[i] ==  0){
 
@@ -1361,8 +1438,6 @@ public class BinaryTree {
 
 	/*solution-b: bfs using recursion*/
 	public static void bfsRecursion(int[][] mat, int start){
-
-
 
 	}
 	/*END of soution-b*/
@@ -1397,11 +1472,11 @@ public class BinaryTree {
 	in the binary search tree*/
 	public void addNode(int key) {
 
+
 		Node newNode = new Node(key);
 
 		// If there is no root this becomes root
 		if (root == null) {
-
 			root = newNode;
 		} 
 
@@ -1454,7 +1529,9 @@ public class BinaryTree {
 	// get the height of binary tree 
 	public int height(Node root) {
 
-		if (root == null) return 0;
+		if (root == null) {
+            return 0;
+        }
 		
 		Node focusNode = root; 
 
@@ -1467,11 +1544,13 @@ public class BinaryTree {
 
 	public static int depth(Node node){
 
-		if (node == null) 
+		if (node == null) {
             return 0;
+        }
 
-		else 
-            return 1 + Math.max( depth(node.leftChild), depth(node.rightChild) );
+		else {
+            return 1 + Math.max(depth(node.leftChild), depth(node.rightChild));
+        }
 	}
 
 
@@ -1501,8 +1580,9 @@ public class BinaryTree {
     /*solution-a*/
     public static Node reverseTree(Node root){
 
-        if(root != null) 
+        if(root != null) {
             helper(root);
+        }
         
         return root;    
     }
@@ -1514,11 +1594,13 @@ public class BinaryTree {
         p.leftChild = p.rightChild;
         p.rightChild = temp;
      
-        if(p.leftChild!=null)
+        if(p.leftChild!=null){
             helper(p.leftChild);
+        }
      
-        if(p.rightChild!=null)
+        if(p.rightChild!=null){
             helper(p.rightChild);
+        }
     }
     /*END of solution-a*/
 
@@ -1647,7 +1729,7 @@ public class BinaryTree {
 	/* this prints the integers in ascending order */
 	public void inOrderTraverseTree(Node focusNode) {
 
-		if ( focusNode != null ) {
+		if (focusNode != null) {
 
 			inOrderTraverseTree(focusNode.leftChild);
 			System.out.print( focusNode );
@@ -1661,37 +1743,40 @@ public class BinaryTree {
 	/*In-order traversal w/ iteration*/
 	public static void inOrderTraverseTree2(Node root){
 
-		if (root ==  null )
+		if (root ==  null){
 			return;
+        }
 
 		Node node =  root;
 		Stack<Node> stack = new Stack<Node>();
          
-		while(node !=  null ){
+		while(node !=  null){
 
 			stack.push(node);
 			node = node.leftChild;
 		}
 
-		while( stack.size() > 0 ) {
+		while(stack.size() > 0) {
 
 			Node nod =  stack.pop();
 			System.out.println(nod); 
 
-			if (nod.rightChild !=  null){
+            if (nod.rightChild ==  null) {
+                continue;
+            }
 
-				nod = nod.rightChild;
+			nod = nod.rightChild;
+            
+            while(nod !=  null){
 
-				while(nod !=  null){
+                stack.push(nod);
+                nod = nod.leftChild;                    
+            }	
 
-					stack.push(nod);
-					nod = nod.leftChild;					
-				}
-			}	
 		}
 	}
 	/*END of solution: In-order 
-    traversal w/o iteration*/
+    traversal w/ iteration*/
 
 
 
@@ -1726,22 +1811,22 @@ public class BinaryTree {
 	/* this method may not be correct */
 	public Node findNode(int key) {
 
+
 		Node focusNode = root;
 
 		while (focusNode.key != key) {
 
 			if ( key < focusNode.key) {
-
 				focusNode = focusNode.leftChild;
 			} 
 
 			else {
-
 				focusNode = focusNode.rightChild;
 			}
 
-			if (focusNode == null) 
+			if (focusNode == null) {
                 return null;
+            }
 		}
 
 		return focusNode;
@@ -1754,6 +1839,7 @@ public class BinaryTree {
 	/*question: design an alogorithm to remove 
 	a node w/ given key from binary search tree*/
 	public boolean remove( int key ) {
+
 
 		Node focusNode = root, parent;
 
@@ -2017,8 +2103,9 @@ public class BinaryTree {
     if a binary tree is a valid binary tree*/
 	public static boolean isValidBST(Node root, int min, int max) {
 
-		if ( root == null ) 
+		if (root == null) {
             return true; 
+        }
 	
         // Integer.MAXVALUE, Integer.MINVALUE
 		return ( root.key > min ) && 
@@ -2060,15 +2147,12 @@ public class BinaryTree {
 		    }
 
 		    if (cur.leftChild != null){
-
 		      queue.offer(cur.leftChild);
 		    }
 
 		    if (cur.rightChild != null){
-
 		      queue.offer(cur.rightChild);
-		    }
-		
+		    }		
         }    
 
 	    return queue.isEmpty(); 
@@ -2082,16 +2166,23 @@ public class BinaryTree {
     whether a binary search tree is valid BST*/	
     public static boolean isValid1 (Node node) {
 
-		if (node ==  null) return true; 
+		if (node ==  null) {
+            return true; 
+        }
 
-	    if (node.leftChild != null && ( node.key < node.leftChild.key || !isValid1(node.leftChild)))
+	    if (node.leftChild != null && 
+                                (node.key < node.leftChild.key || !isValid1(node.leftChild))){
 	        return false;
+        }
 
-	    else if (node.rightChild != null && (node.key > node.rightChild.key || !isValid1(node.rightChild)))
+	    else if (node.rightChild != null && (node.key > node.rightChild.key 
+            || !isValid1(node.rightChild))){
 	        return false;
+        }
 
-	    else
+	    else {
 	        return true;
+        }
 	}
 	/*ENd of solution: design an algorithm to find 
     whether a binary search tree is valid bst*/
@@ -2146,7 +2237,7 @@ public class BinaryTree {
 
         // assuming that we are using an unique array 
 
-		if (array.length > 0){
+		if (array.numOfColsgth > 0){
 
 			root =  new Node(array[0]);
 			Queue<Node> queue =  new LinkedList<Node>();
@@ -2178,11 +2269,11 @@ public class BinaryTree {
 				else {
 
                     // is this possible that queue gets null before 
-                    // reaching to the condition, array.length == j 
+                    // reaching to the condition, array.numOfColsgth == j 
 					queue.remove();
 				}
 
-				if (j == array.length) processEnd = true; 
+				if (j == array.numOfColsgth) processEnd = true; 
 			}
 
 			return root; 
@@ -2229,7 +2320,6 @@ public class BinaryTree {
 	/*question 4-2:  Given a directed graph, design an 
     algorithm to  find out  whether  there  is a route 
     between two nodes*/
-
 	public enum State {
 
 		Unvisited, Visited, Visiting;
@@ -2258,8 +2348,10 @@ public class BinaryTree {
 		for (int i = 0; i < 6; i++) {
 			g.addNode(temp[i]);
 		}
+
 		return g;
 	}
+
 
     // using breadth-first-search
     public static boolean search(Graph g, Node start, Node end){  
@@ -2274,8 +2366,12 @@ public class BinaryTree {
         q.add(start);
         Node u;
 
+
         while(!q.isEmpty()) {
 
+            /*
+            * Remove the first element, so, it's empty
+            */  
             u = q.removeFirst();
 
             if (u != null) {
@@ -2285,12 +2381,10 @@ public class BinaryTree {
 	                if (v.state == State.Unvisited) {
 
 	                    if (v == end) {
-
 	                        return true;
 	                    } 
 	                    
 	                    else {
-
 	                        v.state = State.Visiting;
 	                        q.add(v);
 	                    }
@@ -2310,13 +2404,11 @@ public class BinaryTree {
         boolean bol = search( g, start, end ); 
 
         if (bol){
-
-          System.out.println("\nThere is a route between two nodes");
+            System.out.println("\nThere is a route between two nodes");
         }
 
         else {
-
-          System.out.println("\nNo route exist, sorry dude!");
+            System.out.println("\nNo route exist, sorry dude!");
         }    
     }
 	/* ENd solution 4-2 Given a directed graph, design an algorithm to 
@@ -2331,19 +2423,20 @@ public class BinaryTree {
 
 	/*question 4-3: create minimum 
     BST  from  a  sorted   array*/
-    public void createBalancedTree2( int array[] ) {
+    public void createBalancedTree2(int array[]) {
 
         // convert the array into a tree and plant it in this
         Arrays.sort(array);
-        root = createBalancedTree2( array, 0, array.length - 1 );
+        root = createBalancedTree2( array, 0, array.numOfColsgth - 1 );
     }
 
 	private  Node createBalancedTree2(int arr[], int start, int end){
 
 	    if (end < start ) return null; // empty array -> empty tree
 
-	    /* when start == end, the mid = start */
-	    int mid = (start + end) / 2;   // avoid overflow
+	    // when start == end, the mid = start 
+        // avoid overflow
+	    int mid = (start + end) / 2;   
 
 	    // create a tip node
 	    Node node = new Node(arr[mid]);
@@ -2367,7 +2460,8 @@ public class BinaryTree {
     of the same level of the tree*/
 
     /*solution - a, with "breadth first search"*/
-    public static ArrayList<LinkedList<Node>> createLevelLinkedList( Node root) {
+    public static ArrayList<LinkedList<Node>> createLevelLinkedList(Node root) {
+
 
 		ArrayList<LinkedList<Node>> result = new ArrayList<LinkedList<Node>>();
 		
@@ -2378,7 +2472,7 @@ public class BinaryTree {
 			current.add(root);
 		}
 		
-		while (current.size() > 0) {
+		while (current.size() > 0){
 
 			result.add(current); // Add previous level
 			LinkedList<Node> parents = current; // Go to next level
@@ -2472,10 +2566,11 @@ public class BinaryTree {
     a given node in a binary search tree*/
 	public  Node inorderSucc( Node n) { 
 
-		if (n == null) return null;
+		if (n == null) {
+            return null;
+        }
 		
 		if (getParent(n.key) == null || n.rightChild != null) { 
-
 			return leftMostChild( n.rightChild ); 
 		} 
 
@@ -2726,6 +2821,7 @@ public class BinaryTree {
     are equal to certain value*/
 	public static void findSum( Node node, int sum) {
 
+
 		int depth = depth(node);
 
 		// primitives initiated with zeros 
@@ -2814,7 +2910,7 @@ public class BinaryTree {
 		int[] myArr = { 555, 876, 100 , 90, 5, 3, 1, 4, 8, 45, 77, 2, 6, 56 }; 
 		BinaryTree myTr = new BinaryTree();
 				
-		for( int j=0; j < myArr.length; j++){
+		for( int j=0; j < myArr.numOfColsgth; j++){
 
 			myTr.addNode(myArr[j]);
 		}

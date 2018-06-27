@@ -64,16 +64,20 @@ array represents consecutive operations:
 public class MaxCounter {
 
 
+    /*
+    * solution - a
+    */
 	public static int[] solution(int N, int[] A) {
 
 		int[] counters = new int[N];
 
 		int currMax = 0;
 		int currMin = 0;
+
 		
 		for (int i = 0; i < A.length; i++) {
 
-			if (A[i]<=N) {
+			if (A[i] <= N) {
 
 				counters[A[i]-1] = Math.max(currMin, counters[A[i]-1]);
 				counters[A[i]-1]++;
@@ -82,7 +86,7 @@ public class MaxCounter {
 			}
 
 			else if (A[i] == N+1) {
-				currMin= currMax;
+				currMin = currMax;
 			}
 		}
 		
@@ -97,14 +101,16 @@ public class MaxCounter {
 
 
 	/*
-	solution 
+	* solution - b
 	*/
 	public int[] solution(int N, int[] A) {
-        // write your code in Java SE 8
+
         int P [] = new int [N];
+
         for (int i=0;i<N;i++){
             P[i] = 0;    
         }
+
         for (int i=0;i<A.length;i++){
             if (A[i] == N+1){
                maxCounter(P);      
@@ -137,12 +143,15 @@ public class MaxCounter {
     /*2. Improve the previous method, time complexity is O(N+M). 
     Keep the lastUpdate as the lasgest value in the last round.*/
     public int[] solution(int N, int[] A) {
-        // write your code in Java SE 8
+
+
         int P [] = new int [N];
         int max = 0;
         int lastUpdate = 0;
+
         
         for (int i=0;i<A.length;i++){
+
             if (A[i] < N+1){
                 if (P[A[i]-1] < lastUpdate){
                     P[A[i]-1] = lastUpdate + 1;          
@@ -167,27 +176,41 @@ public class MaxCounter {
 
 
     /*
-	solution
+	 * solution - d
     */
     public int[] solution(final int n, final int[] a) {
+
+
         int max = 0;
         int setmax = 0;
+        
         final int[] result = new int[n];
+        
         for (final int value : a) {
+        
             if (value >= 1 && value <= n) {
+            
                 final int ci = value - 1;
                 if (result[ci] < setmax) {
                     result[ci] = setmax;
                 }
+            
                 result[ci]++;
+                
                 if (result[ci] > max) {
                     max = result[ci];
                 }
-            } else if (value == n + 1) {
+            } 
+
+
+            else if (value == n + 1) {
                 setmax = max;
             }
         }
+
+
         for (int i = 0; i < n; i++) {
+        
             if (result[i] < setmax) {
                 result[i] = setmax;
             }

@@ -113,24 +113,26 @@ public class FrogRiverOne {
 
 
     /*
-    solution -b 
+    * solution -b 
     */
     public int solution(int X, int[] A) {
-        // write your code in Java SE 8
+
         int count =X;
         int [] P = new int[X];
+
         for (int i=0;i<X;i++){
             P[i] = -1;
         }
+
         for (int i=0;i<A.length;i++) {
+
             if (P[A[i]-1]== -1){
                 P[A[i]-1] = 1;
                 count--;
                 if (count == 0){
                     return i;    
                 }
-            }
-                
+            }               
         }
         
         return -1;
@@ -141,9 +143,12 @@ public class FrogRiverOne {
     solution - c
     */
     public int solution(int x, int[] a) {
+        
         final int[] r = new int[x];
+        
         int pc = x;
         int i = 0;
+        
         for (; pc != 0 && i < a.length; i++) {
             if (a[i] <= x && r[a[i] - 1] == 0) {
                 r[a[i] - 1] = 1;

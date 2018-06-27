@@ -105,6 +105,11 @@ public  class MaxNonoverlappingSegments {
         int curr;
 
         for (curr = 1; curr < N; curr++) {
+
+            /*
+            if the next segments start > prvious 
+            segments end there will be no overlapping 
+            */
             if (A[curr] > prev_end) {
                 cnt++;
                 prev_end = B[curr];
@@ -118,28 +123,6 @@ public  class MaxNonoverlappingSegments {
 
 
 
-    public int solution(int A[], int B[]) {
-
-        int N = A.length;
-
-        if (N <= 1) {
-            return N;
-        }
-        
-        int cnt = 1;
-        int prev_end = B[0];
-        
-        int curr;
-
-        for (curr = 1; curr < N; curr++) {
-            if (A[curr] > prev_end) {
-                cnt++;
-                prev_end = B[curr];
-            }
-        }
-        
-        return cnt;
-    }
 
 
 
@@ -168,6 +151,7 @@ public  class MaxNonoverlappingSegments {
         int result = 0;
         int besti = 0;
         for (int i = 1; i < a.length; i++) {
+            
             if (a[i] > b[besti]) {
                 result++;
                 besti = i;

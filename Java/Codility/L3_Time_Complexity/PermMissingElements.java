@@ -89,6 +89,7 @@ public class PermMissingElements {
     // This idea is, if A[i]= n, then set A[n-1] = 0. The space j !=0, then return j+1 is missing*/
     public int solution(int[] A){
 
+
         for (int i = 0; i < A.length; i++){
 
             if (A[i] == 0){
@@ -96,9 +97,11 @@ public class PermMissingElements {
             }
             
             int n = A[i] - 1;
-            while (n != -1 && n < A.length)
-            {
+            
+            while (n != -1 && n < A.length){
+
                 int next = A[n] - 1;
+
                 A[n] = 0;
                 n = next;
             }

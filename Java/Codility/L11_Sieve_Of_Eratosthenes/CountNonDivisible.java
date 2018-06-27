@@ -113,11 +113,7 @@ public class CountNonDivisible {
 			D[A[i]][1] = -1;
 		}
 
-        /*
-            Proving that the set { A, B | A * B = N & A < sqrt(N) } 
-            = {the set of divisors of N}. In other words you have to 
-            prove that all divisors are covered
-        */
+        
 	    for (int i = 0; i < A.length; i++){
 
             // we find the indexes where A has elements 
@@ -126,8 +122,8 @@ public class CountNonDivisible {
 	    		D[A[i]][1]=0;
 
                 /*
-                    Reduce the number of iteration to find 
-                    divisors for the i-th index of A Array 
+                Reduce the number of iteration to find 
+                divisors for the i-th index of A Array 
                 */
 	    		for (int j = 1; j*j <= A[i]; j++) {
 
@@ -141,6 +137,7 @@ public class CountNonDivisible {
                         // We just set the D[A[i]][1] as zero 
 
                         // Finally, we get the count of elem with same value as index
+                        // "D[A[i]][1]" = quantity of num that are the divisors of A[i]
 						D[A[i]][1] += D[j][0];
 
                         // j is less than the square root of A[i]						

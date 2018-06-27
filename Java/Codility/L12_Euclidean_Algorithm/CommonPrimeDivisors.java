@@ -49,16 +49,16 @@ public class CommonPrimeDivisors {
 
 
 		// D x K = P
-		int res=0;
+		int res = 0;
 		int N = A.length;
 
 		for (int i = 0; i < N; i++) {
 
-			int x=A[i];
-			int y=B[i];
+			int x = A[i];
+			int y = B[i];
 
 			int gcd = gcd(x, y, 1);
-			int gcdTmp=0;
+			int gcdTmp = 0;
 
 			while(x!=1) {
 			
@@ -175,6 +175,7 @@ public class CommonPrimeDivisors {
 	public int solution(int[] A, int[] B) {
 
         int count = 0;
+
         for(int i=0;i<A.length;i++) {
             if(hasSamePrimeDivisors(A[i], B[i])){
                 count++;    

@@ -72,7 +72,7 @@ public class Ladder {
 	*/
 	public static int[] solution(int[] A, int[] B) {
 
-
+		// add 2 more element for the fb0 and fb1
 		BigInteger[] fibs = new BigInteger[A.length + 2];
 		
 		fibs[0] = new BigInteger("0");

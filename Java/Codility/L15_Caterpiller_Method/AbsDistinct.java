@@ -35,13 +35,15 @@ package caterpillar;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+
 public class AbsDistinct {
 	
-	
+
 	//using Java 8
 	public static int solution(int[] A) {
 		return (int)IntStream.of(A).map(i->Math.abs(i)).distinct().count();
 	}
+
 	
 	public static int solution1(int[] A) {
 	
@@ -122,6 +124,7 @@ public class AbsDistinct {
                 result++;
             }
         }
+        
         prev = -1;
         for (--j; i < a.length; i++) {
             while (j >= 0 && negatives[j] < a[i]) {

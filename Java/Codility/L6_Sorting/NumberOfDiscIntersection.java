@@ -69,13 +69,16 @@ public class NumberOfDiscIntersection {
         float       4 bytes     approximately ±3.40282347E+38F 
         (6-7 significant decimal digits) 
         Java implements IEEE 754 standard
+
         double      8 Bytes     approximately ±1.79769313486231570E+308
         (15 significant decimal digits)
+
         char        2 byte      0 to 65,536 (unsigned)
+
         boolean not precisely defined*  true or false
         -------------------------------------------------------------------
     */
-	public static int solution(int[] A) {
+	public int solution(int[] A) {
 
 		int x = 0;
 
@@ -115,11 +118,14 @@ public class NumberOfDiscIntersection {
             int right;
             
             // i + A[i] > j - A[j]
+
+            // if The right point is lesser than the largest center 
             // IF i+A[i]<= n-1, that's it, extract this i+A[i], let sum[i+A[i]]++, means there is one disk that i+A[i]
             if (n - i - 1 >= A[i]){
                 right = i + A[i];
             } 
 
+            // IF i+A[i] > n-1
             else {
                 right = n - 1;    
             }
@@ -160,8 +166,10 @@ public class NumberOfDiscIntersection {
 	* silution -c
     */
     public int solution(int[] a) {
+
         final long[] lefts = new long[a.length];
         final long[] rights = new long[a.length];
+
         for (int i = 0; i < a.length; i++) {
             lefts[i] = (long) i - (long) a[i];
             rights[i] = (long) i + (long) a[i];

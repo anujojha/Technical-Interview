@@ -87,6 +87,7 @@ public class FibFrog {
     * a frog to get to the other side of a river.
     */
 	public static int solution(int[] A) {
+
 	
 		List<Integer> fibs = getFibonaciUpTo(A.length+1);
 		boolean[] visited = new boolean[A.length];
@@ -104,19 +105,25 @@ public class FibFrog {
         */
 		while(!stack.isEmpty()) {
 
+
             // take the top of the stack
 			Jump currJump = stack.firstElement();
 			stack.remove(0);
 
 			int i = 0;
 
+            // we get the index in the left side 
+            // we will be out of the while loop if left value > A.length
 			while(currJump.pos + fibs.get(i)<= A.length) {
 
+                /*
+                *  just crossed the river 
+                */
 				if (currJump.pos + fibs.get(i) == A.length){
 					return currJump.jumps + 1;
 				}
 				
-				if(A[fibs.get(i) + currJump.pos] == 1 && 
+				if(A[currJump.pos + fibs.get(i)] == 1 && 
 							!visited[currJump.pos + fibs.get(i)]) {
 
 					stack.push(new Jump(fibs.get(i)+currJump.pos, currJump.jumps+1));
@@ -164,6 +171,7 @@ public class FibFrog {
         int numOfJumps;
 
         Jump(int pos, int numOfJumps) {
+
             this.pos = pos;
             this.numOfJumps = numOfJumps;
         }

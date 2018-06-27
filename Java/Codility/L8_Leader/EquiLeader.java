@@ -49,8 +49,6 @@ import java.util.Stack;
 	A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N − 1] have leaders 
 	of the same value.
 */
-
-
 public class EquiLeader {
 
 
@@ -111,29 +109,23 @@ public class EquiLeader {
 			A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N − 1] have leaders 
 			of the same value.
 		*/
-		for (int i = 0; i < A.length; i++) {
 
-			if (A[i] == dominator){
-				dom++;
-			}
-			else {
-				nonDom++;
-			}
 
-	/*
-    A[0] = 4
-    A[1] = 3
-    A[2] = 4
-    A[3] = 4
-    A[4] = 4
-    A[5] = 2
-	
-	A = [4, 3, 4, 4, 4, 2]
-	we can find two equi leaders:
 
-	0, because sequences: (4) and (3, 4, 4, 4, 2) have the same leader, whose value is 4.
-	2, because sequences: (4, 3, 4) and (4, 4, 2) have the same leader, whose value is 4.
-	*/
+		/*
+		    A[0] = 4
+		    A[1] = 3
+		    A[2] = 4
+		    A[3] = 4
+		    A[4] = 4
+		    A[5] = 2
+			
+			A = [4, 3, 4, 4, 4, 2]
+			we can find two equi leaders:
+
+			0, because sequences: (4) and (3, 4, 4, 4, 2) have the same leader, whose value is 4.
+			2, because sequences: (4, 3, 4) and (4, 4, 2) have the same leader, whose value is 4.
+		*/
 
 
 			// domOccurances = 4
@@ -152,7 +144,15 @@ public class EquiLeader {
 				// same as 2C > L, or C > L/2	
 
 				// v.2 
-				// Leader for current sec and rest section
+				// Leader for current sec and rest section			
+		for (int i = 0; i < A.length; i++) {
+
+			if (A[i] == dominator){
+				dom++;
+			}
+			else {
+				nonDom++;
+			}
 			if (dom > nonDom && (domOccurances - dom) > (nonDomOccurances-nonDom)){
 				equiLeaders++;	
 			}

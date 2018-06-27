@@ -108,14 +108,18 @@ public class MinMaxDivision {
 	}
 
 
-	public static boolean verifySolution(int x, int[] A, int K) {
+	public static boolean verifySolution(int middle, int[] A, int K) {
 
 		int tmp = 0;
 		int count = 1;
-	
+
+		/*
+		* check if we can divide the array in K parts with sum 
+		* of each part <= proposed value (ie middle)
+		*/	
 		for (int i = 0; i < A.length; i++) {
 
-			if (tmp + A[i] <= x){
+			if (tmp + A[i] <= middle){
 				tmp += A[i];
 			}
 			
@@ -140,20 +144,26 @@ public class MinMaxDivision {
 	*/
 	public static int binarySearchRecursive(int min, int max, int[] A, int K) {
 
-		if (max - min < 2)
-		if (verifySolution(min, A, K)){
-			return min;
-		}
-		else {
-			return max;
+		if (max - min < 2){
+
+			if (verifySolution(min, A, K)){
+				return min;
+			}
+
+			else {
+				return max;
+			}
 		}
 
 		int middle = (min+max)/2;
-		if (verifySolution(middle, A, K))
-			return binarySearchRecursive(min, middle, A, K);
 
-		else 
+		if (verifySolution(middle, A, K)){
+			return binarySearchRecursive(min, middle, A, K);
+		}
+
+		else {
 			return binarySearchRecursive(middle, max, A, K);	 
+		}
 	}
 
 

@@ -74,7 +74,7 @@ public class Flags {
 		int i = 1;
 		int result = 0;
 
-		// this is for reducing the number of iteration
+		// This is for reducing the number of iteration
 		// ------------------------------------------------
 		// 0, 2, 6, 12, 20, 30, 42, 56, 72 , for i * (i-1)
 		// ------------------------------------------------
@@ -82,6 +82,9 @@ public class Flags {
 		// ------------------------------------------------
 
 		// N = 12 
+		/*
+		* this will provide all the devisors of N
+		*/
         while ((i - 1) * i <= N) {
 
         // while (i * i <= N) {
@@ -93,8 +96,10 @@ public class Flags {
             // [1, 1, 3, 3, 5, 5, 10, 10, 10, 10, 10, -1]
             while (positionalIndex < N && numberOfFlags < i) {
 
+            	// next = [1, 1, 3, 3, 5, 5, 10, 10, 10, 10, 10, -1]
                 positionalIndex = next[positionalIndex];
 
+                // we have reached in the end 
                 if (positionalIndex == -1) {
                     break;
                 }
@@ -103,6 +108,7 @@ public class Flags {
                 positionalIndex += i;
             }
 
+            // maximize the number of flags 
             result = Math.max(result, numberOfFlags);
             i++;
         }
@@ -114,6 +120,7 @@ public class Flags {
 	/*
 	* we have an array with peak values and -1 		
 	*/
+	// [1, 1, 3, 3, 5, 5, 10, 10, 10, 10, 10, -1]
 	public static int[] nextPeak(int[] A) {
 
 		int N = A.length;
@@ -121,7 +128,7 @@ public class Flags {
 		ArrayList<Integer> peaks = new ArrayList<Integer>();
 		
 		// addition is deterministic and sequential 
-		for (int i = 1; i < A.length-1; i++){			
+		for (int i = 1; i < A.length-1; i++) {			
 
 			if (A[i] > A[i-1] && A[i] > A[i+1]){			
 				peaks.add(i);
@@ -172,6 +179,7 @@ public class Flags {
 
         // add the peaks in the list
         for (int i = 1; i < A.length - 1; i++) {
+
             if (A[i - 1] < A[i] && A[i + 1] < A[i]) {
                 list.add(i);
             }
@@ -275,6 +283,7 @@ public class Flags {
         while (p <= maxp) {
 
             int setFlags = 0;
+
             for (int j = start; setFlags < p && j < a.length; j = (j + p < nexts.length ? nexts[j + p] : a.length)) {
                 setFlags++;
             }

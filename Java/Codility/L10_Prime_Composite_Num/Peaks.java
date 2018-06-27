@@ -108,11 +108,12 @@ maximum number of blocks into which the array A can be divided.
 public class Peaks {
 
 
-
+	// SUccess: 100%
 	/*
 	* solution - a 
 	*/	
 	public static int solution(int[] A) {
+
 
 		int peakCount = 0;
 		ArrayList<Integer> peaks = new ArrayList<Integer>();
@@ -125,7 +126,7 @@ public class Peaks {
 			}
 		}
 
-		for (int size =  1; size <=A.length; size++) {
+		for (int size =  1; size <= A.length; size++) {
 
 			// A block need atleast elements equal 
 			// to grater of peak numbers 
@@ -163,6 +164,7 @@ public class Peaks {
 			if (threshold != blocks){
 				ok= false;
 			}
+
 			if(ok) {
 				return blocks;
 			}
@@ -185,6 +187,7 @@ public class Peaks {
         ArrayList<Integer> peaks = new ArrayList<Integer>();
 
         for (int i = 1; i < N - 1; i++) {
+
             if (A[i] > A[i - 1] && A[i] > A[i + 1]) {
             	peaks.add(i);
             }             	
@@ -203,13 +206,21 @@ public class Peaks {
 
             // Find whether every group has a peak
             for (int peakIdx : peaks) {
+                
                 if (peakIdx / size > find) {
                     ok = false;
                     break;
                 }
-                if (peakIdx / size == find) find++;
+                
+                if (peakIdx / size == find) {
+                	find++;
+                }
             }
-            if (find != groups) ok = false;
+
+            if (find != groups) {
+            	ok = false;
+            }
+
             if (ok) return groups;
         }
 
@@ -222,17 +233,17 @@ public class Peaks {
     // Robin's inequality
     // The sum of divisors is O(N * log(log(N)))
     /*
-	* solution - a 
+	* solution - c
 	*/	
     public static int solution1(int[] a) {
    
-        // peaks cannot exist
         if (a.length < 3) {
             return 0;
         }
 
         final int[] p = new int[a.length];
         p[0] = 0;
+   
         for (int i = 1; i < a.length - 1; i++) {
             p[i] = p[i - 1];
             if (a[i - 1] < a[i] && a[i] > a[i + 1]) {
@@ -246,6 +257,7 @@ public class Peaks {
         if (p[a.length - 1] == 0) {
             return 0;
         }
+
 
         for (int pc = p[a.length - 1]; pc > 1; pc--) {
 

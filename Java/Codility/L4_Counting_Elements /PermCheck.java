@@ -63,11 +63,12 @@ public class PermCheck {
 	/*
 	solution -b 
 	*/
-	public int solution(int[] A) {
-    
-        // write your code in Java SE 8
+	public int solution(int[] A) {    
+
         int N = A.length;
+
         int [] P = new int[N+1];
+        
         for (int i=0;i<N+1;i++) {
            P[i] = -1;    
         }

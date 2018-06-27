@@ -69,6 +69,7 @@ public class Fish {
 
         for (int i = 0; i < A.length; i++) {
 
+        	// 0 represents a fish flowing upstream
             if (B[i] == 0) {
 
                 while (!stack.isEmpty()) {
@@ -78,12 +79,18 @@ public class Fish {
                     // 1 represents a fish flowing downstream
 
                     // eat the upstream fish and break
+                    // the downstream fish is bigger which is in the stack
                     if (A[i] < A[stack.peek()]) {
                         break;
                     }
+
+                    // downstraem fish is eaten by ut
                     stack.pop();
                 }
-            } else {
+            } 
+
+            // 1 represents a fish flowing downstream.
+            else {
                 stack.push(i);
             }
         }
@@ -97,8 +104,8 @@ public class Fish {
 	*/
 	public int solution(int[] A, int[] B) {
 
-        	
 	        Stack<Integer> stack = new Stack<Integer>();
+
 	        int number = 0;
 	        for (int i=0; i<A.length;i++) {
 	        	if (B[i]==0){

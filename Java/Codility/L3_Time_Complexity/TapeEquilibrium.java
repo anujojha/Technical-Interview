@@ -101,7 +101,6 @@ public class TapeEquilibrium {
 	*/
 	public int solution(int[] A) {
     
-
         // write your code in Java SE 8
         if (A.length ==1) {
            return A[0];
@@ -138,54 +137,6 @@ public class TapeEquilibrium {
 
 
 
-
-
-    public int solution(int[] A) {
-        // write your code in Java SE 8
-
-        if (A.length ==2) {
-           return A[1]-A[0];
-        }
-              
-        int sum = 0;
-        for (int i=0; i<A.length;i++) {
-            sum += A[i];
-        }
-        
-        //P[N]is thje leftSum, P[1] = A[0]; P[2] = A[0] + A[1],P[0] is useless
-        int [] P = new int[A.length];      
-        for (int i=0; i<P.length;i++) {
-            P[i] = 0;            
-        }
-
-        for (int i=1; i<A.length;i++) {
-            P[i] = A[i-1] + P[i-1];            
-        }
-        
-        int least = Math.abs(P[1]-(sum-P[1]));    
-        
-        for (int i=1; i<P.length;i++) {
-            least = less(least, Math.abs(P[i]-(sum-P[i])));            
-        }
-    
-        return least;
-    }
-    
-    public int less (int i, int j) {
-       if (i<=j){
-          return i; 
-        }else {
-          return j;
-        }    
-    }
-
-
-
-
-
-
-
-
     /*
 	* solution -c 
     */
@@ -201,8 +152,10 @@ public class TapeEquilibrium {
         int result = Integer.MAX_VALUE;
         
         for (int i = 1; i < a.length; i++) {
+
             left += a[i - 1];
             right -= a[i - 1];
+
             if (Math.abs(right - left) < result) {
                 result = Math.abs(right - left);
             }
@@ -213,9 +166,8 @@ public class TapeEquilibrium {
 
 
 
-
-
 	public static void main(String[] args) {
+
 		int[] A = new int[]{3,1,2,4,3};
 		System.out.println(solution(A));
 	}

@@ -18,6 +18,13 @@ package primeandcompositenumbers;
 public class CountFactors {
 	
 	/*
+    Proving that the set { A, B | A * B = N & A < sqrt(N) } 
+    = {the set of divisors of N}. In other words you have to 
+    prove that all divisors are covered
+    */
+
+
+	/*
 	* solution - a
 	*/
 	public static int solution(int N) {
@@ -53,8 +60,10 @@ public class CountFactors {
 
             if(i==(double)Math.sqrt(N)) {
                 result++;
-            }else if(N % i == 0) {
-                result = result + 2;
+            }
+
+            else if(N % i == 0) {
+                result += 2;
             }   
 
         }
@@ -67,14 +76,19 @@ public class CountFactors {
 	* solution - c
 	*/
     public int solution(int n) {
+
         int a = 1;
         int r = 0;
+
         while ((long) a * (long) a < (long) n) {
+
             if (n % a == 0) {
                 r += 2;
             }
+            
             a++;
         }
+
         if (a * a == n) {
             r++;
         }

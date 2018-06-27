@@ -26,9 +26,11 @@ public class CountDiv {
 		return B/K - A/K;
 	}
 
+
 	/*
 	* silution -b
 	*/
+	// A = 6, B = 11 and K = 2
 	public static int solution(int A, int B, int K) {
 	 
 	    int b = B/K;
