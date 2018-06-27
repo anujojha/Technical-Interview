@@ -27,6 +27,4 @@ public class FactorialTest {
         assertEquals("Factorial of 5 is 120", new Factorial(5).toString());
 
     }
-
-
 }
