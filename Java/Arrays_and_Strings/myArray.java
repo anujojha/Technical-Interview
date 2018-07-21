@@ -6886,6 +6886,30 @@ public class myArray {
 
 
 
+    /*
+    * Fisher–Yates shuffle
+    * --------------------
+    * The nextInt(int n) method is used to get a pseudorandom, uniformly 
+    * distributed int value between 0 (inclusive) and the specified value 
+    * (exclusive), drawn from this random number generator's sequence.
+    */
+    public static void shuffleArray(int[] ar){
+
+        // If running on Java 6 or older, use `new Random()` on RHS here
+        Random rnd = ThreadLocalRandom.current();
+
+        for (int i = ar.length - 1; i > 0; i--){
+
+            // take an int in the range of [0, 1, 2,...., i]
+            int index = rnd.nextInt(i + 1);
+
+            // Simple swap
+            int a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+    }
+
 
 
 
@@ -8005,6 +8029,54 @@ public class myArray {
         }
     }
     /*END of solution-a*/
+
+
+    /* Bairesdev*/
+    public static int MostPopularNumber(int[] arr, int N) {
+
+        int count = 1;
+        int maxCount = 1;
+
+        Arrays.sort(arr);
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for (int i = 1; i < N; i++) {
+
+            if (arr[i] == arr[i - 1]) {
+                count++;
+            } else {
+
+                if (count > 1) {
+
+                    if (count == maxCount) {
+
+                        map.put(arr[i], count);
+                    } else if (count > maxCount) {
+
+                        maxCount = count;
+
+                        map.clear();
+                        map.put(arr[i], count);
+                    }
+
+                    count = 1;
+                }
+            }
+        }
+
+        if (map.size() == 1) {
+            return map.get(0);
+        }
+
+        int min = Integer.MAX_VALUE;
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            min = min > entry.getKey() ? entry.getKey() : min;
+        }
+
+        return min;
+    }
 
 
 

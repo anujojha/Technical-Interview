@@ -38,6 +38,7 @@ public final class p017 implements EulerSolution {
 	
 	
 	private static String toEnglish(int n) {
+
 		if (0 <= n && n < 20)
 			return ONES[n];
 		else if (20 <= n && n < 100)

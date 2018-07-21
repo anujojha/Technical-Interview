@@ -1,6 +1,725 @@
 import java.util.*; 
 
 
+
+
+
+/**
+ * A radix tree. Radix trees are String -> Object mappings which allow quick
+ * lookups on the strings. Radix trees also make it easy to grab the objects
+ * with a common prefix.
+ * <p>
+ * <p>
+ * radix tree (also radix trie or compact prefix tree) is a data structure that
+ * represents a space-optimized trie in which each node that is the only child
+ * is merged with its parent. The result is that the number of children of every
+ * internal node is at most the radix r of the radix tree, where r is a positive
+ * integer and a power x of 2, having x ≥ 1. Unlike in regular tries, edges can
+ * be labeled with sequences of elements as well as single elements. This makes
+ * radix trees much more efficient for small sets (especially if the strings are
+ * long) and for sets of strings that share long prefixes.
+ *
+ * @param <V> the type of values stored in the tree
+ * @see <a href="http://en.wikipedia.org/wiki/Radix_tree">Wikipedia</a>
+ */
+public class RadixTree<V extends Serializable> implements Map<String, V>, Serializable {
+
+
+    public interface RadixTreeVisitor<V, R> {
+        /**
+         * Visits a node in a radix tree.
+         *
+         * @param key   the key of the node being visited
+         * @param value the value of the node being visited
+         */
+        public abstract void visit(String key, V value);
+
+        /**
+         * An overall result from the traversal of the radix tree.
+         *
+         * @return the result
+         */
+        public abstract R getResult();
+    }
+
+
+    /**
+     * A node in a radix tree.
+     */
+    static class RadixTreeNode<V extends Serializable> implements Iterable<RadixTreeNode<V>>, Comparable<RadixTreeNode<V>>, Serializable {
+
+        /**
+         * The prefix at this node
+         */
+        private String prefix;
+
+        /**
+         * The value stored at this node
+         */
+        private V value;
+
+        /**
+         * Whether or not this node stores a value. This value is mainly used by
+         * {@link RadixTreeVisitor} to figure out whether or not this node should
+         * be visited.
+         */
+        private boolean hasValue;
+
+        /**
+         * The children for this node. Note, because we use {@link TreeSet} here,
+         * traversal of {@link RadixTree} will be in lexicographical order.
+         */
+        private Collection<RadixTreeNode<V>> children;
+
+        /**
+         * Constructs a node from the given prefix.
+         *
+         * @param prefix the prefix
+         */
+        RadixTreeNode(String prefix) {
+            this(prefix, null);
+            this.hasValue = false;
+        }
+
+        /**
+         * Constructs a node from the given prefix and value.
+         *
+         * @param prefix the prefix
+         * @param value  the value
+         */
+        RadixTreeNode(String prefix, V value) {
+            this.prefix = prefix;
+            this.value = value;
+            this.hasValue = true;
+        }
+
+
+        /**
+         * Gets the value attached to this node.
+         *
+         * @return the value, or <code>null</code> if an internal node
+         */
+        V getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value attached to this node.
+         *
+         * @param value the value, or <code>null</code> if an internal node
+         */
+        void setValue(V value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the prefix associated with this node.
+         *
+         * @return the prefix
+         */
+        String getPrefix() {
+            return prefix;
+        }
+
+        /**
+         * Sets the prefix associated with this node.
+         *
+         * @param prefix the prefix
+         */
+        void setPrefix(String prefix) {
+            this.prefix = prefix;
+        }
+
+        /**
+         * Gets the children of this node.
+         *
+         * @return the list of children
+         */
+        Collection<RadixTreeNode<V>> getChildren() {
+            // Delayed creation of children to reduce memory cost
+            if (children == null)
+                children = new TreeSet<RadixTreeNode<V>>();
+            return children;
+        }
+
+        /**
+         * Whether or not this node has a value attached to it.
+         *
+         * @return whether or not this node has a value
+         */
+        boolean hasValue() {
+            return hasValue;
+        }
+
+        /**
+         * Sets whether or not this node has a value attached to it.
+         *
+         * @param hasValue <code>true</code> if this node will have a value,
+         *                 <code>false</code> otherwise. If <code>false</code>,
+         *                 {@link #getValue()} will return <code>null</code>
+         *                 after this call.
+         */
+        void setHasValue(boolean hasValue) {
+            this.hasValue = hasValue;
+            if (!hasValue)
+                this.value = null;
+        }
+
+        @Override
+        public Iterator<RadixTreeNode<V>> iterator() {
+            if (children == null) {
+                return new Iterator<RadixTreeNode<V>>() {
+                    @Override
+                    public boolean hasNext() {
+                        return false;
+                    }
+
+                    @Override
+                    public RadixTreeNode<V> next() {
+                        return null;
+                    }
+
+                    @Override
+                    public void remove() {
+                        // Unimplemented
+                    }
+                };
+            }
+
+            return children.iterator();
+        }
+
+        @Override
+        public int compareTo(RadixTreeNode<V> node) {
+            return prefix.toString().compareTo(node.getPrefix().toString());
+        }
+    }
+
+
+    /**
+     * Finds the length of the largest prefix for two character sequences.
+     *
+     * @param a character sequence
+     * @param b character sequence
+     * @return the length of largest prefix of <code>a</code> and <code>b</code>
+     * @throws IllegalArgumentException if either <code>a</code> or <code>b</code>
+     *                                  is <code>null</code>
+     */
+    public static int largestPrefixLength(CharSequence a, CharSequence b) {
+        int len = 0;
+        for (int i = 0; i < Math.min(a.length(), b.length()); ++i) {
+            if (a.charAt(i) != b.charAt(i))
+                break;
+            ++len;
+        }
+        return len;
+    }
+
+
+    /**
+     * Prints a radix tree to <code>System.out</code>.
+     *
+     * @param tree the tree
+     */
+    public static <V extends Serializable> void dumpTree(RadixTree<V> tree) {
+        dumpTree(tree.root, "");
+    }
+
+    /**
+     * Prints a subtree to <code>System.out</code>.
+     *
+     * @param node         the subtree
+     * @param outputPrefix prefix to be printed to output
+     */
+    static <V extends Serializable> void dumpTree(RadixTreeNode<V> node, String outputPrefix) {
+        if (node.hasValue())
+            System.out.format("%s{%s : %s}%n", outputPrefix, node.getPrefix(), node.getValue());
+        else
+            System.out.format("%s{%s}%n", outputPrefix, node.getPrefix(), node.getValue());
+
+        for (RadixTreeNode<V> child : node)
+            dumpTree(child, outputPrefix + "\t");
+    }
+
+
+    public static final String KEY_CANNOT_BE_NULL = "key cannot be null";
+    public static final String KEYS_MUST_BE_STRING_INSTANCES = "keys must be String instances";
+
+    /**
+     * The root node in this tree
+     */
+    RadixTreeNode<V> root;
+
+    /**
+     * Default constructor.
+     */
+    public RadixTree() {
+        this.root = new RadixTreeNode<V>("");
+    }
+
+    /**
+     * Traverses this radix tree using the given visitor. Note that the tree
+     * will be traversed in lexicographical order.
+     *
+     * @param visitor the visitor
+     */
+    public void visit(RadixTreeVisitor<V, ?> visitor) {
+        visit(root, "", "", visitor);
+    }
+
+    /**
+     * Traverses this radix tree using the given visitor. Only values with
+     * the given prefix will be visited. Note that the tree will be traversed
+     * in lexicographical order.
+     *
+     * @param visitor the visitor
+     * @param prefix  the prefix used to restrict visitation
+     */
+    public void visit(RadixTreeVisitor<V, ?> visitor, String prefix) {
+        visit(root, prefix, "", visitor);
+    }
+
+    /**
+     * Visits the given node of this tree with the given prefix and visitor. Also,
+     * recursively visits the left/right subtrees of this node.
+     *
+     * @param node    the node
+     * @param prefix  the prefix
+     * @param visitor the visitor
+     */
+    private void visit(RadixTreeNode<V> node, String prefixAllowed, String prefix, RadixTreeVisitor<V, ?> visitor) {
+        if (node.hasValue() && prefix.startsWith(prefixAllowed))
+            visitor.visit(prefix, node.getValue());
+
+        for (RadixTreeNode<V> child : node) {
+            final int prefixLen = prefix.length();
+            final String newPrefix = prefix + child.getPrefix();
+            if (prefixAllowed.length() <= prefixLen
+                    || newPrefix.length() <= prefixLen
+                    || newPrefix.charAt(prefixLen) == prefixAllowed.charAt(prefixLen)) {
+                visit(child, prefixAllowed, newPrefix, visitor);
+            }
+        }
+    }
+
+    @Override
+    public void clear() {
+        root.getChildren().clear();
+    }
+
+    @Override
+    public boolean containsKey(final Object keyToCheck) {
+        if (keyToCheck == null)
+            throw new NullPointerException(KEY_CANNOT_BE_NULL);
+
+        if (!(keyToCheck instanceof String))
+            throw new ClassCastException(KEYS_MUST_BE_STRING_INSTANCES);
+
+        RadixTreeVisitor<V, Boolean> visitor = new RadixTreeVisitor<V, Boolean>() {
+            boolean found = false;
+
+            @Override
+            public void visit(String key, V value) {
+                if (key.equals(keyToCheck))
+                    found = true;
+            }
+
+            @Override
+            public Boolean getResult() {
+                return found;
+            }
+        };
+        visit(visitor, (String) keyToCheck);
+        return visitor.getResult();
+    }
+
+    @Override
+    public boolean containsValue(final Object val) {
+        RadixTreeVisitor<V, Boolean> visitor = new RadixTreeVisitor<V, Boolean>() {
+            boolean found = false;
+
+            @Override
+            public void visit(String key, V value) {
+                if (val == value || (value != null && value.equals(val)))
+                    found = true;
+            }
+
+            @Override
+            public Boolean getResult() {
+                return found;
+            }
+        };
+        visit(visitor);
+        return visitor.getResult();
+    }
+
+    @Override
+    public V get(final Object keyToCheck) {
+        if (keyToCheck == null)
+            throw new NullPointerException(KEY_CANNOT_BE_NULL);
+
+        if (!(keyToCheck instanceof String))
+            throw new ClassCastException(KEYS_MUST_BE_STRING_INSTANCES);
+
+        RadixTreeVisitor<V, V> visitor = new RadixTreeVisitor<V, V>() {
+            V result = null;
+
+            @Override
+            public void visit(String key, V value) {
+                if (key.equals(keyToCheck))
+                    result = value;
+            }
+
+            @Override
+            public V getResult() {
+                return result;
+            }
+        };
+        visit(visitor, (String) keyToCheck);
+        return visitor.getResult();
+    }
+
+    /**
+     * Gets a list of entries whose associated keys have the given prefix.
+     *
+     * @param prefix the prefix to look for
+     * @return the list of values
+     * @throws NullPointerException if prefix is <code>null</code>
+     */
+    public List<Map.Entry<String, V>> getEntriesWithPrefix(String prefix) {
+        RadixTreeVisitor<V, List<Map.Entry<String, V>>> visitor = new RadixTreeVisitor<V, List<Map.Entry<String, V>>>() {
+            List<Map.Entry<String, V>> result = new ArrayList<Map.Entry<String, V>>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(new AbstractMap.SimpleEntry<String, V>(key, value));
+            }
+
+            @Override
+            public List<Map.Entry<String, V>> getResult() {
+                return result;
+            }
+        };
+        visit(visitor, prefix);
+        return visitor.getResult();
+    }
+
+    /**
+     * Gets a list of values whose associated keys have the given prefix.
+     *
+     * @param prefix the prefix to look for
+     * @return the list of values
+     * @throws NullPointerException if prefix is <code>null</code>
+     */
+    public List<V> getValuesWithPrefix(String prefix) {
+        if (prefix == null)
+            throw new NullPointerException("prefix cannot be null");
+
+        RadixTreeVisitor<V, List<V>> visitor = new RadixTreeVisitor<V, List<V>>() {
+            List<V> result = new ArrayList<V>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(value);
+            }
+
+            @Override
+            public List<V> getResult() {
+                return result;
+            }
+        };
+        visit(visitor, prefix);
+        return visitor.getResult();
+    }
+
+    /**
+     * Gets a list of keys with the given prefix.
+     *
+     * @param prefix the prefix to look for
+     * @return the list of prefixes
+     * @throws NullPointerException if prefix is <code>null</code>
+     */
+    public List<String> getKeysWithPrefix(String prefix) {
+        if (prefix == null)
+            throw new NullPointerException("prefix cannot be null");
+
+        RadixTreeVisitor<V, List<String>> visitor = new RadixTreeVisitor<V, List<String>>() {
+            List<String> result = new ArrayList<String>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(key);
+            }
+
+            @Override
+            public List<String> getResult() {
+                return result;
+            }
+        };
+        visit(visitor, prefix);
+        return visitor.getResult();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return root.getChildren().isEmpty();
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends V> map) {
+        for (Map.Entry<? extends String, ? extends V> entry : map.entrySet())
+            put(entry.getKey(), entry.getValue());
+    }
+
+    @Override
+    public int size() {
+        RadixTreeVisitor<V, Integer> visitor = new RadixTreeVisitor<V, Integer>() {
+            int count = 0;
+
+            @Override
+            public void visit(String key, V value) {
+                ++count;
+            }
+
+            @Override
+            public Integer getResult() {
+                return count;
+            }
+        };
+        visit(visitor);
+        return visitor.getResult();
+    }
+
+    @Override
+    public Set<Map.Entry<String, V>> entrySet() {
+        // TODO documentation Of Map.entrySet() specifies that this is a view of
+        //      the entries, and modifications to this collection should be
+        //      reflected in the parent structure
+        //
+        RadixTreeVisitor<V, Set<Map.Entry<String, V>>> visitor = new RadixTreeVisitor<V, Set<Map.Entry<String, V>>>() {
+            Set<Map.Entry<String, V>> result = new HashSet<Map.Entry<String, V>>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(new AbstractMap.SimpleEntry<String, V>(key, value));
+            }
+
+            @Override
+            public Set<Map.Entry<String, V>> getResult() {
+                return result;
+            }
+        };
+        visit(visitor);
+        return visitor.getResult();
+    }
+
+    @Override
+    public Set<String> keySet() {
+        // TODO documentation Of Map.keySet() specifies that this is a view of
+        //      the keys, and modifications to this collection should be
+        //      reflected in the parent structure
+        //
+        RadixTreeVisitor<V, Set<String>> visitor = new RadixTreeVisitor<V, Set<String>>() {
+            Set<String> result = new TreeSet<String>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(key);
+            }
+
+            @Override
+            public Set<String> getResult() {
+                return result;
+            }
+        };
+        visit(visitor);
+        return visitor.getResult();
+    }
+
+    @Override
+    public Collection<V> values() {
+        // TODO documentation Of Map.values() specifies that this is a view of
+        //      the values, and modifications to this collection should be
+        //      reflected in the parent structure
+        //
+        RadixTreeVisitor<V, Collection<V>> visitor = new RadixTreeVisitor<V, Collection<V>>() {
+            Collection<V> result = new ArrayList<V>();
+
+            @Override
+            public void visit(String key, V value) {
+                result.add(value);
+            }
+
+            @Override
+            public Collection<V> getResult() {
+                return result;
+            }
+        };
+        visit(visitor);
+        return visitor.getResult();
+    }
+
+    @Override
+    public V put(String key, V value) {
+        if (key == null)
+            throw new NullPointerException(KEY_CANNOT_BE_NULL);
+
+        return put(key, value, root);
+    }
+
+    /**
+     * Remove the value with the given key from the subtree rooted at the
+     * given node.
+     *
+     * @param key  the key
+     * @param node the node to start searching from
+     * @return the old value associated with the given key, or <code>null</code>
+     * if there was no mapping for <code>key</code>
+     */
+    private V put(String key, V value, RadixTreeNode<V> node) {
+        V ret = null;
+
+        final int largestPrefix = largestPrefixLength(key, node.getPrefix());
+        if (largestPrefix == node.getPrefix().length() && largestPrefix == key.length()) {
+            // Found a node with an exact match
+            ret = node.getValue();
+            node.setValue(value);
+            node.setHasValue(true);
+        } else if (largestPrefix == 0
+                || (largestPrefix < key.length() && largestPrefix >= node.getPrefix().length())) {
+            // Key is bigger than the prefix located at this node, so we need to see if
+            // there's a child that can possibly share a prefix, and if not, we just add
+            // a new node to this node
+            final String leftoverKey = key.substring(largestPrefix);
+
+            boolean found = false;
+            for (RadixTreeNode<V> child : node) {
+                if (child.getPrefix().charAt(0) == leftoverKey.charAt(0)) {
+                    found = true;
+                    ret = put(leftoverKey, value, child);
+                    break;
+                }
+            }
+
+            if (!found) {
+                // No child exists with any prefix of the given key, so add a new one
+                RadixTreeNode<V> n = new RadixTreeNode<V>(leftoverKey, value);
+                node.getChildren().add(n);
+            }
+        } else if (largestPrefix < node.getPrefix().length()) {
+            // Key and node.getPrefix() share a prefix, so split node
+            final String leftoverPrefix = node.getPrefix().substring(largestPrefix);
+            final RadixTreeNode<V> n = new RadixTreeNode<V>(leftoverPrefix, node.getValue());
+            n.setHasValue(node.hasValue());
+            n.getChildren().addAll(node.getChildren());
+
+            node.setPrefix(node.getPrefix().substring(0, largestPrefix));
+            node.getChildren().clear();
+            node.getChildren().add(n);
+
+            if (largestPrefix == key.length()) {
+                // The largest prefix is equal to the key, so set this node's value
+                ret = node.getValue();
+                node.setValue(value);
+                node.setHasValue(true);
+            } else {
+                // There's a leftover suffix on the key, so add another child 
+                final String leftoverKey = key.substring(largestPrefix);
+                final RadixTreeNode<V> keyNode = new RadixTreeNode<V>(leftoverKey, value);
+                node.getChildren().add(keyNode);
+                node.setHasValue(false);
+            }
+        } else {
+            // node.getPrefix() is a prefix of key, so add as child
+            final String leftoverKey = key.substring(largestPrefix);
+            final RadixTreeNode<V> n = new RadixTreeNode<V>(leftoverKey, value);
+            node.getChildren().add(n);
+        }
+
+        return ret;
+    }
+
+    @Override
+    public V remove(Object key) {
+        if (key == null)
+            throw new NullPointerException(KEY_CANNOT_BE_NULL);
+
+        if (!(key instanceof String))
+            throw new ClassCastException(KEYS_MUST_BE_STRING_INSTANCES);
+
+        // Special case for removing empty string (root node)
+        final String sKey = (String) key;
+        if (sKey.equals("")) {
+            final V value = root.getValue();
+            root.setHasValue(false);
+            return value;
+        }
+
+        return remove(sKey, root);
+    }
+
+    /**
+     * Remove the value with the given key from the subtree rooted at the
+     * given node.
+     *
+     * @param key  the key
+     * @param node the node to start searching from
+     * @return the value associated with the given key, or <code>null</code>
+     * if there was no mapping for <code>key</code>
+     */
+    private V remove(String key, RadixTreeNode<V> node) {
+        V ret = null;
+        final Iterator<RadixTreeNode<V>> iter = node.getChildren().iterator();
+        while (iter.hasNext()) {
+            final RadixTreeNode<V> child = iter.next();
+            final int largestPrefix = largestPrefixLength(key, child.getPrefix());
+            if (largestPrefix == child.getPrefix().length() && largestPrefix == key.length()) {
+                // Found our match, remove the value from this node
+                if (child.getChildren().isEmpty()) {
+                    // Leaf node, simply remove from parent
+                    ret = child.getValue();
+                    iter.remove();
+                    break;
+                } else if (child.hasValue()) {
+                    // Internal node
+                    ret = child.getValue();
+                    child.setHasValue(false);
+
+                    if (child.getChildren().size() == 1) {
+                        // The subchild's prefix can be reused, with a little modification
+                        final RadixTreeNode<V> subchild = child.getChildren().iterator().next();
+                        final String newPrefix = child.getPrefix() + subchild.getPrefix();
+
+                        // Merge child node with its single child
+                        child.setValue(subchild.getValue());
+                        child.setHasValue(subchild.hasValue());
+                        child.setPrefix(newPrefix);
+                        child.getChildren().clear();
+                    }
+
+                    break;
+                }
+            } 
+
+            else if (largestPrefix > 0 && largestPrefix < key.length()) {
+
+                /*
+                * Continue down subtree of child
+                */
+                final String leftoverKey = key.substring(largestPrefix);
+                ret = remove(leftoverKey, child);
+
+                break;
+            }
+        }
+
+        return ret;
+    }
+}
+/* END of radix tree */
+
+
+
 /*question: SUFFIX tree*/
 
 /*
@@ -10,19 +729,19 @@ Suffix trees allow particularly fast implementations of many important
 string operations.
 
 The construction of such a tree for the string S takes time and space 
-linear in the numOfColsgth of {\displaystyle S} S. Once constructed, several 
-operations can be performed quickly, for instance locating a substring 
-in S, locating a substring if a certain number of mistakes are allowed, 
-locating matches for a regular expression pattern etc.
+linear in the length of S. Once constructed, several  operations can be 
+performed quickly, for instance locating a substring in S, locating a 
+substring if a certain number of mistakes are allowed, locating matches 
+for a regular expression pattern etc.
 */
 class SuffixTree {
-
 
     SuffixTreeNode root = new SuffixTreeNode();
     
     public SuffixTree(String s) {
 
-        for (int i = 0; i < s.numOfColsgth(); i++) {
+        for (int i = 0; i < s.length(); i++) {
+
             String suffix = s.substring(i);
             root.insertString(suffix, i);
         }
@@ -38,17 +757,22 @@ class SuffixTree {
 class SuffixTreeNode {
 
 
-    HashMap<Character, SuffixTreeNode> children = new HashMap<Character, SuffixTreeNode>();
-    
     char value;
+    
+    HashMap<Character, SuffixTreeNode> children = new HashMap<Character, SuffixTreeNode>();    
+    
     ArrayList<Integer> indexes = new ArrayList<Integer>();
-    public SuffixTreeNode() { }
+
+    public SuffixTreeNode() { 
+
+    }
+
     
     public void insertString(String s, int index) {
 
         indexes.add(index);
         
-        if (s != null && s.numOfColsgth() > 0) {
+        if (s != null && s.length() > 0) {
         
             value = s.charAt(0);
             SuffixTreeNode child = null;
@@ -61,25 +785,36 @@ class SuffixTreeNode {
                 child = new SuffixTreeNode();
                 children.put(value, child);
             }
+
             String remainder = s.substring(1);
             child.insertString(remainder, index);
         }
     }
+
     
     public ArrayList<Integer> search(String s) {
-        if (s == null || s.numOfColsgth() == 0) {
+
+        if (s == null || s.length() == 0) {
             return indexes;
-        } else {
+        } 
+
+        else {
+
             char first = s.charAt(0);
+            
             if (children.containsKey(first)) {
                 String remainder = s.substring(1);
                 return children.get(first).search(remainder);
             }
         }
+
         return null;
     }
+
 }
 /*END of solution: suffix tree*/
+
+
 
 
 
@@ -92,26 +827,40 @@ class MaxHeapComparator implements Comparator<Integer>{
     public int compare(Integer o1, Integer o2) {
 
         // TODO Auto-generated method stub
-        if (o1 < o2) 
+        if (o1 < o2) {
             return 1;
+        }
         
-        else if (o1 == o2) 
+        else if (o1 == o2) {
             return 0;
+        }
         
-        else 
+        else {
             return -1;
+        }
     }
 }
 
 
 class MinHeapComparator implements Comparator<Integer>{
 
-    // Comparator that sorts integers from lowest to highest
+    /*
+    * comparator that sorts integers from lowest to highest
+    */
     @Override
     public int compare(Integer o1, Integer o2) {
-        if (o1 > o2) return 1;
-        else if (o1 == o2)  return 0;
-        else return -1;
+
+        if (o1 > o2) {
+            return 1;
+        }
+
+        else if (o1 == o2){
+            return 0;
+        }  
+
+        else {
+            return -1;
+        }
     }
 }
 
@@ -119,23 +868,22 @@ class MinHeapComparator implements Comparator<Integer>{
 
 
 
+
+
 // Node class for implementing the Binary tree 
 class Node {
 
-
 	int key;
+
 	Node leftChild, rightChild;
 
 	Node(int key) {
 		this.key = key;
 	}
 
-	Node (){ 
-
-    }
+	Node (){ }
 
 	public String toString() {
-
 		return "\n"+key+" ";
 	}
 }
@@ -150,7 +898,7 @@ binary heap data-structure*/
 Heap is a specialized tree-based data structure that satisfies the heap 
 property: if P is a parent node of C, then the key (the value) of P is 
 either greater than or equal to (in a max heap) or less than or equal 
-to (in a min heap) the key of C.[1] The node at the "top" of the heap 
+to (in a min heap) the key of C. The node at the "top" of the heap 
 (with no parents) is called the root node.
 
 A binary heap is a heap data structure that takes the form of a binary tree. 
@@ -158,16 +906,18 @@ Binary heaps are a common way of implementing priority queues. The binary
 heap was introduced as a data structure for the heapsort. A binary heap is 
 defined as a binary tree with two additional constraints:
 
-Shape property: a binary heap is a complete binary tree; that is, all levels of the tree, 
-except possibly the last one (deepest) are fully filled, and, if the last level of the 
-tree is not complete, the nodes of that level are filled from left to right.
+Shape property: a binary heap is a complete binary tree; that is, all levels 
+of the tree, except possibly the last one (deepest) are fully filled, and, if 
+the last level of the tree is not complete, the nodes of that level are filled 
+from left to right.
 
-Heap property: the key stored in each node is either greater than or equal to (≥) or less 
-than or equal to (≤) the keys in the node's children, according to some total order.
+Heap property: the key stored in each node is either greater than or equal to 
+(≥) or less than or equal to (≤) the keys in the node's children, according to 
+some total order.
 */
 
 
-class BinaryHeap{
+class BinaryHeap {
 
 
 	// array[n] <= array[2*n]   // parent element <= left child
@@ -177,6 +927,8 @@ class BinaryHeap{
 implement binary heap data-structure*/
 
 
+
+
 /*question: design a program to 
 impelment min heap using binary 
 tree*/
@@ -184,33 +936,31 @@ class MinHeap{
 
 
     private int[] Heap;
+
     private int size;
     private int maxsize;
  
     private static final int FRONT = 1;
+
  
     public MinHeap(int maxsize){
 
-
         this.maxsize = maxsize;
         this.size = 0;
+
         Heap = new int[this.maxsize + 1];
         Heap[0] = Integer.MINVALUE;
     }
  
     private int parent(int pos){
-
         return pos / 2;
     }
  
     private int leftChild(int pos){
-
         return (2 * pos);
     }
  
     private int rightChild(int pos){
-
-
         return (2 * pos) + 1;
     }
  
@@ -228,23 +978,23 @@ class MinHeap{
         int tmp;
 
         tmp = Heap[fpos];
+
         Heap[fpos] = Heap[spos];
         Heap[spos] = tmp;
     }
-
  
     private void minHeapify(int pos){
 
         if (!isLeaf(pos)){
 
-            if (Heap[pos] > Heap[leftChild(pos)]  || Heap[pos] > Heap[rightChild(pos)]){
-
+            if (Heap[pos] > Heap[leftChild(pos)] || Heap[pos] > Heap[rightChild(pos)]){ 
+                
                 if (Heap[leftChild(pos)] < Heap[rightChild(pos)]){
                     swap(pos, leftChild(pos));
                     minHeapify(leftChild(pos));
                 }
 
-                else{
+                else {
                     swap(pos, rightChild(pos));
                     minHeapify(rightChild(pos));
                 }
@@ -274,14 +1024,17 @@ class MinHeap{
     }
  
     public void minHeap(){
+
         for (int pos = (size / 2); pos >= 1 ; pos--){
             minHeapify(pos);
         }
     }
  
     public int remove(){
+
         int popped = Heap[FRONT];
         Heap[FRONT] = Heap[size--]; 
+
         minHeapify(FRONT);
         return popped;
     }
@@ -321,9 +1074,15 @@ generic priority queue using binary heap*/
 class MaxPQ<Key> implements Iterable<Key> {
 
 
-    private Key[] pq;                    // store items at indices 1 to N
-    private int N;                       // number of items on priority queue
-    private Comparator<Key> comparator;  // optional Comparator
+    // number of items on priority queue
+    private int N;                       
+
+    // store items at indices 1 to N
+    private Key[] pq;                    
+
+    // optional Comparator
+    private Comparator<Key> comparator;  
+
 
     public MaxPQ(int initCapacity) {
         pq = (Key[]) new Object[initCapacity + 1];
@@ -344,6 +1103,7 @@ class MaxPQ<Key> implements Iterable<Key> {
     public MaxPQ(int initCapacity, Comparator<Key> comparator) {
 
         this.comparator = comparator;
+
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
     }
@@ -365,8 +1125,8 @@ class MaxPQ<Key> implements Iterable<Key> {
      */
     public MaxPQ(Key[] keys) {
 
-        N = keys.numOfColsgth;
-        pq = (Key[]) new Object[keys.numOfColsgth + 1]; 
+        N = keys.length;
+        pq = (Key[]) new Object[keys.length + 1]; 
 
         for (int i = 0; i < N; i++){
             pq[i+1] = keys[i];
@@ -407,6 +1167,7 @@ class MaxPQ<Key> implements Iterable<Key> {
      * @throws NoSuchElementException if this priority queue is empty
      */
     public Key max() {
+
         if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
         return pq[1];
     }
@@ -414,8 +1175,11 @@ class MaxPQ<Key> implements Iterable<Key> {
 
     // helper function to double the size of the heap array
     private void resize(int capacity) {
+
         assert capacity > N;
+
         Key[] temp = (Key[]) new Object[capacity];
+
         for (int i = 1; i <= N; i++) {
             temp[i] = pq[i];
         }
@@ -432,13 +1196,19 @@ class MaxPQ<Key> implements Iterable<Key> {
     public void insert(Key x) {
 
         // double size of array if necessary
-        if (N >= pq.numOfColsgth - 1) resize(2 * pq.numOfColsgth);
+        if (N >= pq.length - 1) {
+            resize(2 * pq.length);
+        }
 
-        // add x, and percolate it up to maintain heap invariant
+        /*
+        * add x, and percolate it up to maintain heap invariant
+        */
         pq[++N] = x;
         swim(N);
+
         assert isMaxHeap();
     }
+
 
     /**
      * Removes and returns a largest key on this priority queue.
@@ -447,12 +1217,19 @@ class MaxPQ<Key> implements Iterable<Key> {
      * @throws NoSuchElementException if this priority queue is empty
      */
     public Key delMax() {
+
         if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
+
         Key max = pq[1];
         exch(1, N--);
         sink(1);
+        
         pq[N+1] = null;     // to avoid loiterig and help with garbage collection
-        if ((N > 0) && (N == (pq.numOfColsgth - 1) / 4)) resize(pq.numOfColsgth / 2);
+        
+        if ((N > 0) && (N == (pq.length - 1) / 4)) {
+            resize(pq.length / 2);
+        }
+
         assert isMaxHeap();
         return max;
     }
@@ -463,52 +1240,72 @@ class MaxPQ<Key> implements Iterable<Key> {
     ***************************************************************************/
 
     private void swim(int k) {
+
         while (k > 1 && less(k/2, k)) {
+        
             exch(k, k/2);
             k = k/2;
         }
     }
 
     private void sink(int k) {
+
         while (2*k <= N) {
+
             int j = 2*k;
             if (j < N && less(j, j+1)) j++;
-            if (!less(k, j)) break;
+
+            if (!less(k, j)) {
+                break;
+            }
+
             exch(k, j);
             k = j;
         }
     }
 
-   /***************************************************************************
-    * Helper functions for compares and swaps.
-    ***************************************************************************/
+   /*****************************************
+    * Helper functions for compares and swaps
+    ******************************************/
     private boolean less(int i, int j) {
 
         if (comparator == null) {
             return ((Comparable<Key>) pq[i]).compareTo(pq[j]) < 0;
         }
+
         else {
             return comparator.compare(pq[i], pq[j]) < 0;
         }
     }
 
     private void exch(int i, int j) {
+
         Key swap = pq[i];
+
         pq[i] = pq[j];
         pq[j] = swap;
     }
 
-    // is pq[1..N] a max heap?
+    /*
+    * is pq[1..N] a max heap?
+    */
     private boolean isMaxHeap() {
         return isMaxHeap(1);
     }
 
     // is subtree of pq[1..N] rooted at k a max heap?
     private boolean isMaxHeap(int k) {
-        if (k > N) return true;
+
+        if (k > N) {
+            return true;
+        }
+        
         int left = 2*k, right = 2*k + 1;
+        
         if (left  <= N && less(k, left))  return false;
+        
         if (right <= N && less(k, right)) return false;
+        
         return isMaxHeap(left) && isMaxHeap(right);
     }
 
@@ -524,13 +1321,11 @@ class MaxPQ<Key> implements Iterable<Key> {
      *
      * @return an iterator that iterates over the keys in descending order
      */
-    public Iterator<Key> iterator() {
+    public Iterator<Key> iterator() {    
         return new HeapIterator();
     }
 
-
     private class HeapIterator implements Iterator<Key> {
-
 
         // create a new pq
         private MaxPQ<Key> copy;
@@ -609,28 +1404,23 @@ class Node {
 
 
     private Node adjacent[];
-    public int adjacentCount;
+    public int index;
 
     private String vertex;
-    public BinaryTree.State state;
 
-    public Node (String vertex, int adjNums) {
+    // enum types
+    public State state;
+
+    public Node (String vertex, int count) {
         this.vertex = vertex;               
-        adjacentCount = 0;         
-        adjacent = new Node[adjNums];        
+
+        index = 0;         
+        adjacent = new Node[count];        
     }
-
   
-    public void addAdjacent( Node x) {
-
-        if ( adjacentCount < 30 ) {
-            this.adjacent[adjacentCount] = x;
-            adjacentCount++;
-        }
-         
-        else {
-            System.out.print("No more adjacent can be added");              
-        }
+    public void addAdjacent( Node x) {            
+        this.adjacent[index] = x;
+        index++;
     }
 
     public Node[] getAdjacent() {
@@ -646,29 +1436,19 @@ class Node {
 
 class Graph {
 
+	private Node nodes[];
+	public int count = 0;
 
-	private Node vertices[];
-	public int count;
-
-	public Graph() {		
-        count = 0; 
-		vertices = new Node[6];
+	public Graph(int num) {		
+		nodes = new Node[num];
     }
 
     public void addNode(Node x) {
-
-		if (count < 30) {
-			vertices[count] = x;
-			count++;
-		} 
-
-		else {
-			System.out.print("Graph full");		
-        }
+        nodes[count++] = x;
     }
     
     public Node[] getNodes() {
-        return vertices;
+        return nodes;
     }
 }
 /*END solution 4-2: Given a directed graph, design an algorithm 
@@ -684,23 +1464,22 @@ to find out whether there is a route between two nodes.*/
 
 
 
-/*question: desing a program 
-to implement dfs*/
-// url:  <http://www.geeksforgeeks.org/depth-first-traversal-for-a-graph/>
+/*Question: desing a program to implement DFS 
+using adjacency list "Geeks for Geeks"*/
 class GraphOne{
 
 
     // No. of vertices
     private int V;  
 
-    // array of ll where ll will be 
-    // filled with adjacent nodes 
-    private LinkedList<Integer> adj[];
+    // adjacency list 
+    // private LinkedList<Integer> adj[];
+    private LinkedList<Integer>[] adj[];
  
     GraphOne(int v){
 
-        V = v;
-        adj = new LinkedList[v];
+        this.V = v;
+        this.adj = new LinkedList[v];
 
         for (int i=0; i < v; ++i){
 
@@ -714,10 +1493,13 @@ class GraphOne{
         adj[v].add(w); 
     } 
 
-    void DFS(int v){
+
+    void performDFS(int v){
+
         boolean visited[] = new boolean[V];
         DFSUtil(v, visited);
     }
+
 
     void DFSUtil(int v, boolean visited[]){
 
@@ -725,14 +1507,17 @@ class GraphOne{
         System.out.print(v+" ");
 
         Iterator<Integer> i = adj[v].listIterator();
+
         while (i.hasNext()){
 
             int n = i.next();    
+
             if (!visited[n]){
                 DFSUtil(n, visited);    
             }
         }
     }
+
  
     public static void test( ){
 
@@ -749,7 +1534,7 @@ class GraphOne{
         System.out.println("Following is Depth First Traversal "+
                            "(starting from vertex 2)");
  
-        g.DFS(2);
+        g.performDFS(2);
     }
 }
 /*END of solution: desing a 
@@ -757,6 +1542,92 @@ program to implement dfs*/
 
 
 
+
+
+/*
+ * Breadth first search in a directed graph using adjacency list
+ * */
+class GraphTwo {
+
+    private int V;
+
+    private LinkedList<Integer> adj[];
+
+    Graph(int v) {
+
+        this.V = v;
+        this.adj = new LinkedList[v];
+
+        for (int i = 0; i < v; ++i){
+            adj[i] = new LinkedList();
+        }        
+    }
+
+    /*
+     * function to add an edge into the graph
+     * */
+    public void addEdge(int v, int w) {
+        adj[v].add(w);
+    }
+
+    /*
+     * prints BFS traversal from a given source S
+     * */
+    public void BFS(int S) {
+
+        /*
+         * Mark all the vertices as not visited(By default set as false)
+         * */
+        boolean visited[] = new boolean[V];
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+
+        visited[S] = true;
+        queue.add(S);
+
+
+        while (queue.size() != 0) {
+
+            // Dequeue a vertex from queue and print it
+            S = queue.poll();
+            System.out.print(S + " ");
+
+
+            // Get all adjacent vertices of the dequeued vertex S
+            // If a adjacent has not been visited, then mark it
+            // visited and enqueue it
+            Iterator<Integer> i = adj[S].listIterator();
+
+            while (i.hasNext()) {
+
+                int n = i.next();
+
+                if (!visited[n]) {                
+
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            }
+        }
+    }
+
+
+    public static void main(String args[]) {
+        
+        Graph g = new Graph(4);
+
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 0);
+        g.addEdge(2, 3);
+        g.addEdge(3, 3);
+
+        System.out.println("Following is Breadth First Traversal " +
+                "(starting from vertex 2)");
+
+        g.BFS(2);
+    }
+}
 
 
 
@@ -788,19 +1659,18 @@ implementing trie data-staucture*/
 
 // trie is a data-structure where it's 
 // possible to do the partial name search
-// time complexity: log(M) where M = String numOfColsgth 
+// time complexity: log(M) where M = String length 
 
 // write a program to store tele-phone 
 // directory data-base with trie 
 
 /*solution-a*/
-class TrieNode{
+class TrieNode {
 
     char c;
     boolean isLeaf;
 
-    // children offers the possibility 
-    // of multiple children 
+    // can have multiple children  
     Map<Character, TrieNode> children = new HashMap<Character, TrieNode>();
  
     public TrieNode(){}
@@ -811,9 +1681,24 @@ class TrieNode{
 } 
 
 
+/*
 
+                       ROOT
+                    /   \    \
+                    t   a     b
+                    |   |     |
+                    h   n     y
+                    |   |  \  |
+                    e   s  y  e
+                 /  |   |
+                 i  r   w
+                 |  |   |
+                 r  e   e
+                        |
+                        r
+
+*/
 class Trie {
-
 
     private TrieNode root;
  
@@ -821,14 +1706,11 @@ class Trie {
         root = new TrieNode();
     }
  
-    /*
-    * Inserts a word into the trie
-    */
-    public void insert(String word) {
+    public void insert(String word){
 
         Map<Character, TrieNode> children = root.children;
  
-        for(int i = 0; i < word.numOfColsgth(); i++){
+        for(int i = 0; i < word.length(); i++){
 
             char c = word.charAt(i); 
             TrieNode t;
@@ -839,12 +1721,14 @@ class Trie {
 
             else {
                 t = new TrieNode(c);
+
+                // Says, the chidren of root is the new node "t"
                 children.put(c, t);
             }
  
             children = t.children;
  
-            if(i == word.numOfColsgth() - 1) {
+            if(i == word.length() - 1) {
                 t.isLeaf = true;    
             }
         }
@@ -864,7 +1748,10 @@ class Trie {
             return false;
         }
     }
- 
+
+    /*
+    * the trie contains the substring (prefix)
+    */ 
     public boolean startsWith(String prefix) {
 
         if(searchNode(prefix) == null) {
@@ -883,7 +1770,7 @@ class Trie {
         Map<Character, TrieNode> children = root.children; 
         TrieNode t = null;
 
-        for(int i = 0; i < str.numOfColsgth(); i++){
+        for(int i = 0; i < str.length(); i++) {
 
             char c = str.charAt(i);
 
@@ -954,19 +1841,23 @@ class ListVocabulary implements Vocabulary{
     public boolean isPrefix(String prefix) {
 
         int pos = Collections.binarySearch(words, prefix) ;
+
         if (pos >= 0) {
 
             // The prefix is a word. Check the following word, because we are looking 
             // for words that are longer than the prefix
             if (pos +1 < words.size()) {
+
                 String nextWord = words.get(pos+1);
                 return nextWord.startsWith(prefix);
             }
+
             return false;
         }
 
         pos = -(pos+1);
-        // The prefix is not a word. Check where it would be inserted and get the next word.
+
+        // The prefix is not a word. Check where it would be inserted and get the next word
         // If it starts with prefix, return true.
         if (pos == words.size()) {
             return false;
@@ -984,7 +1875,6 @@ class ListVocabulary implements Vocabulary{
     
     @Override
     public String getName() {
-
         return getClass().getName();
     }
 }
@@ -1006,7 +1896,6 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
     public TreeVocabulary(Collection<String> c) {
         super(c);
     }
-
 
     public boolean isPrefix(String prefix) {
 
@@ -1042,7 +1931,6 @@ class TreeVocabulary extends TreeSet<String> implements Vocabulary {
     public String getName() {
         return getClass().getName();
     }
-
 }
 /*END of solution-c*/
 
@@ -1070,8 +1958,11 @@ public class BinaryTree {
 
     /*question: median for the heap*/
     private static Comparator<Integer> maxHeapComparator;
+
     private static Comparator<Integer> minHeapComparator;
+
     private static PriorityQueue<Integer> maxHeap;
+
     private static PriorityQueue<Integer> minHeap;
 
 
@@ -1087,6 +1978,7 @@ public class BinaryTree {
                 maxHeap.offer(randomNumber);
             }
         }
+
         else {
             if(randomNumber < maxHeap.peek()){
                 minHeap.offer(maxHeap.poll());
@@ -1116,26 +2008,27 @@ public class BinaryTree {
 
         addNewNumber(randomNumber);
         System.out.println("Random Number = " + randomNumber);
+
         printMinHeapAndMaxHeap();
         System.out.println("\nMedian = " + getMedian() + "\n");
     }
 
-
     public static void printMinHeapAndMaxHeap(){
 
-        Integer[] minHeapArray = minHeap.toArray(
-                new Integer[minHeap.size()]);
-        Integer[] maxHeapArray = maxHeap.toArray(
-                new Integer[maxHeap.size()]);
+        Integer[] minHeapArray = minHeap.toArray(new Integer[minHeap.size()]);
+
+        Integer[] maxHeapArray = maxHeap.toArray(new Integer[maxHeap.size()]);
 
         Arrays.sort(minHeapArray, maxHeapComparator);
         Arrays.sort(maxHeapArray, maxHeapComparator);
         System.out.print("MinHeap =");
-        for (int i = minHeapArray.numOfColsgth - 1; i >= 0 ; i--){
+        for (int i = minHeapArray.length - 1; i >= 0 ; i--){
             System.out.print(" " + minHeapArray[i]);
         }
+
         System.out.print("\nMaxHeap =");
-        for (int i = 0; i < maxHeapArray.numOfColsgth; i++){
+
+        for (int i = 0; i < maxHeapArray.length; i++){
             System.out.print(" " + maxHeapArray[i]);
         }
     }
@@ -1205,6 +2098,7 @@ public class BinaryTree {
 
 
 	/* solution-a */
+    // use the adjacency matrix for the DFS
 	public static void depthFirstSearch( int[][] mat, int start ){
 
 
@@ -1216,7 +2110,7 @@ public class BinaryTree {
 		Stack<Integer> stack = new Stack<Integer>();
 
         // columns 
-		int numOfCols = mat[0].numOfColsgth;
+		int numOfCols = mat[0].length;
         int row, col;
 
 		int [] visited =  new int[numOfCols];
@@ -1230,7 +2124,11 @@ public class BinaryTree {
 		System.out.println();
 		System.out.print(start + "\t");
 
+        /*
+        * check if the stack is empty
+        */
 		while (!stack.isEmpty() ){
+
 
             row = stack.peek();
             col = row;	
@@ -1256,24 +2154,22 @@ public class BinaryTree {
             stack.pop();	            	
         }
 
-        /* if visited[] is full of 1 and no zeros included,
-        the graph is connected */	
 
-        /*boolean bol = true;
-        for ( int i=0; i < visited.numOfColsgth; i++){
+        boolean isTraverse = isFullTraverse(visited);
+	}
 
-        	if ( visited[i] ==  0){
-        		bol = false;
-        		break;
-        	}
+
+    public boolean isFullTraverse(boolean[] visited){
+
+        for ( int i=0; i < visited.length; i++){
+
+            if ( visited[i] ==  0){
+                return false;
+            }
         }
 
-        if (!bol){
-        	System.out.println("the graph is not connected");
-        }*/
-
-        System.out.println();
-	}
+        return true;
+    }
 	/*END of solution -a*/
 
 
@@ -1293,10 +2189,9 @@ public class BinaryTree {
 		// we will need to provide i-1 as it will be used inside the
 		// adjcency matrix 
         if (i > 0){
-            dfsHelper(i-1, mat, new boolean[ mat[0].numOfColsgth ] );
+            dfsHelper(i-1, mat, new boolean[ mat[0].length ] );
         }
 	}
-
 
     public static void dfsHelper(int row, int[][] mat, boolean[] visited) {
 
@@ -1305,7 +2200,7 @@ public class BinaryTree {
             visited[row] = true; // Mark node as "visited"
             System.out.print( (row+1) + " ");
 
-            for(int col = 0; col < mat[row].numOfColsgth; col++){
+            for(int col = 0; col < mat[row].length; col++){
 
                 if ( mat[row][col] == 1 && !visited[col] ){
                     dfsHelper(col , mat, visited); // Visit node
@@ -1323,7 +2218,6 @@ public class BinaryTree {
 	/*question: design an algorithm to perform 
 	depth first search for a bi-directional graph*/
 	public static void dfsBI( int[][] mat, int start){
-
 
 	}
 	/* END of solution: write an algorithm to perform 
@@ -1370,14 +2264,14 @@ public class BinaryTree {
 
 	// call: breadthFirstSearch(arr1, 1);
 	// 6 is missing 
-	// bfs result = 1	2	3	4	7	11	12	5	8	9	13	10
+	// bfs result = [1 2   3   4   7   11  12  5   8   9   13  10]
 	*/
 
 	/*solution-a*/
 	public static void breadthFirstSearch(int[][] mat, int start){
 
 
-		int numOfCols =  mat[0].numOfColsgth; 
+		int numOfCols =  mat[0].length; 
         int row, col;
 
         // array to keep track of visiting 
@@ -1410,29 +2304,19 @@ public class BinaryTree {
 		}
 
 		System.out.println();
+	}
 
-		/* if visited[] is full of 1 and no zeros included,
-        the graph is connected */
+    public boolean isFullTraverse(boolean[] visited){
 
-        // Integer n = 1;
-        // if(Arrays.stream(visited).anyMatch(n::equals))	
-        // System.out.println("the graph is not traversed completely");
+        for ( int i=0; i < visited.length; i++){
 
-        /*boolean bol = true;
-        for ( int i = 0; i < visited.numOfColsgth; i++){
-
-        	if ( visited[i] ==  0){
-
-        		bol = false;
-        		break;
-        	}
+            if ( visited[i] ==  0){
+                return false;
+            }
         }
 
-        if (!bol){
-
-        	System.out.println("the graph is not connected");
-        }*/
-	}
+        return true;
+    }
 	/*END of solution-a*/
 
 
@@ -1446,7 +2330,36 @@ public class BinaryTree {
 
 
 
+    /* question: write an algorithm to 
+    perform breadth first search*/
+    public void recursiveBFS(Node root) {
 
+        LinkedList<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        recursiveBFSHelper(queue);
+    }
+    
+    public void recursiveBFSHelper(LinkedList<Node> q) {
+
+        if (q.isEmpty()){
+            return;
+        } 
+
+        Node n = q.pop();
+
+        System.out.println("Node: " + n);
+
+        if (n.left != null) {
+            q.push(n.left);
+        }
+
+        if (n.right != null) {
+            q.push(n.right);
+        }
+
+        recursiveBFSHelper(q);
+    }
 
 
 
@@ -1454,8 +2367,6 @@ public class BinaryTree {
 	/* question: write an algorithm to perform 
 	breadth first search for a bi-directional graph*/
 	public static void dfsBI( int[][] mat, int start){
-
-
 
 	}
 	/* END of solution: write an algorithm to perform 
@@ -1471,7 +2382,6 @@ public class BinaryTree {
 	/*question: write an algorithm to insert key 
 	in the binary search tree*/
 	public void addNode(int key) {
-
 
 		Node newNode = new Node(key);
 
@@ -1555,8 +2465,8 @@ public class BinaryTree {
 
 
 
-    /*question: design an algorithm 
-    to reverse a binary tree*/
+    /*question: design an algorithm to reverse a binary tree*/
+    // mirror image of the BST
     // make left sub-tree to right and vice versa 
 
     /*
@@ -1573,20 +2483,29 @@ public class BinaryTree {
          1
        /  \
       3    2
-      \   / \
-       6 5  4       
+     /    / \
+    6    5  4       
     */
 
     /*solution-a*/
-    public static Node reverseTree(Node root){
+    /*
+    ---------
+    ALGORITHM
+    ---------
+
+    i.   Chnage the left and rigth node with temp storage 
+    ii.  Go deeper in the tree recursively in the left direction
+    iii. Go deeper in the tree recursively in the left direction
+    */  
+    public static Node mirrorTree(Node root){
 
         if(root != null) {
             helper(root);
         }
         
         return root;    
-    }
-     
+    }   
+
     public static void helper(Node p){
      
         Node temp = p.leftChild;
@@ -1608,24 +2527,30 @@ public class BinaryTree {
 
 
     /*solution-b*/
-    public static Node reverseTree(Node root) {
+    public static Node mirrorTree(Node root) {
 
         LinkedList<Node> queue = new LinkedList<Node>();
      
-        if(root!=null) queue.add(root);
+        if(root!=null) {
+            queue.add(root);
+        }
         
         while(!queue.isEmpty()){
 
             Node p = queue.poll();
 
             // put the children of the node inside the queue 
-            if(p.leftChild!=null)
+            if(p.leftChild!=null){
                 queue.add(p.leftChild);
-
-            if(p.rightChild!=null)
+            }
+                
+            if(p.rightChild!=null){
                 queue.add(p.rightChild);
+            }
+
      
             TreeNode temp = p.leftChild;
+
             p.leftChild = p.rightChild;
             p.rightChild = temp;
         }
@@ -1666,7 +2591,9 @@ public class BinaryTree {
 
     public Node invertTree(Node root){
 
-        if (root==null) return null; // line 1
+        if (root==null) {
+            return null; // line 1
+        }
 
         if (root.leftChild != null){ // line 2
 
@@ -1721,7 +2648,27 @@ public class BinaryTree {
 
 
 
+    /*
 
+    Usage of the Pre-Order, In-order or Post-Order
+    ----------------------------------------------
+
+    The traversal strategy the programmer selects depends on the specific needs of the 
+    algorithm being designed. The goal is speed, so pick the strategy that brings you 
+    the nodes you require the fastest.
+
+        i.   If you know you need to explore the roots before inspecting any leaves, you 
+        pick pre-order because you will encounter all the roots before all of the leaves.
+
+        ii.  If you know you need to explore all the leaves before any nodes, you select 
+        post-order because you don't waste any time inspecting roots in search for leaves.
+
+        iii. If you know that the tree has an inherent sequence in the nodes, and you want 
+        to flatten the tree back into its original sequence, than an in-order traversal 
+        should be used. The tree would be flattened in the same way it was created. A 
+        pre-order or post-order traversal might not unwind the tree back into the sequence 
+        which was used to create it.
+    */
 
 	// METHODS FOR THE TREE TRAVERSAL
 
@@ -1736,6 +2683,8 @@ public class BinaryTree {
 			inOrderTraverseTree(focusNode.rightChild);
 		}
 	}
+
+
 
 
 
@@ -1811,7 +2760,6 @@ public class BinaryTree {
 	/* this method may not be correct */
 	public Node findNode(int key) {
 
-
 		Node focusNode = root;
 
 		while (focusNode.key != key) {
@@ -1838,8 +2786,7 @@ public class BinaryTree {
 
 	/*question: design an alogorithm to remove 
 	a node w/ given key from binary search tree*/
-	public boolean remove( int key ) {
-
+	public boolean remove(int key) {
 
 		Node focusNode = root, parent;
 
@@ -1871,28 +2818,34 @@ public class BinaryTree {
 		// no child 
 		if (focusNode.leftChild == null && focusNode.rightChild == null) {
 
-			if (focusNode == root)
-				root = null;
-
-			else if (isItALeftChild)
-				parent.leftChild = null;
+			if (focusNode == root){
+                root = null;
+            }
 				
-			else
-				parent.rightChild = null;
+			else if (isItALeftChild){
+                parent.leftChild = null;
+            }
+								
+			else {
+                parent.rightChild = null;
+            }				
 		}
 
 
 		// has left child 
 		else if (focusNode.rightChild == null) {
 
-			if (focusNode == root)
-				root = focusNode.leftChild;
+			if (focusNode == root){
+                root = focusNode.leftChild;
+            }
+				
+			else if (isItALeftChild){
+                parent.leftChild = focusNode.leftChild;
+            }				
 
-			else if (isItALeftChild)
-				parent.leftChild = focusNode.leftChild;
-
-			else
-				parent.rightChild = focusNode.leftChild;
+			else {
+                parent.rightChild = focusNode.leftChild;
+            }
 		}
 
 
@@ -1900,14 +2853,17 @@ public class BinaryTree {
 		//  has right child 
 		else if (focusNode.leftChild == null) {
 
-			if (focusNode == root)
-				root = focusNode.rightChild;
-
-			else if (isItALeftChild)
-				parent.leftChild = focusNode.rightChild;
-
-			else
-				parent.rightChild = focusNode.rightChild;
+			if (focusNode == root){
+                root = focusNode.rightChild;
+            }
+				
+			else if (isItALeftChild){
+                parent.leftChild = focusNode.rightChild;
+            }
+				
+			else {
+                parent.rightChild = focusNode.rightChild;
+            }
 		}
 
 
@@ -1917,17 +2873,20 @@ public class BinaryTree {
 			Node replacement = getReplacementNode(focusNode);
 
 			// focus node doesn't have parent 
-			if (focusNode == root)
-				root = replacement;
-
+			if (focusNode == root){
+                root = replacement;
+            }
+				
 			// focus node has parent 
-			else if (isItALeftChild)
-				parent.leftChild = replacement;
-
-			else
-				parent.rightChild = replacement;
-
-			replacement.leftChild = focusNode.leftChild;		
+			else if (isItALeftChild){
+                parent.leftChild = replacement;
+            }
+				
+			else {
+                parent.rightChild = replacement;
+            }
+				
+			replacement.leftChild = focusNode.leftChild;	
 		}
 
 		return true;
@@ -1969,7 +2928,7 @@ public class BinaryTree {
 	node is inside of the BST or not*/
 	public boolean isBST (int n) {
 
-		if ( n == root.key ){
+		if (n == root.key ){
 			return true;
 		}
 
@@ -1985,18 +2944,15 @@ public class BinaryTree {
 				if (focusNode != null){
 
 					if ( n < focusNode.key ){
-
 						focusNode = focusNode.leftChild;
 					}
 
 					else {
-
 						focusNode = focusNode.rightChild;
 					}
 				}
 
-				if (focusNode != null &&   n == focusNode.key ){
-
+				if (focusNode != null && n == focusNode.key ){
 					return true;				
 				}
 			}
@@ -2014,7 +2970,6 @@ public class BinaryTree {
 	public Node getNode (int n){
 
 		if ( n == root.key ){
-
 			return root;
 		}
 
@@ -2030,12 +2985,10 @@ public class BinaryTree {
 				if ( focusNode != null ){
 
 					if ( n < focusNode.key ){
-
 						focusNode = focusNode.leftChild;
 					}
 
 					else {
-
 						focusNode = focusNode.rightChild;
 					}
 				}
@@ -2057,16 +3010,20 @@ public class BinaryTree {
 
 
 
-	/*get the parent of using the key of certain node*/ 
+	/*
+    * get the parent of using the key of certain node
+    */ 
 	public Node getParent (int n){
 
 		// the int value is not inside the BST
-		if ( !isBST (n))
-			return null;
-		
-		if ( n == root.key )
-			return null;
-		
+		if (!isBST (n)){
+            return null;
+        }
+			
+		if ( n == root.key ){
+            return null;
+        }
+					
 		else {
 
 			Node focusNode = root, parent; 
@@ -2077,11 +3034,14 @@ public class BinaryTree {
 
 				if (focusNode != null){
 
-					if (n < focusNode.key)
-						focusNode = focusNode.leftChild;
-					
-					else 
-						focusNode = focusNode.rightChild;
+					if (n < focusNode.key){
+                        focusNode = focusNode.leftChild;
+                    }
+								
+					else {
+                        focusNode = focusNode.rightChild;
+                    } 
+						
 					
 				}
 
@@ -2125,8 +3085,10 @@ public class BinaryTree {
 		LinkedList<Node> queue = new LinkedList<Node>();
 		queue.add(root);
 
+
 		// using breadth first search 
-	    while( !queue.isEmpty() ){    
+	    while(!queue.isEmpty() ){    
+
 
             /*1. Queue.poll() removes the element from the queue, if there is no element it returns null 
             2. Queue.remove() do the same but throws NoSuchElementException exception in case 
@@ -2140,9 +3102,7 @@ public class BinaryTree {
 
 		    Node cur = queue.poll();
 
-		    if ((cur.leftChild != null && cur.key < cur.leftChild.key ) || 
-		    	(cur.rightChild != null && cur.key > cur.rightChild.key)){
-
+		    if ((cur.leftChild != null && cur.key < cur.leftChild.key ) || (cur.rightChild != null && cur.key > cur.rightChild.key)){
 		          return false;
 		    }
 
@@ -2177,6 +3137,7 @@ public class BinaryTree {
 
 	    else if (node.rightChild != null && (node.key > node.rightChild.key 
             || !isValid1(node.rightChild))){
+
 	        return false;
         }
 
@@ -2193,6 +3154,7 @@ public class BinaryTree {
 
 	// check if a BST is valid using LinkedList, FIFO
 	public static boolean isValid2 (Node root) {
+
 
 	    LinkedList<Node> nodesToCheck = new LinkedList<>();
 	    nodesToCheck.offer(root);        
@@ -2237,7 +3199,7 @@ public class BinaryTree {
 
         // assuming that we are using an unique array 
 
-		if (array.numOfColsgth > 0){
+		if (array.length > 0){
 
 			root =  new Node(array[0]);
 			Queue<Node> queue =  new LinkedList<Node>();
@@ -2252,7 +3214,7 @@ public class BinaryTree {
                 // similar to the peek(), it doesn't remove/ poll from the ll 
 				Node newNode = (Node) queue.element();
 
-				if ( newNode.leftChild == null &&  array[j] < newNode.key ){
+				if (newNode.leftChild == null &&  array[j] < newNode.key ){
 
 					newNode.leftChild = new Node( array[j] );
 					j++; 
@@ -2269,11 +3231,14 @@ public class BinaryTree {
 				else {
 
                     // is this possible that queue gets null before 
-                    // reaching to the condition, array.numOfColsgth == j 
+                    // reaching to the condition, array.length == j 
 					queue.remove();
 				}
 
-				if (j == array.numOfColsgth) processEnd = true; 
+				if (j == array.length) {
+                    
+                    processEnd = true; 
+                }
 			}
 
 			return root; 
@@ -2298,15 +3263,19 @@ public class BinaryTree {
     check whther a binary tree is balanced*/	
 	public static boolean isBalanced( Node root) {
 
-		if (root == null) return true;
+		if (root == null){
+            return true;
+        } 
 		
 		int heightDiff = depth( root.leftChild ) - depth( root.rightChild );
 
-		if (Math.abs(heightDiff) > 1)
+		if (Math.abs(heightDiff) > 1){
             return false;
+        }
 
-		else 
+		else {
             return isBalanced(root.leftChild) && isBalanced(root.rightChild);			
+        }
 	}
 	/*END solution 4-1: design a algorithm to 
     check whther a binary tree is balanced*/    
@@ -2321,22 +3290,37 @@ public class BinaryTree {
     algorithm to  find out  whether  there  is a route 
     between two nodes*/
 	public enum State {
-
 		Unvisited, Visited, Visiting;
 	} 
 
 	public static Graph createNewGraph(){
 
-		Graph g = new Graph();  
+		Graph g = new Graph(6);  
 
 		Node [] temp = new Node[6];
 
+
+        /*
+
+               0
+             / | \
+            1  2  3
+                  |
+                  4
+                  |
+                  5
+        */
+
+
+
+        // create a graph with name and number of adjacent nodes 
 		temp[0] = new Node("a", 3);
 		temp[1] = new Node("b", 0);
 		temp[2] = new Node("c", 0);
 		temp[3] = new Node("d", 1);
 		temp[4] = new Node("e", 1);
 		temp[5] = new Node("f", 0);
+
 
 		temp[0].addAdjacent(temp[1]);
 		temp[0].addAdjacent(temp[2]);
@@ -2353,8 +3337,10 @@ public class BinaryTree {
 	}
 
 
-    // using breadth-first-search
-    public static boolean search(Graph g, Node start, Node end){  
+    /*
+    * using breadth first search
+    */
+    public static boolean search(Graph g, Node start, Node end) {  
 
         LinkedList<Node> q = new LinkedList<Node>();
 
@@ -2363,16 +3349,30 @@ public class BinaryTree {
         }
 
         start.state = State.Visiting;
+
         q.add(start);
         Node u;
 
+        /*
+        ----------
+        ALGORITHMS
+        ----------
+        i.   Take the nodes in the one deeper level of the 
+             present level. 
+
+        ii.  If any if them is the destination, return true.
+
+        iii. Otherwise, add them in the queue and repeat the 
+             process.
+        */
 
         while(!q.isEmpty()) {
 
             /*
             * Remove the first element, so, it's empty
             */  
-            u = q.removeFirst();
+            // u = q.removeFirst();
+            u = q.poll();
 
             if (u != null) {
 
@@ -2397,20 +3397,6 @@ public class BinaryTree {
 
         return false;
     }    
-
-
-    public static void printresult( Graph g, Node start, Node end ){
-
-        boolean bol = search( g, start, end ); 
-
-        if (bol){
-            System.out.println("\nThere is a route between two nodes");
-        }
-
-        else {
-            System.out.println("\nNo route exist, sorry dude!");
-        }    
-    }
 	/* ENd solution 4-2 Given a directed graph, design an algorithm to 
 	find out whether there is a route be- tween two nodes. */
 
@@ -2427,7 +3413,7 @@ public class BinaryTree {
 
         // convert the array into a tree and plant it in this
         Arrays.sort(array);
-        root = createBalancedTree2( array, 0, array.numOfColsgth - 1 );
+        root = createBalancedTree2( array, 0, array.length - 1 );
     }
 
 	private  Node createBalancedTree2(int arr[], int start, int end){
@@ -2527,6 +3513,7 @@ public class BinaryTree {
         ArrayList< LinkedList<Node> > lists = new ArrayList<LinkedList<Node>>();
 
         createLevelLinkedList1( root, lists, 0 );
+
         return lists;
     }
 
@@ -2910,7 +3897,7 @@ public class BinaryTree {
 		int[] myArr = { 555, 876, 100 , 90, 5, 3, 1, 4, 8, 45, 77, 2, 6, 56 }; 
 		BinaryTree myTr = new BinaryTree();
 				
-		for( int j=0; j < myArr.numOfColsgth; j++){
+		for( int j=0; j < myArr.length; j++){
 
 			myTr.addNode(myArr[j]);
 		}

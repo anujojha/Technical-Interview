@@ -142,6 +142,8 @@ public class MaxDoubleSliceSum {
         return result;
     }
 
+    // 14, 14, 17, 17 
+
 	public static void main(String[] args) {
 		
 		int[] A = new int[]{3,2,6,-1,4,5,-1,2};

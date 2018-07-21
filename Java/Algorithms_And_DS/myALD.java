@@ -1,4 +1,8 @@
 
+// Knapsack with Duplicate Items  
+
+
+
   // Top 10 Algorithms and Data Structures for Competitive Programming 
   // url : <http://www.geeksforgeeks.org/top-algorithms-and-data-structures-for-competitive-programming/>
   // implement the common data-structures here

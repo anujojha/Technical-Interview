@@ -33,7 +33,7 @@ are next to each other*/
 
 
 
-/*question 9- 6(b): Given a matrix in which each 
+/*question 9-6(b): Given a matrix in which each 
 row and each column is sorted, write a method to 
 find an element in it*/
 class Coordinate implements Cloneable {
@@ -286,6 +286,96 @@ to imeplement heap sort*/
 
 
 public class mySort {
+
+
+
+
+    /*
+    * radix sort is a non-comparative integer sorting algorithm that 
+    * sorts data with integer keys by grouping keys by the individual 
+    * digits which share the same significant position and value. A 
+    * positional notation is required, but because integers can represent 
+    * strings of characters (e.g., names or dates) and specially formatted 
+    * floating point numbers, radix sort is not limited to integers. 
+    */
+
+    // The main function to that sorts arr[] of size n using
+    // Radix Sort
+    public static void radixsort(int arr[], int n){
+
+        // Find the maximum number to know number of digits
+        int m = getMax(arr, n);
+ 
+        // Do counting sort for every digit. Note that instead
+        // of passing digit number, exp is passed. exp is 10^i
+        // where i is current digit number
+        for (int exp = 1; m/exp > 0; exp *= 10){
+            countSort(arr, n, exp);
+        }
+    }
+
+    // A utility function to get maximum value in arr[]
+    public static int getMax(int arr[], int n){
+
+        int mx = arr[0];
+
+        for (int i = 1; i < n; i++){
+
+            if (arr[i] > mx){
+                mx = arr[i];
+            }
+        }
+        return mx;
+    }
+ 
+    // A function to do counting sort of arr[] according to
+    // the digit represented by exp.
+    public  static void countSort(int arr[], int n, int exp){
+
+        int output[] = new int[n]; // output array
+        int i;
+        int count[] = new int[10];
+        
+        Arrays.fill(count,0);
+ 
+        // Store count of occurrences in count[]
+        for (i = 0; i < n; i++){
+            count[ (arr[i]/exp)%10 ]++;
+        }
+ 
+        // Change count[i] so that count[i] now contains
+        // actual position of this digit in output[]
+        for (i = 1; i < 10; i++){
+            count[i] += count[i - 1];
+        }
+ 
+        // Build the output array
+        for (i = n - 1; i >= 0; i--){
+
+            output[count[ (arr[i]/exp)%10 ] - 1] = arr[i];
+            count[ (arr[i]/exp)%10 ]--;
+        }
+ 
+        // Copy the output array to arr[], so that arr[] now
+        // contains sorted numbers according to curent digit
+        for (i = 0; i < n; i++){
+            arr[i] = output[i];
+        }
+    }
+ 
+    // A utility function to print an array
+    public static void print(int arr[], int n){
+
+        for (int i=0; i<n; i++){
+            System.out.print(arr[i]+" ");
+        }
+    }
+
+
+
+
+
+
 
 
 	/*question: design an algorithm 

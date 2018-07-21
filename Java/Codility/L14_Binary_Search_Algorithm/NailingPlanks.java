@@ -84,21 +84,26 @@ public class NailingPlanks {
 		int[][] sortedNails = new int[M][2];
 
 
-		//         Initial  
-		// ----------------
-		//            4 0
-		//            6 1
-		//            7 2
-		//            10 3
-		//            2 4
+		/*
+            -------------
+                 Initial  
+            -------------
+                    4 0
+                    6 1
+                    7 2
+                    10 3
+                    2 4
 
-		//    Sorted On Nail Len
-		// ---------------------
-		//            2 4
-		//            4 0
-		//            6 1
-		//            7 2
-		//            10 3
+            ------------------
+            Sorted On Nail Len
+            ------------------
+                    2 4
+                    4 0
+                    6 1
+                    7 2
+                    10 3
+        */
+
 
 		for (int i = 0; i < M; i++) {
 			sortedNails[i][0] = C[i];
