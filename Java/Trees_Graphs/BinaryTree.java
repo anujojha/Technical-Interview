@@ -756,7 +756,6 @@ class SuffixTree {
 
 class SuffixTreeNode {
 
-
     char value;
     
     HashMap<Character, SuffixTreeNode> children = new HashMap<Character, SuffixTreeNode>();    
@@ -1459,95 +1458,12 @@ to find out whether there is a route between two nodes.*/
 
 
 
-
-
-
-
-
-/*Question: desing a program to implement DFS 
-using adjacency list "Geeks for Geeks"*/
-class GraphOne{
-
-
-    // No. of vertices
-    private int V;  
-
-    // adjacency list 
-    // private LinkedList<Integer> adj[];
-    private LinkedList<Integer>[] adj[];
- 
-    GraphOne(int v){
-
-        this.V = v;
-        this.adj = new LinkedList[v];
-
-        for (int i=0; i < v; ++i){
-
-            // also, correct 
-            // adj[i] = new LinkedList<Integer>(); 
-            adj[i] = new LinkedList();
-        }            
-    }
-
-    void addEdge(int v, int w){
-        adj[v].add(w); 
-    } 
-
-
-    void performDFS(int v){
-
-        boolean visited[] = new boolean[V];
-        DFSUtil(v, visited);
-    }
-
-
-    void DFSUtil(int v, boolean visited[]){
-
-        visited[v] = true;
-        System.out.print(v+" ");
-
-        Iterator<Integer> i = adj[v].listIterator();
-
-        while (i.hasNext()){
-
-            int n = i.next();    
-
-            if (!visited[n]){
-                DFSUtil(n, visited);    
-            }
-        }
-    }
-
- 
-    public static void test( ){
-
-        Graph g = new Graph(4);
- 
-        // starting from vertex 2: {2, 0, 1, 3}
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(1, 2);
-        g.addEdge(2, 0);
-        g.addEdge(2, 3);
-        g.addEdge(3, 3);
- 
-        System.out.println("Following is Depth First Traversal "+
-                           "(starting from vertex 2)");
- 
-        g.performDFS(2);
-    }
-}
-/*END of solution: desing a 
-program to implement dfs*/
-
-
-
-
-
 /*
- * Breadth first search in a directed graph using adjacency list
- * */
-class GraphTwo {
+* Breadth first search in a directed graph using adjacency list
+
+Using the adjacency list makes it faster 
+* */
+class Graph {
 
     private int V;
 
@@ -1579,6 +1495,7 @@ class GraphTwo {
          * Mark all the vertices as not visited(By default set as false)
          * */
         boolean visited[] = new boolean[V];
+
         LinkedList<Integer> queue = new LinkedList<Integer>();
 
         visited[S] = true;
@@ -1634,6 +1551,89 @@ class GraphTwo {
 
 
 
+/*Question: desing a program to implement DFS 
+using adjacency list "Geeks for Geeks"*/
+class Graph {
+
+
+    // No. of vertices
+    private int V;  
+
+    // adjacency list 
+    // private LinkedList<Integer> adj[];
+    private LinkedList<Integer>[] adj[];
+ 
+    Graph(int v){
+
+        this.V = v;
+        this.adj = new LinkedList[v];
+
+        for (int i = 0; i < v; ++i){
+
+            // also, correct 
+            // adj[i] = new LinkedList<Integer>(); 
+            adj[i] = new LinkedList();
+        }            
+    }
+
+    void addEdge(int v, int w){
+        adj[v].add(w); 
+    } 
+
+    void performDFS(int v){
+
+        boolean visited[] = new boolean[V];
+        DFSUtil(v, visited);
+    }
+
+    void DFSUtil(int v, boolean visited[]){
+
+        visited[v] = true;
+        System.out.print(v+" ");
+
+        Iterator<Integer> i = adj[v].listIterator();
+
+        while (i.hasNext()){
+
+            int n = i.next();    
+
+            if (!visited[n]){
+                DFSUtil(n, visited);    
+            }
+        }
+    }
+
+ 
+    public static void test( ){
+
+        Graph g = new Graph(4);
+ 
+        // starting from vertex 2: {2, 0, 1, 3}
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 0);
+        g.addEdge(2, 3);
+        g.addEdge(3, 3);
+ 
+        System.out.println("Following is Depth First Traversal "+
+                           "(starting from vertex 2)");
+ 
+        g.performDFS(2);
+    }
+}
+/*END of solution: desing a 
+program to implement dfs*/
+
+
+
+
+
+
+
+
+
+
 
 
 /*question: design a program to deal with (add, 
@@ -1673,7 +1673,9 @@ class TrieNode {
     // can have multiple children  
     Map<Character, TrieNode> children = new HashMap<Character, TrieNode>();
  
-    public TrieNode(){}
+    public TrieNode(){
+
+    }
  
     public TrieNode(char c){
         this.c = c;
@@ -1700,6 +1702,7 @@ class TrieNode {
 */
 class Trie {
 
+
     private TrieNode root;
  
     public Trie(){
@@ -1710,7 +1713,7 @@ class Trie {
 
         Map<Character, TrieNode> children = root.children;
  
-        for(int i = 0; i < word.length(); i++){
+        for(int i = 0; i < word.length(); i++) {
 
             char c = word.charAt(i); 
             TrieNode t;
@@ -1725,7 +1728,10 @@ class Trie {
                 // Says, the chidren of root is the new node "t"
                 children.put(c, t);
             }
- 
+
+            /*
+            * "t" is the new node and we update the children for "t" 
+            */
             children = t.children;
  
             if(i == word.length() - 1) {
@@ -1746,20 +1752,6 @@ class Trie {
 
         else {
             return false;
-        }
-    }
-
-    /*
-    * the trie contains the substring (prefix)
-    */ 
-    public boolean startsWith(String prefix) {
-
-        if(searchNode(prefix) == null) {
-            return false;
-        }
-
-        else {
-            return true;
         }
     }
 
@@ -1787,8 +1779,25 @@ class Trie {
  
         return t;
     }
+
+    /*
+    * the trie contains the substring (prefix)
+    */ 
+    public boolean startsWith(String prefix) {
+
+        if(searchNode(prefix) == null) {
+            return false;
+        }
+
+        else {
+            return true;
+        }
+    }
 }
 /*END of solution-a*/
+
+
+
 
 
 interface Vocabulary {
@@ -1814,7 +1823,7 @@ class ListVocabulary implements Vocabulary{
     }
     
   
-     // Constructor that adds alle the words 
+     // constructor that adds alle the words 
      // and then sorts the underlying list
     public ListVocabulary(Collection<String> words) {
 
@@ -1970,6 +1979,7 @@ public class BinaryTree {
 
         /* Note: addNewNumber maintains a condition that maxHeap.size() >= minHeap.size() */
         if (maxHeap.size() == minHeap.size()) {
+
             if ((minHeap.peek() != null) && 
                     randomNumber > minHeap.peek()) {
                 maxHeap.offer(minHeap.poll());
@@ -2097,10 +2107,9 @@ public class BinaryTree {
     */                    
 
 
-	/* solution-a */
+	/*solution-a*/
     // use the adjacency matrix for the DFS
 	public static void depthFirstSearch( int[][] mat, int start ){
-
 
 		// we will count node# from 1 upwards 
 		if (start < 1) {
@@ -2128,7 +2137,6 @@ public class BinaryTree {
         * check if the stack is empty
         */
 		while (!stack.isEmpty() ){
-
 
             row = stack.peek();
             col = row;	
@@ -2188,9 +2196,8 @@ public class BinaryTree {
 
 		// we will need to provide i-1 as it will be used inside the
 		// adjcency matrix 
-        if (i > 0){
-            dfsHelper(i-1, mat, new boolean[ mat[0].length ] );
-        }
+        // i >= 0
+        dfsHelper(i, mat, new boolean[ mat[0].length ] );
 	}
 
     public static void dfsHelper(int row, int[][] mat, boolean[] visited) {
@@ -2331,7 +2338,7 @@ public class BinaryTree {
 
 
     /* question: write an algorithm to 
-    perform breadth first search*/
+    perform breadth first search recursively*/
     public void recursiveBFS(Node root) {
 
         LinkedList<Node> queue = new LinkedList<>();
@@ -2359,6 +2366,24 @@ public class BinaryTree {
         }
 
         recursiveBFSHelper(q);
+    }
+
+
+    // breadth frist search in a graph with recursive algorithm
+    public void recursiveBFSHelperI(LinkedList<Node> queue) {
+
+        while(!queue.isEmpty()){
+
+            Node node = queue.pop();
+
+            System.out.println("Node: " + node);
+
+            for (Node n: node.getAdjacent()) {
+                queue.push(n);
+            }
+
+            recursiveBFSHelper(queue);
+        }        
     }
 
 
@@ -2424,9 +2449,7 @@ public class BinaryTree {
 						return; 
 					}
 				}
-
 			}            
-
 		}
 	}
 	/*END of solution: write an algorithm to insert key 
@@ -2450,7 +2473,6 @@ public class BinaryTree {
 
 		return 1 + Math.max(leftHeight, rightHeight);
 	}
-
 
 	public static int depth(Node node){
 
@@ -2649,7 +2671,6 @@ public class BinaryTree {
 
 
     /*
-
     Usage of the Pre-Order, In-order or Post-Order
     ----------------------------------------------
 
@@ -2670,6 +2691,7 @@ public class BinaryTree {
         which was used to create it.
     */
 
+
 	// METHODS FOR THE TREE TRAVERSAL
 
 	// inOrderTraverseTree : i) X.left ii) X iii) X.right
@@ -2685,10 +2707,6 @@ public class BinaryTree {
 	}
 
 
-
-
-
-
 	/*In-order traversal w/ iteration*/
 	public static void inOrderTraverseTree2(Node root){
 
@@ -2698,7 +2716,8 @@ public class BinaryTree {
 
 		Node node =  root;
 		Stack<Node> stack = new Stack<Node>();
-         
+
+        // take all the left nodes          
 		while(node !=  null){
 
 			stack.push(node);
@@ -2926,7 +2945,7 @@ public class BinaryTree {
 
 	/*By using a key, check whether the 
 	node is inside of the BST or not*/
-	public boolean isBST (int n) {
+	public boolean isWithinBST (int n) {
 
 		if (n == root.key ){
 			return true;
@@ -2994,7 +3013,6 @@ public class BinaryTree {
 				}
 
 				if ( focusNode != null &&   n == focusNode.key ){
-
 					return focusNode;				
 				}
 			}
@@ -3028,7 +3046,7 @@ public class BinaryTree {
 
 			Node focusNode = root, parent; 
 
-			while( focusNode != null){
+			while(focusNode != null){
 
 				parent = focusNode;
 
@@ -3040,13 +3058,12 @@ public class BinaryTree {
 								
 					else {
                         focusNode = focusNode.rightChild;
-                    } 
-						
-					
+                    } 											
 				}
 
-				if ( focusNode != null && n == focusNode.key )
+				if ( focusNode != null && n == focusNode.key){
 					return parent;				
+                }
 			}
 		}
 
@@ -3106,13 +3123,8 @@ public class BinaryTree {
 		          return false;
 		    }
 
-		    if (cur.leftChild != null){
-		      queue.offer(cur.leftChild);
-		    }
-
-		    if (cur.rightChild != null){
-		      queue.offer(cur.rightChild);
-		    }		
+            queue.offer(cur.leftChild);
+            queue.offer(cur.rightChild);				
         }    
 
 	    return queue.isEmpty(); 
@@ -3141,9 +3153,9 @@ public class BinaryTree {
 	        return false;
         }
 
-	    else {
+	    else 
 	        return true;
-        }
+
 	}
 	/*ENd of solution: design an algorithm to find 
     whether a binary search tree is valid bst*/
@@ -3157,6 +3169,8 @@ public class BinaryTree {
 
 
 	    LinkedList<Node> nodesToCheck = new LinkedList<>();
+
+        // offer and add almost same
 	    nodesToCheck.offer(root);        
 
 	    while (!nodesToCheck.isEmpty()){
@@ -3198,17 +3212,18 @@ public class BinaryTree {
 	public Node createBstFromArray( int[] array ){
 
         // assuming that we are using an unique array 
-
 		if (array.length > 0){
 
 			root =  new Node(array[0]);
+
 			Queue<Node> queue =  new LinkedList<Node>();
 			queue.add(root);
 
 			boolean processEnd = false; 
 			int j = 1;
 
-			while( !processEnd ){
+			while(!processEnd ){
+
 
 				// get the current element of the queue 
                 // similar to the peek(), it doesn't remove/ poll from the ll 
@@ -3235,8 +3250,7 @@ public class BinaryTree {
 					queue.remove();
 				}
 
-				if (j == array.length) {
-                    
+				if (j == array.length) {                    
                     processEnd = true; 
                 }
 			}
@@ -3277,6 +3291,32 @@ public class BinaryTree {
             return isBalanced(root.leftChild) && isBalanced(root.rightChild);			
         }
 	}
+
+    // get the height of binary tree 
+    public int depth(Node root) {
+
+        if (root == null) {
+            return 0;
+        }
+        
+        Node focusNode = root; 
+
+        int leftHeight = focusNode.leftChild != null ? depth( focusNode.leftChild) : 0;
+        int rightHeight = focusNode.rightChild != null ? depth( focusNode.rightChild) : 0;
+
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    public static int depth1(Node node){
+
+        if (node == null) {
+            return 0;
+        }
+
+        else {
+            return 1 + Math.max(depth(node.leftChild), depth(node.rightChild));
+        }
+    }
 	/*END solution 4-1: design a algorithm to 
     check whther a binary tree is balanced*/    
 
@@ -3418,7 +3458,10 @@ public class BinaryTree {
 
 	private  Node createBalancedTree2(int arr[], int start, int end){
 
-	    if (end < start ) return null; // empty array -> empty tree
+        // empty array -> empty tree
+	    if (end < start ) {
+            return null; 
+        }
 
 	    // when start == end, the mid = start 
         // avoid overflow
@@ -3459,6 +3502,14 @@ public class BinaryTree {
 		}
 		
 		while (current.size() > 0){
+
+            /*
+                ALGORITHM
+                ---------
+
+                i. add current nodes to the parent
+                ii create a new instance of current to adjoin the childs of the parent 
+            */
 
 			result.add(current); // Add previous level
 			LinkedList<Node> parents = current; // Go to next level
@@ -3512,30 +3563,45 @@ public class BinaryTree {
 
         ArrayList< LinkedList<Node> > lists = new ArrayList<LinkedList<Node>>();
 
-        createLevelLinkedList1( root, lists, 0 );
-
+        createLevelLinkedList1(root, lists, 0);
         return lists;
     }
 
 	public static void createLevelLinkedList1( Node root, ArrayList<LinkedList<Node>> lists, int level){
 
-		if (root == null) return;
+        /*
+        ALGORITHM
+        ---------
+
+            i.   if the list size is the same as the level, create a new instance of list
+
+            ii.  otherwise, get the list using the level
+
+            iii. add the node in the list
+
+            iv. continue the recursive process till where is no child
+        */
+
+
+		if (root == null) {
+            return;
+        }
 
 		LinkedList<Node> list = null;
 
 		if (lists.size() == level) {
-
 			list = new LinkedList<Node>();
 			lists.add(list);  
 		} 
 
-		else
+		else {
 			list = lists.get(level);
+        }
 		
 		list.add(root);
 
-		createLevelLinkedList1( root.leftChild, lists, level + 1 );
-		createLevelLinkedList1( root.rightChild, lists, level + 1 );
+		createLevelLinkedList1(root.leftChild, lists, level + 1);
+		createLevelLinkedList1(root.rightChild, lists, level + 1);
 	}	
 	/* END of solution -b */
 
@@ -3553,6 +3619,37 @@ public class BinaryTree {
     a given node in a binary search tree*/
 	public  Node inorderSucc( Node n) { 
 
+
+        /*
+        In-order successor of a node is the next 
+        node in Inorder traversal of the binary 
+        tree 
+
+                     7               
+                    / \       
+                   /   \      
+                  /     \     
+                 /       \    
+                 5       14       
+                / \     / \   
+               /   \   /   \  
+               4   6   8   18   
+                       \
+                        9                    
+        */ 
+
+        /*
+        ALGORITHM
+        ---------
+
+        i.  if the parent node  not exist or the right clid exist, 
+        retrun the left most child of right child
+
+        ii. if have parent and don't have the right child, 
+        */                        
+
+
+
 		if (n == null) {
             return null;
         }
@@ -3561,13 +3658,13 @@ public class BinaryTree {
 			return leftMostChild( n.rightChild ); 
 		} 
 
+        // have parent and dont have the right child
 		else { 
 
 			Node child = n;
 			Node parent = getParent(child.key);
  
 			while (parent != null && parent.leftChild != child){
-
 				child = parent;
 				parent = getParent(parent.key);
 			} 
@@ -3577,7 +3674,9 @@ public class BinaryTree {
 	} 
 
 		
-	// get the smallest node of the right sub-tree 
+	/*
+    * get the smallest node of the right sub-tree 
+    */
 	public  Node leftMostChild( Node n) {
 
 		if (n == null) {
@@ -3777,17 +3876,25 @@ public class BinaryTree {
 	public static boolean matchTree( Node r1, Node r2) {
 		
         // for the sub-tree, leaf-to-leaf match needed 
-		if (r1 == null && r2 == null) 
-			return true; // nothing left in the subtree
+        // nothing left in the subtree
+		if (r1 == null && r2 == null) {
+			return true; 
+        }
 
-		if (r1 == null || r2 == null) 
-			return false; //  big tree empty & subtree still not found
+        //  big tree empty & subtree still not found
+		if (r1 == null || r2 == null) {
+			return false; 
+        }
 
-		if ( r1.key != r2.key ) 
-			return false;  // data doesn’t match
+        // data doesn’t match
+		if ( r1.key != r2.key ) {
+			return false;  
+        }
 
-		return (  matchTree( r1.leftChild, r2.leftChild ) && 
-				  matchTree( r1.rightChild , r2.rightChild ) );
+		return (matchTree( r1.leftChild, r2.leftChild) 
+               && 
+               matchTree( r1.rightChild , r2.rightChild));
+				
 	}
 
 	/* END solution 4-7:two very large binary 
@@ -3807,7 +3914,6 @@ public class BinaryTree {
     find all the paths of a BST which sums 
     are equal to certain value*/
 	public static void findSum( Node node, int sum) {
-
 
 		int depth = depth(node);
 
@@ -3866,6 +3972,7 @@ public class BinaryTree {
         String testString = "mississippi";
         String[] stringList = {"is", "sip", "hi", "sis"};
         SuffixTree tree = new SuffixTree(testString);
+
         for (String s : stringList) {
             ArrayList<Integer> list = tree.search(s);
             if (list != null) {
