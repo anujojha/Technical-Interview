@@ -296,3 +296,18 @@ EXPLORE JAVA IO - UDEMY
 JAVA NETWORK PROGRAMMING - TCP/IP SOCKET PROGRAMMING - UDEMY
 
 JAVA NON-BLOCKING IO WITH JAVA.NIO AND DESIGN PATTERNS - UDEMY
+
+
+
+
+
+
+————————————————————————————————————————————————————————————
+BOOKS
+—————
+
+JAVA BY COMPARISON - SIMON HARRER, JÖRG LENHARD, LINUS DIETZ
+————————————————————————————————————————————————————————————
+
+
+

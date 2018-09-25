@@ -838,8 +838,9 @@ class DS implements spotIn {
 
     public String encodeString(String str) {
 
-        if(str == null || str.length() == 0)
+        if(str == null || str.length() == 0){
             return null;
+        }
         
         char[] ch = str.toUpperCase().toCharArray();
         char[] result = new char[ch.length];
@@ -1114,7 +1115,6 @@ public class myArray {
 
         return stat.getVariance();
     }
-    /* ===================*/
 
 
 
@@ -1624,9 +1624,11 @@ public class myArray {
 
     /*solution-d*/
     public static boolean hasWinner(Piece p1, Piece p2, Piece p3) {
+
         if (p1 == Piece.Empty) {
             return false;
         }
+
         return p1 == p2 && p2 == p3;
     }
     
@@ -1830,6 +1832,7 @@ public class myArray {
         private int rowIncrement, columnIncrement;
         
         public Check(int row, int column, int rowI, int colI) {
+
             this.row = row;
             this.column = column;
             this.rowIncrement = rowI;
@@ -1932,10 +1935,14 @@ public class myArray {
     }
     
     public static Piece hasWon(Piece[][] board, PositionIterator iterator) {
+
         Position firstPosition = iterator.next();
         Piece first = board[firstPosition.row][firstPosition.column];
+        
         while (iterator.hasNext()) {
+        
             Position position = iterator.next();
+        
             if (board[position.row][position.column] != first) {
                 return Piece.Empty;
             }
@@ -2906,6 +2913,7 @@ public class myArray {
     }
     
     public static int parseSimple(int wordStart, int wordEnd) {
+
         if (wordEnd >= sentence.length()) {
             return wordEnd - wordStart;
         }
@@ -2914,6 +2922,7 @@ public class myArray {
         
         /* break current word */
         int bestExact = parseSimple(wordEnd + 1, wordEnd + 1);
+
         if (!dictionary.contains(word, true)) {
             bestExact += word.length();
         }
@@ -3176,10 +3185,13 @@ public class myArray {
     }
     
     public static int numberOf2sInRange(int n) {
+
         int count = 0;
+        
         for (int i = 2; i <= n; i++) { // Might as well start at 2
             count += numberOf2s(i);
         }
+
         return count;
     }
     
@@ -4496,6 +4508,7 @@ public class myArray {
 
     /*A*/
     public static Subsquare findSquareWithSize(SquareCell[][] processed, int square_size) {
+        
         // On an edge of length N, there are (N - sz + 1) squares of length sz.
         int count = processed.length - square_size + 1; 
         
@@ -4503,6 +4516,7 @@ public class myArray {
         for (int row = 0; row < count; row++) {
 
             for (int col = 0; col < count; col++) {
+
                 if (isSquare(processed, row, col, square_size)) {
                     return new Subsquare(row, col, square_size);
                 }
@@ -5038,6 +5052,7 @@ public class myArray {
         // Check if we have formed a complete rectangle by seeing if each column
         // is in the dictionary
         if (rectangle.height == h) {
+
             if (rectangle.isComplete(l, h, groupList[h - 1])) {
                 return rectangle;
             } else {
@@ -5123,7 +5138,7 @@ public class myArray {
             while(i.hasNext()) {
 
                 Map.Entry me = (Map.Entry)i.next();
-                System.out.print( me.getKey() + " " + me.getValue());
+                System.out.print(me.getKey() + " " + me.getValue());
             }
         }
     }
@@ -5236,6 +5251,7 @@ public class myArray {
     /*question: write a program  
     with syntaxes of TreeMap*/
     public static void myTreeMap(){
+
 
         TreeMap<String, String> treemap = new TreeMap<String, String>();
 
@@ -6053,7 +6069,7 @@ public class myArray {
         Map<String, Integer> map = new HashMap<>();
 
         for(String a : arr){
-            map.put(a, map.containsKey(a) ? map.get(a) +1 : 1);
+            map.put(a, map.containsKey(a) ? map.get(a) + 1 : 1);
         }
 
         Map<Integer, List<String>> treeMap = new TreeMap<>();
@@ -6180,6 +6196,7 @@ public class myArray {
         // array conversion works fine with the Class types, say 
         // with String,but, doesn't work with primitives 
         String [] simpleArray = list.toArray(new String[list.size()]);
+
         System.out.println( "The array created after the conversion of our arraylist is: "
                         + Arrays.toString( simpleArray) );
     }
@@ -6196,10 +6213,10 @@ public class myArray {
     /*solution-a*/
     public static ArrayList<Integer> reverseList(ArrayList<Integer> list) {
 
-        int len = list.size() - 1;
+        int N = list.size() - 1;
 
-        for (int i = 0; i < len; i++){
-            list.add(i, list.remove(len));
+        for (int i = 0; i < N; i++){
+            list.add(i, list.remove(N));
         }
 
         return list;
@@ -6211,7 +6228,6 @@ public class myArray {
 
     /*solution-b*/
     public static <T>ArrayList<T> reverseList1(ArrayList<T> list) {
-
 
         if(list.size() > 1){  
 
@@ -6237,10 +6253,10 @@ public class myArray {
     /*solution-c*/
     public static <T> ArrayList<T> reverseList2(ArrayList<T> list) {
 
-        int length = list.size();
-        ArrayList<T> result = new ArrayList<T>(length);
+        int N = list.size();
+        ArrayList<T> result = new ArrayList<T>(N);
 
-        for (int i = length - 1; i >= 0; i--) {
+        for (int i = N - 1; i >= 0; i--) {
             result.add(list.get(i));
         }
 
@@ -6276,7 +6292,7 @@ public class myArray {
     public static void learnHashSet() {
 
         // set.forEach(System.out::println);
-        HashSet<String> hash = new HashSet<>();
+        Set<String> hash = new HashSet<>();
 
         hash.add("castle");
         hash.add("bridge");
@@ -6337,18 +6353,17 @@ public class myArray {
         list5.add(3);
 
         // This HashSet has 2, 3 and 4.
-        HashSet<Integer> set5 = new HashSet<>();
+        Set<Integer> set5 = new HashSet<>();
 
         set5.add(2);
         set5.add(3);
         set5.add(4);
 
-        /*Retain only 2 and 3, it will be the 
-        union of the set and the list*/
+        // only retain the common elements (i.e. 2,3)
         set5.retainAll(list5);
 
-        for (Integer value : set5){
-            System.out.println(value);
+        for (Integer v : set5){
+            System.out.println(v);
         }
 
         // it will call the toString() method of the hash 
@@ -6369,11 +6384,6 @@ public class myArray {
     about hash table data-structure*/
     public static void learnHashtable(){
 
-
-        Enumeration names;
-        String key;
-
-        // Creating a Hashtable
         Hashtable<String, String> hashtable = new Hashtable<String, String>();
 
         // Adding Key and Value pairs to Hashtable
@@ -6383,10 +6393,11 @@ public class myArray {
         hashtable.put("Key4","Ricky");
         hashtable.put("Key5","Mona");
 
-        names = hashtable.keys();
+        Enumeration names = hashtable.keys();
 
         while(names.hasMoreElements()) {
-            key = (String) names.nextElement();
+
+            String key = (String) names.nextElement();
             System.out.println("Key = " + key + " ,Value = "+ hashtable.get(key));
         }
 
@@ -6412,8 +6423,7 @@ public class myArray {
         }
 
         System.out.println("\n\n");
-        // using LinkedHashMap
-        // output will be in the same order as the input
+
         LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
 
         lhm.put(10, "Chaitanya");
@@ -6425,6 +6435,7 @@ public class myArray {
 
         // Get a set of the entries
         Set set1 = lhm.entrySet();
+
         // Get an iterator
         Iterator i1 = set1.iterator();
 
@@ -6456,6 +6467,7 @@ public class myArray {
         Iterator i2 = set2.iterator();
 
         while(i2.hasNext()){
+
             Map.Entry me = (Map.Entry)i2.next();
             System.out.print( me.getKey() + " "+ me.getValue() );
         }
@@ -6596,12 +6608,10 @@ public class myArray {
 
 
     public static List<String> maxThreeFrequencies(List<String> lis) {
-
         
         if(lis ==  null || lis.size() == 0) {
             return null;
         }
-
             
         Map<String, Integer> map = new HashMap<>();
 
@@ -6635,7 +6645,6 @@ public class myArray {
                     System.out.print(" " + entry.getKey());
 
                     if(result.size() < 3){
-
                         result.add(entry.getKey());
                     }                        
 
@@ -6671,7 +6680,7 @@ public class myArray {
     /*solution-a*/
     public static <K,V> HashMap<V,K> reverseMap(Map<K,V> map) {
 
-        HashMap<V,K> rev = new HashMap<V, K>();
+        Map<V,K> rev = new HashMap<V, K>();
 
         for(Map.Entry<K,V> entry : map.entrySet()) {
             rev.put(entry.getValue(), entry.getKey());
@@ -6688,7 +6697,8 @@ public class myArray {
 
         Map<Integer, String> rev = map.entrySet()
                                       .stream()
-                                      .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+                                      .collect(Collectors.toMap(Map.Entry::getValue, 
+                                                                Map.Entry::getKey));
         return rev; 
     }
     /*END of solution-b*/
@@ -6741,25 +6751,25 @@ public class myArray {
 		}
 			
 		out:
-    		for (int i = 0; i < N - 1 ; i++ ){
+		for (int i = 0; i < N - 1 ; i++ ){
 
-    			for (int j = i+1; j < N; j++ ){
+			for (int j = i+1; j < N; j++ ){
 
-                    // bring the i-th smallest element in the i-index 
-    				if ( arr[i] > arr[j]){
-    					
-    					arr[i] = arr[i]+ arr[j];
-    					arr[j] = arr[i] - arr[j];
-    					arr[i] = arr[i] - arr[j];					
-    				}
-    			}
+                // bring the i-th smallest element in the i-index 
+				if ( arr[i] > arr[j]){
+					
+					arr[i] = arr[i]+ arr[j];
+					arr[j] = arr[i] - arr[j];
+					arr[i] = arr[i] - arr[j];					
+				}
+			}
 
-    			if (i == k-1 ){
+			if (i == k-1 ){
 
-    				kTh = arr[i];
-    				break out; 
-    			}
-    		}
+				kTh = arr[i];
+				break out; 
+			}
+		}
 
 		System.out.println( Arrays.toString(arr) );
 		return kTh; 
@@ -6779,24 +6789,19 @@ public class myArray {
         // If k is smaller than number of elements in array
         if (k > 0 && k <= (r - l + 1) ){
 
-
-            // Partition the array around last element and get
-            // position of pivot element in sorted array
             int pos = partition(arr, l, r);
      
-            // If position is same as k
             if (pos-l == k-1){
                 return arr[pos];
             }
 
-            // If position is more, recur for left subarray
             if (pos-l > k-1) {
                 return kthSmallest(arr, l, pos-1, k);
             }     
      
             // the number of elements from l to pos = pos-l+1
             // so, k-th element will be = k - (pos-l+1) = (k -pos +l-1)
-            return kthSmallest(arr, pos+1, r, k-pos+l-1);
+            return kthSmallest(arr, pos+1, r, (k-pos+l-1));
         }
      
         // If k is more than number of elements in array
@@ -6808,31 +6813,28 @@ public class myArray {
     // i-th element is in the i-th postion 
     // and smaller elements are left of i-th elem (but, not sorted out)
     //  and bigger elements are right of i-th elem (but, not sorted out)
-    public static int partition(int arr[], int l, int r) {
+    public static int partition(int[] arr, int l, int r) {
 
-        int x = arr[r], i = l, tmp = 0;
+        int x = arr[r];
+        int i = l;
 
         for (int j = l; j < r ; j++){
 
-            // less or equal to the pivot, so, 
-            // put in the beginning of the array 
-            // and increase the index of i 
             if (arr[j] <= x){
-
-                // swap arr[i] and arr[j]
                 arr[i] = swap(arr[j], arr[j] = arr[i]);
                 i++;
             }
         }
 
         // swap arr[i] and arr[r]
-        arr[i] = swap( arr[r], arr[r] = arr[i]);
+        arr[i] = swap(arr[r], arr[r] = arr[i]);
         return i;
     }
 
     public static int swap(int itself, int dummy){
         return itself;
     }
+
 
     // another way of doing partition 
     public static int myPartition(int arr[], int left, int right){
@@ -6845,12 +6847,25 @@ public class myArray {
         int pivotIndex = left + rand.nextInt(right - left + 1);
         int pivot = arr[pivotIndex]; 
 
+        /*
+        * the nextInt(int n) method is used to get a pseudorandom, uniformly 
+        * distributed int value between 0 (inclusive) and the specified value 
+        * (exclusive)
+        */
         while(i <= j){
 
-            while ( arr[i] < pivot ) i++;
-            while (arr[j] > pivot) j--;
+            while ( arr[i] < pivot ) {
+                i++;
+            }
 
-            // this condition is very necessary , why would I need this ? 
+            while (arr[j] > pivot){
+                 j--;
+            }
+
+            /*
+            * array can be all sorted and the pivot 
+            * is the last element of the array
+            */
             if (i <= j) {
 
                   tmp = arr[i];
@@ -6893,20 +6908,20 @@ public class myArray {
     * distributed int value between 0 (inclusive) and the specified value 
     * (exclusive), drawn from this random number generator's sequence.
     */
-    public static void shuffleArray(int[] ar){
+    public static void shuffleArray(int[] arr){
 
-        // If running on Java 6 or older, use `new Random()` on RHS here
-        Random rnd = ThreadLocalRandom.current();
+        Random random = new Random();
 
-        for (int i = ar.length - 1; i > 0; i--){
+        int N = arr.length;
+
+        for (int i = N - 1; i > 0; i--){
 
             // take an int in the range of [0, 1, 2,...., i]
-            int index = rnd.nextInt(i + 1);
+            int index = random.nextInt(i + 1);
 
-            // Simple swap
-            int a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
+            int a = arr[index];
+            arr[index] = ar[i];
+            arr[i] = a;
         }
     }
 
@@ -6924,7 +6939,6 @@ public class myArray {
 
         Integer[] newArray = new Integer[arr.length];
         int i = 0;
-
 
         for (int value : arr){
 
@@ -6946,7 +6960,7 @@ public class myArray {
 
         // int[] to List<Integer>
         List<Integer> you  = Arrays.stream(data).boxed().collect(Collectors.toList());
-        List<Integer> like = IntStream.of( data ).boxed().collect( Collectors.toList() );
+        List<Integer> like = IntStream.of( data ).boxed().collect( Collectors.toList());
 
         // convert List<Integer> to int[] unboxing
         int[] unboxed = you.stream().mapToInt(i->i).toArray();
@@ -6954,11 +6968,10 @@ public class myArray {
         List<String> myList = Arrays.asList("a1", "a2", "b1", "c2", "c1");
         // List<String> myList = Arrays.asList(new String[]{"a1", "a2", "b1", "c2", "c1"});
 
-
         myList.stream().filter(s -> s.startsWith("c"))
-                                                    .map(String::toUpperCase)
-                                                    .sorted()
-                                                    .forEach(System.out::println);                                                    
+                                .map(String::toUpperCase)
+                                .sorted()
+                                .forEach(System.out::println);                                                    
     }   
     /*END of solution: convert an int[]
     (primitive array) to Integer[] (class
@@ -7079,6 +7092,7 @@ public class myArray {
     /*solution-b*/
     public static int numberOfPairs(int[] a, int k ) {
 
+
         int len = a.length;
         int counter = 0;
 
@@ -7101,7 +7115,6 @@ public class myArray {
             for (j = i - 1; j >= 0; j--){
 
                 if (a[i] == a[j]) {
-
                     isCheckedLeft = true;
                     break;
                 }
@@ -7112,8 +7125,6 @@ public class myArray {
             if (isCheckedLeft) {
                 continue;
             }
-            //END of 1st part for the dups ( iteration of i)
-
 
             // 2. important for loop 
             for (j = i+1; j < len; j++){
@@ -7144,6 +7155,8 @@ public class myArray {
                     counter++;
                 }
             }
+
+
         }
 
         return counter;
@@ -7156,24 +7169,23 @@ public class myArray {
 
 
 
-    /*solution-c*/
-    public static int numberOfPairs2( int[] arr, int sum ){
+    /*solution - c*/
+    public static int numberOfPairs2(int[] arr, int sum ){
 
 
         // new HashSet<>( needs list here )
         Integer[] arr1 = Arrays.stream(arr).boxed().toArray(Integer[]:: new)));
 
-        List<Integer> lis = new ArrayList<Integer>(new HashSet<>
-            (Arrays.asList( arr1));
+        List<Integer> lis = new ArrayList<Integer>(new HashSet<>(Arrays.asList( arr1));
 
-        int len = lis.size();
+        int N = lis.size();
         int count = 0;
 
         // this solution is not correct as if the dups 
         // themselves will satisfy the condition
-        for (int i = 0; i < len - 1; i++ ){
+        for (int i = 0; i < N - 1; i++ ){
 
-            for (int j = i+1; j < len; ) {
+            for (int j = i+1; j < N; ) {
 
                 if ( lis.get(i) + lis.get(j++) <= sum )
                     count++;
@@ -7225,11 +7237,12 @@ public class myArray {
 
         for (int i : array) {
 
-            for(Integer x : set){
+            for(int x : set){
 
-                if(x =< sum - i){
+                if(x + i =< sum){
 
                     int[] y = new int[]{x,i};
+
                     Arrays.sort(y);
                     uniquePairs.add( Arrays.toString(y) );
                 }                
@@ -7257,14 +7270,18 @@ public class myArray {
     // doesn't work 
     public static int numberOfPairs1(int[] a, int k ){
 
-        int len = a.length;
+        int N = a.length;
         
-        if (len == 0) {
+        if (N == 0) {
             return -1;
         }
         
         Arrays.sort(a);
-        int count  = 0, left = 0, right = len -1; 
+        
+        int count  = 0;
+
+        int left = 0; 
+        int right = N -1; 
 
 
         while(left < right){
@@ -7287,9 +7304,9 @@ public class myArray {
                 }
 
                 /*may be the same numbers will also satisfy the relation*/
-                if ( a[right] + a[right-1] <= k) {
+                // System.out.println(a[right] +"\t"+ a[right-1]);
+                if (a[right] + a[right-1] <= k) {
                     count ++;
-                    // System.out.println(a[right] +"\t"+ a[right-1]);
                 }
 
                 /*now, use iteration to traverse 
@@ -7317,10 +7334,11 @@ public class myArray {
     //              java.utils.stream.IntStream 
     public static int numberOfPairs1(int[] values, int maxVal) {
 
+        int N = values.length;
 
-        return IntStream.range(0, values.length)
-            .flatMap(i1 -> IntStream.range(i1 + 1, values.length)
-                .map(i2 -> Arrays.asList(values[i1], values[i2])))
+        return IntStream.range(0, N)
+            .flatMap(i1 -> IntStream.range(i1 + 1, N)
+            .map(i2 -> Arrays.asList(values[i1], values[i2])))
             .distinct()
             .filter(l -> l.stream().sum() <= maxVal)
             .count();
@@ -7389,9 +7407,10 @@ public class myArray {
     /*solution-b, using iteration*/
     public static int fibonacci1(int n ){
 
-		int first = 0, second  = 1;
+		int first = 0;
+        int second  = 1;
 		
-        if (n <= 0 ) {
+        if (n < 0 ) {
             return -1; 
         }
 
@@ -7445,7 +7464,6 @@ public class myArray {
             
         else {
 
-
             if( arr[n-1] != 0 && (arr[n-2] != 0 || (arr[n-2] == 0 && n-2 == 0))){
                 return arr[n] = arr[n-1] + arr[n-2]; 
             }
@@ -7472,23 +7490,22 @@ public class myArray {
     for bitwise operation*/
     public static void bitWiseOperation(){
 
-
     	/* 
 
-        Bitwise and Bit Shift Operators
+            Bitwise and Bit Shift Operators
+            -------------------------------
 
-		~       Unary bitwise complement
+    		~       Unary bitwise complement
 
-		<<      Signed left shift
-        <<<     Unsigned left shift
+    		<<      Signed left shift
+            <<<     Unsigned left shift
 
-		>>      Signed right shift
-		>>>     Unsigned right shift
-        
-		
-        &       Bitwise AND
-		^       Bitwise exclusive OR namely, XOR
-		|       Bitwise inclusive OR
+    		>>      Signed right shift
+    		>>>     Unsigned right shift
+            		
+            &       Bitwise AND
+    		^       Bitwise exclusive OR namely, XOR
+    		|       Bitwise inclusive OR
 
         */
 
@@ -7575,7 +7592,6 @@ public class myArray {
     /*solution-a*/
 	public static void listToArray_1(){
 
-
 		List<Integer> lis = new ArrayList<Integer>();
 	    int [] a = {12,4,56,78};
 
@@ -7616,15 +7632,15 @@ public class myArray {
     /*solution-b*/
     public static int[] listToArray_2(List<Integer> lis){
 
-        int[] ret = new int[lis.size()];
+        int[] A = new int[lis.size()];
 
-        for (int i=0; i < ret.length; i++){
+        for (int i = 0; i < A.length; i++){
 
-            ret[i] = lis.get(i).intValue();
-            // ret[i] = lis.get(i); // also works 
+            A[i] = lis.get(i).intValue();
+            // A[i] = lis.get(i); // also works 
         }
 
-        return ret;
+        return A;
     }
     /*END of solution-b*/
 
@@ -7637,7 +7653,6 @@ public class myArray {
         Iterator<Integer> it = lis.iterator();
         
         for (int i = 0; i < ret.length; i++){
-
             ret[i] = it.next().intValue();
         }
 
@@ -7651,11 +7666,10 @@ public class myArray {
     /*solution-d*/
     private int[] listToArray_4(List<Integer> integers) {
 
-        int[] ints = new int[integers.size()];
         int i = 0;
+        int[] ints = new int[integers.size()];
 
-        for (Integer n : integers) {
-
+        for (int n : integers) {
             ints[i++] = n;
         }
 
@@ -7674,7 +7688,6 @@ public class myArray {
 	/*question: design an algorithm to check if 
     the brace Characters are in correct sequence 
     in the  string*/
-
     public static String[] braces(String[] values){
 
         int index = 0;
@@ -7706,6 +7719,7 @@ public class myArray {
 	    if (str ==  null) {
             return false; 
         }
+
 	    else if (str.length() == 0) {
             return true; 
         }
@@ -7725,7 +7739,7 @@ public class myArray {
 		        // 2. 
 		        else if ( c_lis.contains(ch) ){
 
-		          if ( !stack.isEmpty()){
+		          if (!stack.isEmpty()){
 
 		              char test = stack.pop(); 
 
@@ -7744,13 +7758,14 @@ public class myArray {
                         return false;
 		              }
 
-                      else
-
+                      else{
                         return false;
+                      }  
 		          }
 		          
 		          // 3
-		          else return false; 
+		          else 
+                    return false; 
 		        }
 
 		        else return false; 
@@ -7787,10 +7802,14 @@ public class myArray {
 
         // "[123[abc]]an[125[bc]]"
         while (counter > 0) {
+
             char c = text[++closePos];
+            
             if (c == '[') {
                 counter++;
-            } else if (c == ']') {
+            } 
+
+            else if (c == ']') {
                 counter--;
             }
         }
@@ -7801,10 +7820,12 @@ public class myArray {
 
 
 
+
     /*
     * solution-b
     */
     public static int findIndexOfClosingBrace(String s, int openPos) {
+
 
         // "[123[abc]]an[125[bc]]"
         char[] text = s.toCharArray();
@@ -7836,10 +7857,12 @@ public class myArray {
     }
 
 
+
     /*
     * Solution - c
     */
     public static int findIndexOfClosingBrace(String str, int openIndex) {
+
 
         // "[123[abc]]an[125[bc]]"
         Stack<Character> stack = new Stack<Character>();
@@ -7860,13 +7883,16 @@ public class myArray {
             return -1;
         }
 
+
         for (int i = openIndex + 1; i < str.length(); i++) {
 
             char current = str.charAt(i);
 
             if (openingBracesList.contains(current)) {
                 stack.push(current);
-            } else if (closingBracesList.contains(current)) {
+            } 
+
+            else if (closingBracesList.contains(current)) {
 
                 if (!stack.isEmpty()) {
 
@@ -7875,7 +7901,10 @@ public class myArray {
                     if (braceMatching(opBrace, current)) {
                         stack.pop();
                     }
-                } else if (braceMatching(providedOpeningBrace, current)) {
+
+                } 
+
+                else if (braceMatching(providedOpeningBrace, current)) {
                     return i;
                 }
             }
@@ -7970,29 +7999,28 @@ public class myArray {
 	/*question: design an algorithm to find 
     highest occurred character in a String*/
 
-
 	/*solution-a*/
-    public static void findMaxChar( String str ){
+    public static void findMaxChar(String str){
 
 
-        int len = str.length();
+        int N = str.length();
         
         int count = 1;
         int maxCount = 1;
 
         char maxChar = '\0';
 
-
         Map<Character, Integer> map = new HashMap<Character, Integer>();
+
         /* it's also possible to do this solution using
         Set<Character> set = new LnkedHashSet<Character>();*/
 
-        for(int i = 0; i < len-1; i++ ){
+        for(int i = 0; i < N-1; i++ ){
 
             char c = str.charAt(i);
             count = 1;
 
-            for (int j = len - 1 ; j > i; j--){
+            for (int j = N - 1 ; j > i; j--){
 
                 if ( c == str.charAt(j)) {
                     count++;
@@ -8006,7 +8034,6 @@ public class myArray {
                 // more than one maximum character 
                 // of the current iteration 
                 if( count ==  maxCount){
-
                     map.put(str.charAt(i), count);
                 }
 
@@ -8023,12 +8050,15 @@ public class myArray {
 
         int index =0;
 
+
         for ( Map.Entry<Character, Integer> entry : map.entrySet()){
+
             System.out.println("index :" + (++index) 
                             +"\t"+entry.getKey()+ "\t"+ entry.getValue() );
         }
     }
     /*END of solution-a*/
+
 
 
     /* Bairesdev*/
@@ -8045,14 +8075,17 @@ public class myArray {
 
             if (arr[i] == arr[i - 1]) {
                 count++;
-            } else {
+            } 
+
+            else {
 
                 if (count > 1) {
 
                     if (count == maxCount) {
-
                         map.put(arr[i], count);
-                    } else if (count > maxCount) {
+                    } 
+
+                    else if (count > maxCount) {
 
                         maxCount = count;
 
@@ -8084,11 +8117,16 @@ public class myArray {
 	/*solution - b*/
 	public static void findMaxChar3 (String str){
 
+
         char[] array = str.toLowerCase().toCharArray();
-        int count = 1, maxCount = 1;
+
+        int count = 1;
+        int maxCount = 1;
+
         char maxChar = '0';
 
         Set<Character> set = new LinkedHashSet<Character>();
+
 
         for ( int i = 0; i < str.length() - 1; i++ ){  
 
@@ -8110,8 +8148,9 @@ public class myArray {
 
             if (count >1){
 
-                if( count ==  maxCount)
+                if( count ==  maxCount){                    
                     set.add(str.charAt(i));
+                }
                 
                 else if ( count > maxCount){
 
@@ -8154,18 +8193,18 @@ public class myArray {
 
 		for ( char c : letters ) { 
 			
-				switch (c) { 
+			switch (c) { 
 
-					case 'a': 
-					case 'e': 
-					case 'i': 
-					case 'o': 
-					case 'u': 
+				case 'a': 
+				case 'e': 
+				case 'i': 
+				case 'o': 
+				case 'u': 
 
-						count++; 
-    				    break; 
+					count++; 
+				    break; 
 
-    				default: 
+				default: 
 			} 
 		} 
 
@@ -8180,9 +8219,11 @@ public class myArray {
 
 
 
-	/*question: design an algorithm to check an input string is 
-    substring of another string. The solution is case sensitive*/
+	/* question: design an algorithm to check an input 
+    * string is substring of another string. The solution 
+    * is case sensitive*/
 	public static boolean isSubstring(String fr, String sn, int f_len, int s_len ){
+
 
         // small string for testing substring
         if ( f_len == 0) {
@@ -8245,8 +8286,14 @@ public class myArray {
     count the vowels of a string*/
 	public static void  countVowelConstants() throws IOException {
 
+
 		String str;
-		int vowels = 0, digits = 0, blanks = 0;
+
+		int vowels = 0; 
+        int digits = 0; 
+
+        int blanks = 0;
+
 		char ch;
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -8263,14 +8310,18 @@ public class myArray {
 			ch = str.charAt(i);
 
 			if ( ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' || 
-			    ch == 'I' || ch == 'o' || ch == 'O' || ch == 'u' || ch == 'U')
-				vowels ++;
+			    ch == 'I' || ch == 'o' || ch == 'O' || ch == 'u' || ch == 'U'){
+			
+            	vowels ++;
+            }
 
-			else if ( Character.isDigit(ch) )
+			else if ( Character.isDigit(ch) ){
 				digits ++;
+            }
 
-			else if( Character.isWhitespace(ch) )
+			else if( Character.isWhitespace(ch) ){
 				blanks ++;
+            }
 		}
 
 		System.out.println("Vowels : " + vowels);
@@ -8309,13 +8360,13 @@ public class myArray {
 
 
     /*solution-b*/
-    public static String reverse1( String str ) {
+    public static String reverse1(String str){
 
-        if (str.length() < 2) {
+        if (str.length() <= 1) {
             return str;
         }
 
-        return reverse1( str.substring(1) ) + str.charAt(0);
+        return reverse1(str.substring(1) ) + str.charAt(0);
     }
     /*END of solution-a*/
 
@@ -8339,15 +8390,17 @@ public class myArray {
 	public static ArrayList<String> permutation( String str ) { 
 
 		ArrayList<String> lis = new ArrayList<String>() ; 
-    	permutation( "", str, lis ); 
+
+    	permutation("", str, lis ); 
     	return lis; 
 	}
 
-	private static void permutation( String prefix, String str, ArrayList<String> lis ) {
+	private static void permutation( String prefix, String str, 
+                                                    ArrayList<String> lis){
 
-	    int n = str.length();
+	    int N = str.length();
 
-	    if (n == 0) {
+	    if (N == 0) {
 
 	    	lis.add(prefix);
 	    	System.out.println(prefix);
@@ -8355,8 +8408,7 @@ public class myArray {
 	    	
 	    else {
 
-	        for (int i = 0; i < n; i++) {
-
+	        for (int i = 0; i < N; i++) {
 	        	permutation(prefix + str.charAt(i),  str.substring(0, i) + str.substring(i+1),  lis);
 	        }	        		            
 	    }
@@ -8368,12 +8420,13 @@ public class myArray {
 
 	/*solution - b*/
     // using merge sort
-	public static ArrayList<String> permutation1 ( String s ){
+	public static ArrayList<String> permutation1(String s){
 
 	    ArrayList<String> res = new ArrayList<String>();
 
-	    if ( s.length() == 1 )
+	    if (s.length() == 1){
             res.add(s);
+        }
 	    
 	    else if (s.length() > 1){
 
@@ -8383,8 +8436,7 @@ public class myArray {
 	        String last = s.substring( lastIndex );
 	        String rest = s.substring( 0, lastIndex );
 
-	        if ( rest != null && last != null ){
-
+	        if (rest != null && last != null){
 	        	res = merge( permutation1(rest), last );
 	        }	        	
 	    }
@@ -8598,6 +8650,7 @@ public class myArray {
 	/*solution - a*/
 	public static String sentenceReverse5(String input){
 
+
         // split based on one or multiple white-spaces 
 		Scanner sc = new Scanner(input);
 		Stack<String> stack = new Stack<String>();
@@ -8700,12 +8753,13 @@ public class myArray {
     /*solution-a*/
     public int[] removeArrDups( int [] arr ){
 
-
         int len = arr.length;
-        if( len ==  0) return null;
+        
+        if(len ==  0) {
+            return null;
+        }
 
         // Set<Integer> set = new HashSet<>(Arrays.asList(newArray));
-
         List<Integer> lis = new ArrayList<Integer>();
 
         for ( int j = 0;  j < len ; j++){
@@ -8771,8 +8825,9 @@ public class myArray {
         char[] ch = "Seattle".toCharArray();
 
         // convert character array to Stirng 
-        System.out.println( String.valueOf(ch) );
+        System.out.println(String.valueOf(ch));
         System.out.println(new String(ch));
+
 
 		System.out.println("here we go");
 
@@ -8795,6 +8850,7 @@ public class myArray {
       	Integer i1 = new Integer(30);
    
 		String str = "5";
+
 
 		// returns a Integer instance representing the specified string
 		System.out.println( "Value = " + i1.valueOf(str));
@@ -8906,9 +8962,9 @@ public class myArray {
 
 	/*question: design an algoruthm to find the 
     first non-repitative character of a string*/
-
     /*solution-a*/
 	public static char getFirstNonRepeatedChar( String str ) { 
+
 
         /*LinkedHashMap/LinkedHashSet keeps the order, 
         but, not the HashMap/HashSet, note: LinkedHashSet 
@@ -8962,7 +9018,6 @@ public class myArray {
 			} 
 
 			else { 
-
 				nonRepeating.add(letter); 
 			} 
 		} 
@@ -8980,6 +9035,7 @@ public class myArray {
     /*solution-c*/
 	public static char firstNonRepeatedCharacter( String word ) { 
 
+        // better to use the LinkedHashMap to keep sequence 
 		Map<Character,Integer> scoreboard = new HashMap<Character,Integer>(); 
 
 		for ( int i = 0; i < word.length(); i++ ) { 
@@ -8991,7 +9047,6 @@ public class myArray {
         /*we need to iterate again over the word as 
         HashMap doesn't keep track of order */
 
-        // Otherwise, use LinkedHashMap<>
 		for (int i = 0; i < word.length(); i++) { 
 
 			char c = word.charAt(i); 
@@ -9018,12 +9073,10 @@ public class myArray {
 
     /*solution-a*/
 	public static boolean isPalindrome3 (String str) {
+
 	    return str.equals(new StringBuilder(str).reverse().toString());
 	}
     /*END of solution-a*/
-
-
-
 
 
     /*solution-b*/
@@ -9044,14 +9097,11 @@ public class myArray {
 
 
 
-
-
-
-
     /*solution-c*/
-	public static boolean istPalindrom1 ( String wor ){
+	public static boolean istPalindrom1 ( String word){
 
 		char[] word = wor.toCharArray(); 
+
 	    int i1 = 0;
 	    int i2 = word.length - 1;
 
@@ -9060,7 +9110,6 @@ public class myArray {
 	        if ( word[i1++] != word[i2--]) {  
                 return false;
             }
-
 	    }
 
 	    return true;
@@ -9091,7 +9140,7 @@ public class myArray {
             return false;
         }
 
-		int checker = 0;
+		
 
 		/*ASCII character set 
 		'a' = 97
@@ -9099,11 +9148,30 @@ public class myArray {
 		'A' = 65
 		'Z' =  90*/
 
+        /*
+        Let's represent cominations of N-element set as N-bit numbers, where jth bit is 1 
+        if jth item is included in the combintation, and 0 otherwise. This way you can 
+        represent all possible combinations as numbers in range [0, 2N).
+
+        The outer loop iterates over these numbers (1 << N == 2N).
+
+        The inner loop iterates over items of the set and if condition checks whether j-th 
+        item is included into the current combination. In other words, it checks if jth bit 
+        of i is 1.
+
+        1<<j gives you a number where only jth bit is 1, i & (1 << j) resets all bits of i 
+        other than that bit, and > checks that result is not 0.
+
+        Note that this code (with ints) only works for N < 31.
+        */
+
+        int checker = 0;
+
 		for ( int i = 0; i < str.length() ; i++ ) {
 
 			int val = str.charAt(i) - 'a';
 
-			if ((checker & (1 << val)) > 0) {
+			if (checker & (1 << val) > 0) {
 				return false;
             }
 
@@ -9114,15 +9182,13 @@ public class myArray {
 	}
     /* END of solution-a*/
 
-	
-
 
     /*
-        ASCII character set 
-        'a' = 97
-        'z' = 122
-        'A' = 65
-        'Z' =  90
+    ASCII character set 
+    'a' = 97
+    'z' = 122
+    'A' = 65
+    'Z' =  90
     */
 
     /* solution-b*/
@@ -9140,8 +9206,9 @@ public class myArray {
 
 			int val = str.charAt(i);
 
-			if (char_set[val]) 
+			if (char_set[val]){
 				return false;
+            }
 
 			char_set[val] = true;
 		}
@@ -9164,8 +9231,9 @@ public class myArray {
 
             Character c = in.charAt(i);
 
-            if (chars.contains(c)) 
+            if (chars.contains(c)){
                 return false;
+            }
             
             chars.add(c);
         }
@@ -9192,16 +9260,19 @@ public class myArray {
 	public static String removeDups1( String str1) {
 
 		ArrayList<Character> lis = new ArrayList<Character>();
+
 	    char[] str = str1.toCharArray();
 
-	    for(int i = 0 ; i < str.length ; i++ ){
+	    for(int i = 0 ; i < str.length; i++){
 
-	        if( !lis.contains( str[i] ) ){
+	        if(!lis.contains( str[i])){
 	            lis.add(str[i]);
 	        }
 	    }
 
         // StringBuilder constructors 
+        // --------------------------
+
         // 1. StringBuilder ()
         // 2. StringBuilder(int capacity)
         // 3. StringBuilder(Stirng str)
@@ -9215,8 +9286,8 @@ public class myArray {
         /*for( Character e: set){ 
         } also correct*/
 
-	    for( char e : lis ){
-	        builder.append(e);
+	    for(char c : lis){
+	        builder.append(c);
 	    }
 
 	    return builder.toString();
@@ -9239,8 +9310,7 @@ public class myArray {
             // i-the Character is converted to String 
 	        String si = s.substring(i, i + 1);
 
-	        if ( noDupes.indexOf(si) == -1 ) {
-
+	        if (noDupes.indexOf(si) == -1){
 	            noDupes.append(si);	        
 	        }
 	    }
@@ -9250,20 +9320,15 @@ public class myArray {
     /*END of solution-b*/
 
 
-
-
-
-
-
     /*solution-c*/
 	public static String removeDups3(String input) {
 
 	    return new StringBuilder(
-	            new StringBuilder(input)
-	                    .reverse()
-	                    .toString()
-	                    .replaceAll("(.)(?=.*\\1)", ""))
-	            .reverse().toString();
+	           new StringBuilder(input)
+                    .reverse()
+                    .toString()
+                    .replaceAll("(.)(?=.*\\1)", ""))
+                    .reverse().toString();
 	}
     /*END of solution-c*/
 
@@ -9271,36 +9336,39 @@ public class myArray {
 
 
     /*solution-d*/
-	public static String removeDups4 (String str1) {
+	public static String removeDups4(String str1){
+
 
 	    if (str1 == null) {
 	        return null;
         }
 
 	    char[] str = str1.toCharArray();
-	    int len = str.length;
+	    int N = str.length;
 
-	    if (len < 2) {
+	    if (N < 2) {
 	        return str1;
         }
 
 	    char temp = str[0];
 
-	    for (int i = 1; i < len; i++) {
+	    for (int i = 1; i < N; i++){
 
-	    	if ( temp != '\0' )
+	    	if (temp != '\0'){
 
-	    		for (int j = i; j < len; j++)
+	    		for (int j = i; j < N; j++){
 
 	                if ( temp == str[j] ){
 	                    str[j] = '\0';
                     }
-	                
+                }
+	        }
+
 	        temp = str[i];
 	    }
 
 	    int i = 0;
-	    char[] str2 = new char[ len ];
+	    char[] str2 = new char[N];
 
 	    for ( char c : str ){
 
@@ -9382,22 +9450,20 @@ public class myArray {
 
 
     /*solution-g*/
-	public static String removeDups7(  String str1 ){
+	public static String removeDups7(String str1){
 
 		char[] chars = str1.toCharArray();
 
         // LinkedHashSet will keeps the sequence 
 		Set<Character> charSet = new LinkedHashSet<Character>();
 
-		for ( char c : chars ) {
-
+		for (char c : chars){
 		    charSet.add(c);
 		}
 
 		StringBuilder sb = new StringBuilder();
 
-		for ( Character character : charSet ) {
-
+		for (Character character : charSet ) {
 		    sb.append(character);
 		}
 
@@ -9455,6 +9521,7 @@ public class myArray {
 		char[] str = str1.toCharArray();		
 		int len = str.length;
 
+
 		for ( int i = 0 ; i < len-1 ; i++){
 
 			if( str[i] != '\0'){
@@ -9473,8 +9540,9 @@ public class myArray {
 
 		for( char e: str ){
 
-			if ( e != '\0')
+			if ( e != '\0'){
 	        	sb.append(e);
+            }
 	    }
 
 		return sb.toString();  
@@ -9508,7 +9576,7 @@ public class myArray {
             // str[i] is char, when inserted inside the 
             // boolean [] hit, it automatically converted to it's ASCII value 
             // and being used as index 
-            if ( !hit[ str[i] ] ) {
+            if (!hit[ str[i]]){
 
                 hit[ str[i] ] = true;   
                 str[tail++] = str[i];
@@ -9516,8 +9584,9 @@ public class myArray {
         }
 
         // put the end of the array as null Character 
-        while( tail < len) 
+        while(tail < len) {
             str[tail++] = '\0';
+        }
 
         return new String(str).trim();
     }
@@ -9540,8 +9609,9 @@ public class myArray {
 	/*solution - a*/
 	public static boolean isAnagram( String word, String anagram ){
 
-		if ( word.length() != anagram.length() ) 
+		if (word.length() != anagram.length()) {
 			return false;
+        }
 		
 		char[] chars = word.toCharArray();
 
@@ -9608,12 +9678,12 @@ public class myArray {
 			int index = sbSecond.indexOf( "" + ch );
 
 			if (index != -1) {
-
 				sbSecond.deleteCharAt(index);
 			} 
 
-			else 
+			else {
 				return false;			
+            }
 		}
 
         // StringBuilder doesn't have any isEmpty() method 
@@ -9643,6 +9713,18 @@ public class myArray {
 	}
 
 
+
+    /*
+    ALGORITHM
+    ---------
+    i.   count the unique characters and all characters of the 1st string
+
+    ii.  decrease the unique characters and all characters of the 2nd string
+
+    iii. if the count of all characters maintain true for 2nd string and 
+         the number of unique character matches in both of the strings, return 
+         true
+    */
 	
 	/*second solution of anagram*/
 	public static boolean anagram( String s, String t ) {
@@ -9660,7 +9742,7 @@ public class myArray {
 		'Z' =  90
 		'DEL' = 127*/
 
-        /* now, every cell is filled with zeros */
+        /*now, every cell is filled with zeros*/
 		int[] letters = new int[128];
 
 		int num_unique_chars = 0;
@@ -9692,7 +9774,7 @@ public class myArray {
 
 				++num_completed_t;
 
-				if ( num_completed_t == num_unique_chars ) {
+				if (num_completed_t == num_unique_chars){
 					// itÕs a match if t has been processed completely
 					return true;
 					//return i == t.length() - 1;
@@ -9708,7 +9790,7 @@ public class myArray {
 
 
 	/* method for checking anagram */
-	public static boolean permutation2( String s, String t ) {
+	public static boolean permutation2(String s, String t){
 
 		if ( s.length() != t.length() ) {
 			return false;
@@ -9753,8 +9835,9 @@ public class myArray {
 
         for ( char c: ch){
 
-            if (c == ' ') 
+            if (c == ' '){
                 count++;
+            }
         }
 
         int len = ch.length + 2 * count;
@@ -9789,16 +9872,16 @@ public class myArray {
 
     public static String replaceSpaces1(String in) {
 
-        if (in == null) 
+        if (in == null){
             return null;
+        }
         
-        /* Java libraries, not even once. In real life, I'd just use sed,
-         * maybe :%s/ /%20/g if scripting in vim.
-         */
+        /*
+        * there are no difference between the java.lang.String methods 
+        * replace() and replaceAll(), other than that the later uses 
+        * regex
+        */
 
-        // Q: What's the difference between the java.lang.String methods replace() and replaceAll(), other than that the later uses regex.
-
-        // A: Just the regex. They both replace all :)
         return in.replace(" ", "%20");
     }
     /* END of solution: design an algorithm to replace 
@@ -9812,6 +9895,7 @@ public class myArray {
 	/*Question : An unlabeled break statement terminates the innermost switch, for, while, 
 	or do-while  statement, but a labeled break terminates an outer statement.*/
 	public static void breakTest(){
+
 
         int[][] arrayOfInts = { 
 
@@ -9859,7 +9943,9 @@ public class myArray {
     /*solution-a*/
     public static int[][] rotateMatrix(int[][] in) {
         
-        if (in == null) return null;
+        if (in == null) {
+            return null;
+        }
                 
         final int N = in.length; // NxN matrix
         int[][] out = new int[N][N];
@@ -9890,8 +9976,10 @@ public class myArray {
 			
 			for ( int i = first; i < last; ++i ) {
 
+
 				int offset = i - first;
 				int top = matrix[first][i]; // save top
+
 
 				// left -> top
 				matrix[first][i] = matrix[last-offset][first]; 			
@@ -9934,7 +10022,7 @@ public class myArray {
     // floor is not necessary  
 
     (int) Math.ceil( Math.random() * 100) returns 1 to 100*/    
-	public static int randomWithRange( int min, int max ){
+	public static int randomWithRange(int min, int max){
 
 	   int range = (max - min) + 1;     
 	   return (int)(Math.random() * range) + min;
@@ -10009,8 +10097,7 @@ public class myArray {
 
 		for (int i = 0; i < matrix.length; i++) {
 
-			for (int j = 0; j < matrix[0].length; j++) {
-
+			for (int j = 0; j < matrix[0].length; j++){
 				c[i][j] = matrix[i][j];
 			}
 		}
@@ -10048,8 +10135,9 @@ public class myArray {
 
     public static boolean isSubstring( String big, String small ) {
 
-		if (big.indexOf(small) >= 0) 
+		if (big.indexOf(small) >= 0){
             return true;		
+        }
 		
         else {
             return false;			
@@ -10063,7 +10151,9 @@ public class myArray {
 	/*solution -b*/
     public static boolean isRotation(String s1, String s2) {
 
-        if (s1 == null || s2 == null) return false;
+        if (s1 == null || s2 == null){
+            return false;
+        }
 
         return s1.length() == s2.length() && (s1 + s1).contains(s2);
     }

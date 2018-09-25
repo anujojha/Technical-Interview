@@ -7,92 +7,140 @@ generic priority queue using binary heap*/
 public class MaxPQ<Key> implements Iterable<Key> {
 
 
-    ////////////////////////////////////////////////////////////////////////////////
-    public static void addNewNumber(int randomNumber) {
 
-        /* Note: addNewNumber maintains a condition that maxHeap.size() >= minHeap.size() */
-        if (maxHeap.size() == minHeap.size()) {
+    
+    /*question: median for the heap*/
+    class MaxHeapComparator implements Comparator<Integer> {
 
-            if ((minHeap.peek() != null) &&
-                    randomNumber > minHeap.peek()) {
-                maxHeap.offer(minHeap.poll());
-                minHeap.offer(randomNumber);
+
+    // Comparator that sorts integers from highest to lowest
+        @Override
+        public int compare(Integer o1, Integer o2) {
+
+        // TODO Auto-generated method stub
+            if (o1 < o2) {
+                return 1;
+            } else if (o1 == o2) {
+                return 0;
             } else {
-                maxHeap.offer(randomNumber);
-            }
-        } else {
-            if (randomNumber < maxHeap.peek()) {
-                minHeap.offer(maxHeap.poll());
-                maxHeap.offer(randomNumber);
-            } else {
-                minHeap.offer(randomNumber);
+                return -1;
             }
         }
     }
 
-    public static double getMedian() {
-        /* maxHeap is always at least as big as minHeap. So if maxHeap is empty, then minHeap is also. */
-        if (maxHeap.isEmpty()) {
+
+    class MinHeapComparator implements Comparator<Integer> {
+
+    /*
+     * comparator that sorts integers from lowest to highest
+     */
+    @Override
+    public int compare(Integer o1, Integer o2) {
+
+        if (o1 > o2) {
+            return 1;
+        } else if (o1 == o2) {
             return 0;
-        }
-        if (maxHeap.size() == minHeap.size()) {
-            return ((double) minHeap.peek() + (double) maxHeap.peek()) / 2;
         } else {
-            /* If maxHeap and minHeap are of different sizes, then maxHeap must have one extra element. Return maxHeap’s top element.*/
-            return maxHeap.peek();
+            return -1;
         }
     }
+}
+
+/*END of solution: median for the heap*/
 
 
-    public static void addNewNumberAndPrintMedian(int randomNumber) {
 
-        addNewNumber(randomNumber);
-        System.out.println("Random Number = " + randomNumber);
 
-        printMinHeapAndMaxHeap();
-        System.out.println("\nMedian = " + getMedian() + "\n");
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+public static void addNewNumber(int randomNumber) {
+
+    /* Note: addNewNumber maintains a condition that maxHeap.size() >= minHeap.size() */
+    if (maxHeap.size() == minHeap.size()) {
+
+        if ((minHeap.peek() != null) &&
+            randomNumber > minHeap.peek()) {
+            maxHeap.offer(minHeap.poll());
+        minHeap.offer(randomNumber);
+    } else {
+        maxHeap.offer(randomNumber);
+    }
+} else {
+    if (randomNumber < maxHeap.peek()) {
+        minHeap.offer(maxHeap.poll());
+        maxHeap.offer(randomNumber);
+    } else {
+        minHeap.offer(randomNumber);
+    }
+}
+}
+
+public static double getMedian() {
+    /* maxHeap is always at least as big as minHeap. So if maxHeap is empty, then minHeap is also. */
+    if (maxHeap.isEmpty()) {
+        return 0;
+    }
+    if (maxHeap.size() == minHeap.size()) {
+        return ((double) minHeap.peek() + (double) maxHeap.peek()) / 2;
+    } else {
+        /* If maxHeap and minHeap are of different sizes, then maxHeap must have one extra element. Return maxHeap’s top element.*/
+        return maxHeap.peek();
+    }
+}
+
+
+public static void addNewNumberAndPrintMedian(int randomNumber) {
+
+    addNewNumber(randomNumber);
+    System.out.println("Random Number = " + randomNumber);
+
+    printMinHeapAndMaxHeap();
+    System.out.println("\nMedian = " + getMedian() + "\n");
+}
+
+public static void printMinHeapAndMaxHeap() {
+
+    Integer[] minHeapArray = minHeap.toArray(new Integer[minHeap.size()]);
+
+    Integer[] maxHeapArray = maxHeap.toArray(new Integer[maxHeap.size()]);
+
+    Arrays.sort(minHeapArray, maxHeapComparator);
+    Arrays.sort(maxHeapArray, maxHeapComparator);
+    System.out.print("MinHeap =");
+    for (int i = minHeapArray.length - 1; i >= 0; i--) {
+        System.out.print(" " + minHeapArray[i]);
     }
 
-    public static void printMinHeapAndMaxHeap() {
+    System.out.print("\nMaxHeap =");
 
-        Integer[] minHeapArray = minHeap.toArray(new Integer[minHeap.size()]);
-
-        Integer[] maxHeapArray = maxHeap.toArray(new Integer[maxHeap.size()]);
-
-        Arrays.sort(minHeapArray, maxHeapComparator);
-        Arrays.sort(maxHeapArray, maxHeapComparator);
-        System.out.print("MinHeap =");
-        for (int i = minHeapArray.length - 1; i >= 0; i--) {
-            System.out.print(" " + minHeapArray[i]);
-        }
-
-        System.out.print("\nMaxHeap =");
-
-        for (int i = 0; i < maxHeapArray.length; i++) {
-            System.out.print(" " + maxHeapArray[i]);
-        }
+    for (int i = 0; i < maxHeapArray.length; i++) {
+        System.out.print(" " + maxHeapArray[i]);
     }
+}
     ////////////////////////////////////////////////////////////////////////////////
 
 
     // number of items on priority queue
-    private int N;
+private int N;
 
     // store items at indices 1 to N
-    private Key[] pq;
+private Key[] pq;
 
     // optional Comparator
-    private Comparator<Key> comparator;
+private Comparator<Key> comparator;
 
 
-    public MaxPQ(int initCapacity) {
-        pq = (Key[]) new Object[initCapacity + 1];
-        N = 0;
-    }
+public MaxPQ(int initCapacity) {
+    pq = (Key[]) new Object[initCapacity + 1];
+    N = 0;
+}
 
-    public MaxPQ() {
-        this(1);
-    }
+public MaxPQ() {
+    this(1);
+}
 
     /**
      * Initializes an empty priority queue with the given initial capacity,
@@ -412,48 +460,4 @@ public class MaxPQ<Key> implements Iterable<Key> {
     }
 
 }
-
-
-/*question: median for the heap*/
-class MaxHeapComparator implements Comparator<Integer> {
-
-
-    // Comparator that sorts integers from highest to lowest
-    @Override
-    public int compare(Integer o1, Integer o2) {
-
-        // TODO Auto-generated method stub
-        if (o1 < o2) {
-            return 1;
-        } else if (o1 == o2) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-}
-
-
-class MinHeapComparator implements Comparator<Integer> {
-
-    /*
-     * comparator that sorts integers from lowest to highest
-     */
-    @Override
-    public int compare(Integer o1, Integer o2) {
-
-        if (o1 > o2) {
-            return 1;
-        } else if (o1 == o2) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-}
-
-/*END of solution: median for the heap*/
-
-
-
 
