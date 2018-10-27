@@ -10164,7 +10164,15 @@ public class myArray {
 
 
 
+    /*
+    * Sort a map based on the values and keep the top n elements 
+    */
+    private static void SortMapBasedOnValues(Map<Person, Duration>  map, int n){
 
+        Map<Person, Duration> sortedDecreasingly = map.entrySet().stream()
+        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).limit(n)
+        .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+    }
 
 
 
