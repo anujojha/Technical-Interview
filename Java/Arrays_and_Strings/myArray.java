@@ -1,3 +1,4 @@
+
 import java.util.*; 
 import java.util.stream.*;
 import java.io.*;
@@ -6,6 +7,12 @@ import java.util.Map.Entry;
 import java.util.Map; 
 import java.util.regex.*;
 import java.lang.StringBuilder;
+
+
+/*
+* Q1: https://hastebin.com/wecujizuho.http
+*/
+
 
 
 
@@ -256,8 +263,10 @@ class QuestionC {
             if (node.node2 != null && node.node2.node1 != node) {
                 System.out.print("inconsistent node: " + node);
             }
+
             System.out.print(node.data + "->");
         }
+
         System.out.println();
     }
     
@@ -453,7 +462,6 @@ class QuestionString {
         return outputStream.toByteArray();
     }
 
-
     private void encodeTokens(ByteArrayOutputStream output) throws IOException {
 
         nextToken("<");
@@ -515,6 +523,7 @@ class QuestionString {
     }
 
     private void nextToken(String expectedToken) throws IOException {
+
         if (currentTokenIndex >= tokens.size()) {
             throw new IOException("Unexpected end of input.");
         }
@@ -794,7 +803,10 @@ interface spotIn {
     public String get(int index); 
 }
 
+
+
 class DS implements spotIn {
+
 
     private Map<String, Integer> storage;
 
@@ -835,7 +847,6 @@ class DS implements spotIn {
         return temp;
     }
 
-
     public String encodeString(String str) {
 
         if(str == null || str.length() == 0){
@@ -844,6 +855,7 @@ class DS implements spotIn {
         
         char[] ch = str.toUpperCase().toCharArray();
         char[] result = new char[ch.length];
+
         int count = 0;
 
         for (char c : ch) {
@@ -870,8 +882,9 @@ class DS implements spotIn {
     
     public int convertToNumber(String str) {
 
-        if(str == null || str.length() == 0)
+        if(str == null || str.length() == 0){
             return -1;
+        }
         
         char[] ch = str.toCharArray();
         String test = "";
@@ -957,11 +970,9 @@ class DS implements spotIn {
 public class myArray {
 
 
-
     /*question:*/
     public static List<long[]> removNb(long n) {
 
-        
         long [] data = LongStream.range(1, n+1).toArray();
         long sum = LongStream.of(data).sum();
         
@@ -969,7 +980,6 @@ public class myArray {
         
         int i =  data.length/2;
         int limit = data.length -1;
-
         
         while(i < limit){
 
@@ -1051,7 +1061,9 @@ public class myArray {
         }
     }
 
+
     public static Map<String, double[]> statisticsHlpr(String strng) {
+
 
         String lines[] = strng.split("\\r?\\n");        
         String cities[] = new String[lines.length];
@@ -1101,7 +1113,6 @@ public class myArray {
 
         return stat.getMean();    
     }
-
 
     public static double variance(String town, String strng) {
      
@@ -1228,7 +1239,6 @@ public class myArray {
 
     static String mergeStrings(String a, String b) {
 
-
         boolean eql =  a.length() ==  b.length();
         boolean less =  a.length() < b.length();
         // boolean greater =  a.length() > b.length();
@@ -1282,7 +1292,6 @@ public class myArray {
 
     // String[] votes = { "Victor", "Veronica", "Ryan", "Dave", "Maria",
     //                      "Maria", "Farah", "Farah","Ryan",  "Veronica"};
-
     public static String electionWinner(String[] votes) {
 
 
@@ -1603,6 +1612,7 @@ public class myArray {
     public static void m_test(String[] args) {
 
         int N = 3;
+
         int[][] board_t = AssortedMethods.randomMatrix(N, N, 0, 2);
         Piece[][] board = new Piece[N][N];
         
@@ -1633,7 +1643,9 @@ public class myArray {
     }
     
     public static Piece hasWon(Piece[][] board) {
+
         if (board[0][0] != Piece.Empty &&
+
             (hasWinner(board[0][0], board[0][1], board[0][2]) ||
              hasWinner(board[0][0], board[1][0], board[2][0]))) {
             return board[0][0];
@@ -1747,9 +1759,11 @@ public class myArray {
      
         int N = 3;
         int[][] board_t = AssortedMethods.randomMatrix(N, N, 0, 2);
+
         Piece[][] board = new Piece[N][N];
 
         for (int i = 0; i < N; i++) {
+
             for (int j = 0; j < N; j++) {
                 int x = board_t[i][j];
                 board[i][j] = Tester.convertIntToPiece(x);
@@ -1766,10 +1780,12 @@ public class myArray {
 
     /*solution-f*/
     public static Piece hasWon(Piece[][] board) {
+
         Piece winner = Piece.Empty;
         
         /* Check rows. */
         for (int i = 0; i < board.length; i++) {
+
             winner = hasWon(board, i, 0, 0, 1);
             if (winner != Piece.Empty) {
                 return winner;
@@ -1947,6 +1963,7 @@ public class myArray {
                 return Piece.Empty;
             }
         }
+        
         return first;
     }   
     
@@ -2039,6 +2056,7 @@ public class myArray {
                         board[i][j] = convertIntToPiece(x);
                     }
                 }
+
                 //AssortedMethods.printMatrix(board_t);
                 Piece p3 = hasWonB(board);
                 Piece p4 = QuestionE.hasWon(board);
@@ -2046,6 +2064,9 @@ public class myArray {
                 Piece p6 = QuestionG.hasWon(board);
                 Piece p7 = QuestionH.hasWon(board);
                 //System.out.println(p + " " + p2);
+
+
+
                 if (p3 != p4 || p4 != p5 || p5 != p6 || p6 != p7) {
                     System.out.println(p3 + " " + p4 + " " + p5 + " " + p6 + " " + p7);
                     AssortedMethods.printMatrix(board_t);
@@ -2064,16 +2085,20 @@ public class myArray {
 
     /*Solution-a*/
     public static int factorsOf5(int i) {            
+
         int count = 0;
 
         while (i % 5 == 0) {
+
             count++;
             i /= 5;
         }    
         return count;
     }
+
     
     public static int countFactZeros(int num) {
+
         int count = 0;      
 
         for (int i = 2; i <= num; i++) {
@@ -2544,6 +2569,7 @@ public class myArray {
         if (number < 0) {
             return "Negative " + numToString(-1 * number);
         }
+
         int count = 0;
         String str = "";
         
@@ -2637,6 +2663,7 @@ public class myArray {
     public static int getFrequency(String[] book, String word) {
 
         word = word.trim().toLowerCase();
+
         int count = 0;
 
         for (String w : book) {
@@ -2658,9 +2685,11 @@ public class myArray {
             word = word.toLowerCase();
         
             if (word.trim() != "") {
+
                 if (!table.containsKey(word)) {
                     table.put(word, 0);
                 }
+
                 table.put(word, table.get(word) + 1);
             }
         }
@@ -2675,6 +2704,7 @@ public class myArray {
         }
 
         word = word.toLowerCase();
+
         if (table.containsKey(word)) {
             return table.get(word);
         }
@@ -2994,8 +3024,10 @@ public class myArray {
     }
 
     public static void testA3(){
+
         int[] cards = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         System.out.println(AssortedMethods.arrayToString(cards));
+
         shuffleArrayInteratively(cards);
         System.out.println(AssortedMethods.arrayToString(cards));
     }
@@ -3448,6 +3480,7 @@ public class myArray {
                 count++;
             }
         }
+
         System.out.println("Completed " + count + " runs.");
     }
     /*END of solution 18-6:*/
@@ -4380,6 +4413,7 @@ public class myArray {
     }   
 
     public static void testA8(){
+
         String[] arr = createGiantArray();  
         printLongestWord(arr);
     }
@@ -4463,6 +4497,7 @@ public class myArray {
         for (String word : words) {
             hash.add(word.toUpperCase());
         }
+
         return hash;
     }
     /*END of solution 18-10:*/
@@ -4783,6 +4818,7 @@ public class myArray {
     }
 
     public static int maxSubArray(int array[], int N) {
+
         int maxSum = 0;
         int runningSum = 0;
 
@@ -4995,6 +5031,7 @@ public class myArray {
      * forms a word (reading top to bottom) from the list. 
      */
     public Rectangle maxRectangle() {
+
         // The dimensions of the largest possible rectangle.
         int maxSize = maxWordLength * maxWordLength; 
 
@@ -5070,6 +5107,7 @@ public class myArray {
         // For each word of length l, try to make a new rectangle by adding
         // the word to the existing rectangle.
         for (int i = 0; i < groupList[l-1].length(); i++) {
+
             Rectangle orgPlus = rectangle.append(groupList[l-1].getWord(i));
             Rectangle rect = makePartialRectangle(l, h, orgPlus);
             if (rect != null) {
@@ -5081,8 +5119,10 @@ public class myArray {
 
     // Test harness.
     public static void testA2(){
+
         Question dict = new Question(AssortedMethods.getListOfWords());
         Rectangle rect = dict.maxRectangle();
+
         if (rect != null) {
             rect.print();
         } else {
@@ -5128,9 +5168,13 @@ public class myArray {
         hmap.put(4, "Sachin");
         hmap.put(88, "XYZ");
 
+        /*
+        * The HashMap is not thread-safe. We ned to make it thread-safe 
+        */
         Map map = Collections.synchronizedMap(hmap);
         Set set = map.entrySet();
 
+        // now starts the synchronized block of code 
         synchronized(map){
 
             Iterator i = set.iterator();
@@ -5155,7 +5199,9 @@ public class myArray {
     multiple white spaces from the Sting*/
     public static void delMultiWhSpaces() {
 
+
         String str = "String    With Multiple      Spaces";
+
         StringTokenizer st = new StringTokenizer(str, " ");
         StringBuilder builder = new StringBuilder();
 
@@ -5248,10 +5294,36 @@ public class myArray {
 
 
 
+    /*Question: create sub-map from the tree map*/
+    public static void myTreeMap2( ) {
+
+
+        List<Integer> keys = new ArrayList<>();
+
+        keys.add(2);
+        keys.add(3);
+        keys.add(42); // this key is not in the map
+
+        Map<Integer, String> map = new HashMap<>();
+
+        map.put(1, "foo");
+        map.put(2, "bar");
+        map.put(3, "fizz");
+        map.put(4, "buz");
+
+        Map<Integer, String> res = keys.stream()
+            .filter(map::containsKey)
+            .collect(Collectors.toMap(Function.identity(), map::get));
+
+        System.out.println(res.toString());  
+    }
+
+
+
+
     /*question: write a program  
     with syntaxes of TreeMap*/
     public static void myTreeMap(){
-
 
         TreeMap<String, String> treemap = new TreeMap<String, String>();
 
@@ -5466,6 +5538,7 @@ public class myArray {
     */
 
     public static int solveSuperMarketQueue(int[] customers, int n){
+
         return 0;
     }
     /*END OF SOLUTION*/
@@ -5507,8 +5580,7 @@ public class myArray {
         Collections.sort(names, new Comparator<String>() {
 
             @Override
-            public int compare(String a, String b){
-            
+            public int compare(String a, String b){            
                 return a.compareTo(b);
             }
         });
@@ -5978,8 +6050,11 @@ public class myArray {
             val = arr[i];
             index = i;
 
-            // put the first negative num in the 1st position 
-            // 2nd in the 2nd position and so on 
+            /*
+             * put the first negative num in the 1st 
+             * position, 2nd in the 2nd position and 
+             * so on
+            */ 
             while(index > negIndex && val < 0){
 
                 arr[index] = arr[index-1];
@@ -6053,13 +6128,152 @@ public class myArray {
 
 
 
+    /*
+        You are given a list of trips that together form a journey from one place to another. A trip has the form [starting place of the trip, destination place of the trip]. You are given the trips in random order. Write a function to find out what is the starting place of the journey. You may assume you are given the trips of the journey in a suitable data structure of your choice. You may assume a place is represented by a string.
+
+        Example 1:
+        exampleTrips := [[Cologne,Berlin],[Munich,Cologne],[YourPlace,Munich]]
+        The starting place of the journey given by exampleTrips is "YourPlace".
+
+        Example 2:
+        exampleTrips := [ [A,B], [B,C], [C,D] ]
+        The trip in this example started at "A".
+
+        Example 3:
+        exampleTrips := [ [D,E], [F,D], [E,X] ] 
+    */
+    /*
+     * function to find the starting city of a
+     * given journey from a list of trips
+     *
+     * time complexity for the solution is O(n)
+     * */
+    private static String findStartCity(Map<String, String> trips) {
+
+        Map<String, String> reverseTrips = new HashMap<String, String>();
+
+
+        /*
+         * create a reverse map for the trips where
+         * start and destination inter-changed
+         * */
+        for (Map.Entry<String, String> entry : trips.entrySet()) {
+            reverseTrips.put(entry.getValue(), entry.getKey());
+        }
+
+        String startCity = null;
+
+        /*
+         * if a start city for a trip is not present as the destination
+         * of any other trip, the city of the starting point for the whole
+         * journey
+         * */
+        for (Map.Entry<String, String> entry : trips.entrySet()) {
+
+            if (!reverseTrips.containsKey(entry.getKey())) {
+                startCity = entry.getKey();
+                break;
+            }
+        }
+
+        // the inputs are not valid
+        if (startCity == null) {
+            return null;
+        }
+
+        return startCity;
+    }
+
+
+    /*
+    * solution - b
+    */    
+    private static class Pair<A, B> {
+
+        private final A start;
+        private final B destination;
+
+        public Pair(A start, B destination) {
+            super();
+            this.start = start;
+            this.destination = destination;
+        }
+
+        public A getStart() {
+            return start;
+        }
+
+        public B getDestination() {
+            return destination;
+        }
+
+        public int hashCode() {
+
+            int hashFirst = start != null ? start.hashCode() : 0;
+            int hashSecond = destination != null ? destination.hashCode() : 0;
+
+            return (hashFirst + hashSecond) * hashSecond + hashFirst;
+        }
+
+        public boolean equals(Object other) {
+
+            if (other instanceof Pair) {
+                Pair otherPair = (Pair) other;
+                return
+                        ((this.start == otherPair.start ||
+                                (this.start != null && otherPair.start != null &&
+                                        this.start.equals(otherPair.start))) &&
+                                (this.destination == otherPair.destination ||
+                                        (this.destination != null && otherPair.destination != null &&
+                                                this.destination.equals(otherPair.destination))));
+            }
+
+            return false;
+        }
+
+        public String toString() {
+            return "(" + start + ", " + destination + ")";
+        }
+
+    }
+
+
+    private static String findStartCity1(List<Pair<String, String>> trips) {
+
+        List<String> cities = new ArrayList<>();
+
+        trips.forEach(trip -> {
+
+            String start = trip.getStart();
+            String destination = trip.getDestination();
+
+            if (cities.contains(start)) {
+                cities.remove(start);
+            } else {
+                cities.add(0, start);
+            }
+
+            if (cities.contains(destination)) {
+                cities.remove(destination);
+            } else {
+                cities.add(destination);
+            }
+
+        });
+
+        return cities.get(0);
+    }
+
+
+
 
     /*question: design an algorithm to find the 
     maximum 3 occurances from a Array of Strings*/
 
-    /*String[] lis = {"Dhaka", "Munich", "Berlin", "Miami", "Seattle", 
-    "Munich", "Munich", "Seattle", "Dhaka", "Dhaka", "Dhaka", "Dhaka"};*/
-
+    /*
+    * String[] lis = {"Dhaka", "Munich", "Berlin", "Miami", "Seattle", 
+    * "Munich", "Munich", "Seattle", "Dhaka", "Dhaka", "Dhaka", "Dhaka"};
+    */
     public static void maxStringFrequencies(String[] arr){
 
         if (arr == null || arr.length == 0){
@@ -6284,6 +6498,21 @@ public class myArray {
 
 
 
+    /*
+    * `2017-03-18T22:42:21.3763342Z` => what's the unix ms since epoch timestamp
+    * for this date string and what's the Java code to do that transformation?
+    * */
+    public static long getUnixMiliSeconds(String s) {
+
+        Instant instant = Instant.parse(s);
+
+        long previous = instant.toEpochMilli();
+        long now = Instant.now().toEpochMilli();
+
+        long diff = now - previous;
+
+        return diff;
+    }
 
 
 
@@ -6483,9 +6712,9 @@ public class myArray {
         htb.put("E", "Grapes");
 
         /*
-        Checking Key existence using containsKey() method.
-        boolean containsKey(Object key) method returns true if the 
-        Hashtable contains the key, otherwise it returns false.
+            Checking Key existence using containsKey() method.
+            boolean containsKey(Object key) method returns true if the 
+            Hashtable contains the key, otherwise it returns false.
         */
 
         boolean keyFlag1 = htb.containsKey("A");
@@ -6519,6 +6748,7 @@ public class myArray {
     queue data-structure*/
     public static void learnQueue(){
 
+
         /*1. queue.poll() removes the element from the queue, 
         if there is no element it returns NULL 
 
@@ -6550,13 +6780,13 @@ public class myArray {
         System.out.println("Size of Queue : " + queue.size());
 
         Object obj = queue.element();
+
         System.out.println("Element at head position = " + obj);
         Iterator<Integer> it = queue.iterator();
         
         while ( it.hasNext() ) {            
             System.out.println( it.next() );
         }        
-
     }
     /*END of solution: learn about 
     the queue data-structure*/
@@ -6605,7 +6835,6 @@ public class myArray {
 
     List<String> list = maxThreeFrequencies(lis);
     ===================================== */
-
 
     public static List<String> maxThreeFrequencies(List<String> lis) {
         
@@ -6785,7 +7014,6 @@ public class myArray {
     all array elements are distinct*/ 
     public static int kthSmallest(int arr[], int l, int r, int k){
 
-
         // If k is smaller than number of elements in array
         if (k > 0 && k <= (r - l + 1) ){
 
@@ -6812,7 +7040,7 @@ public class myArray {
 
     // i-th element is in the i-th postion 
     // and smaller elements are left of i-th elem (but, not sorted out)
-    //  and bigger elements are right of i-th elem (but, not sorted out)
+    // and bigger elements are right of i-th elem (but, not sorted out)
     public static int partition(int[] arr, int l, int r) {
 
         int x = arr[r];
@@ -6986,7 +7214,6 @@ public class myArray {
     /*question: convert an array to set*/
     public static void arrayToSet(int[] arr){
 
-
         // using Class arr Integer[]
         Integer[] newArray = new Integer[arr.length];
         int i = 0;
@@ -7091,7 +7318,6 @@ public class myArray {
 
     /*solution-b*/
     public static int numberOfPairs(int[] a, int k ) {
-
 
         int len = a.length;
         int counter = 0;
@@ -7452,6 +7678,8 @@ public class myArray {
         return fiboHelper(n, arr);
     }
 
+
+
     public static int fiboHelper(int n, int[] arr){
 
         if(n <= 0) {
@@ -7571,7 +7799,6 @@ public class myArray {
 
     /*solution-b*/
      public static int swapTwoNumbers1(int m, int n ){
-
         return m;
     }
     //  make the call as below 
@@ -7720,59 +7947,57 @@ public class myArray {
             return false; 
         }
 
-	    else if (str.length() == 0) {
+	    if (str.length() == 0) {
             return true; 
         }
 
-	    else {
 
-	     	for (int j = 0; j < str.length(); j++){
+     	for (int j = 0; j < str.length(); j++){
 
-		        ch = str.charAt(j);
-		        // System.out.print(ch+ " ");
+	        ch = str.charAt(j);
+	        // System.out.print(ch+ " ");
 
-		        // 1. 
-		        if ( o_lis.contains(ch) ){
-		             stack.push(ch);
-		        }
+	        // 1. 
+	        if ( o_lis.contains(ch) ){
+	             stack.push(ch);
+	        }
 
-		        // 2. 
-		        else if ( c_lis.contains(ch) ){
+	        // 2. 
+	        else if ( c_lis.contains(ch) ){
 
-		          if (!stack.isEmpty()){
+	          if (!stack.isEmpty()){
 
-		              char test = stack.pop(); 
+	              char test = stack.pop(); 
 
-		              if ( ch == ')' && test != '(' ){
+	              if ( ch == ')' && test != '(' ){
+	                 return false; 
+	              }
 
-		                 return false; 
-		              }
+	              else if ( ch == '}' && test != '{' ){ 
+	                  return false;
+	              }
 
-		              else if ( ch == '}' && test != '{' ){ 
+	              else if ( ch == ']' && test != '[' ){	               
+                    return false;
+	              }
 
-		                  return false;
-		              }
+                  // else{
+                  //   return true;
+                  // }  
+	          }
+	          
+	          // if the String starts with the closing brace, return false 
+	          else {
+                return false;
+              }
+                 
+	        }
 
-		              else if ( ch == ']' && test != '[' ){
-		               
-                        return false;
-		              }
+	        else 
+                return false; 
+	        
+	      }// end of for 
 
-                      else{
-                        return false;
-                      }  
-		          }
-		          
-		          // 3
-		          else 
-                    return false; 
-		        }
-
-		        else return false; 
-		        
-		      }// end of for 
-
-	    }//  END OF ELSE
 
 	    return stack.isEmpty();
 	}
@@ -7782,6 +8007,58 @@ public class myArray {
 
 
 
+    /*
+    * solution - b
+    */
+    public static boolean checkBraces1(String str) {
+
+        if (str == null) {
+            return false;
+        }
+
+        if (str.isEmpty() == true) {
+            return true;
+        }
+
+        int count = 0;
+        int index = 0;
+
+        int N = str.length();
+
+        char[] ch = str.toCharArray();
+
+        String start = str.substring(0, 1);
+
+        // ({({()})})
+        while (count >= 0 && index <= N - 1) {
+
+            String s = str.substring(index, index + 1);
+            index++;
+
+            if (s.equals("(")) {
+                count = count + 1;
+            } else if (s.equals("{")) {
+                count = count + 2;
+            } else if (s.equals("[")) {
+                count = count + 3;
+            } else if (s.equals(")")) {
+                count = count - 1;
+            } else if (s.equals("}")) {
+                count = count - 2;
+            } else if (s.equals("]")) {
+                count = count - 3;
+            } else {
+
+                // we get a diff. animal
+                return false;
+            }
+        }
+
+        return count == 0;
+    }
+    /*
+    * END of solution - b
+    */
 
 
 
@@ -7793,17 +8070,22 @@ public class myArray {
     /*
     * solution-a
     */
+
+    // String str = "({({()})})";
     public static int findIndexOfClosingBrace(String s, int openPos) {
+
 
         char[] text = s.toCharArray();
 
-        int closePos = openPos;
+        int index = openPos;
         int counter = 1;
 
         // "[123[abc]]an[125[bc]]"
         while (counter > 0) {
 
-            char c = text[++closePos];
+            // check if the index is not exceed the String 
+
+            char c = text[++index];
             
             if (c == '[') {
                 counter++;
@@ -7883,7 +8165,6 @@ public class myArray {
             return -1;
         }
 
-
         for (int i = openIndex + 1; i < str.length(); i++) {
 
             char current = str.charAt(i);
@@ -7901,7 +8182,6 @@ public class myArray {
                     if (braceMatching(opBrace, current)) {
                         stack.pop();
                     }
-
                 } 
 
                 else if (braceMatching(providedOpeningBrace, current)) {
@@ -8002,7 +8282,6 @@ public class myArray {
 	/*solution-a*/
     public static void findMaxChar(String str){
 
-
         int N = str.length();
         
         int count = 1;
@@ -8050,9 +8329,7 @@ public class myArray {
 
         int index =0;
 
-
         for ( Map.Entry<Character, Integer> entry : map.entrySet()){
-
             System.out.println("index :" + (++index) 
                             +"\t"+entry.getKey()+ "\t"+ entry.getValue() );
         }
@@ -8088,7 +8365,6 @@ public class myArray {
                     else if (count > maxCount) {
 
                         maxCount = count;
-
                         map.clear();
                         map.put(arr[i], count);
                     }
@@ -8117,7 +8393,6 @@ public class myArray {
 	/*solution - b*/
 	public static void findMaxChar3 (String str){
 
-
         char[] array = str.toLowerCase().toCharArray();
 
         int count = 1;
@@ -8126,7 +8401,6 @@ public class myArray {
         char maxChar = '0';
 
         Set<Character> set = new LinkedHashSet<Character>();
-
 
         for ( int i = 0; i < str.length() - 1; i++ ){  
 
@@ -8164,7 +8438,6 @@ public class myArray {
         }
 
         for( Character c: set){
-
             System.out.println(c);
         }
     }
@@ -8223,7 +8496,6 @@ public class myArray {
     * string is substring of another string. The solution 
     * is case sensitive*/
 	public static boolean isSubstring(String fr, String sn, int f_len, int s_len ){
-
 
         // small string for testing substring
         if ( f_len == 0) {
@@ -8340,14 +8612,13 @@ public class myArray {
     a string using recursion and iteration*/
 
     /*solution-a*/
-	public static String reverse( String str ) {
+	public static String reverse( String str){
 
         StringBuilder strBuilder = new StringBuilder();
 
         char[] strChars = str.toCharArray();
 
-        for ( int i = (strChars.length - 1) ; i >= 0; i-- ) {
-
+        for ( int i = (strChars.length - 1) ; i >= 0; i--){
             strBuilder.append(strChars[i]);
         }
 
@@ -8369,7 +8640,6 @@ public class myArray {
         return reverse1(str.substring(1) ) + str.charAt(0);
     }
     /*END of solution-a*/
-
 
 	/* END of solution: design an algorithm to reverse 
     a string using recursion and iteration*/
@@ -8395,8 +8665,7 @@ public class myArray {
     	return lis; 
 	}
 
-	private static void permutation( String prefix, String str, 
-                                                    ArrayList<String> lis){
+	private static void permutation( String prefix, String str, ArrayList<String> lis){
 
 	    int N = str.length();
 
@@ -8433,7 +8702,7 @@ public class myArray {
 	        int lastIndex = s.length() - 1;
 
 	        // split the string in two parts 
-	        String last = s.substring( lastIndex );
+	        String last = s.substring(lastIndex);
 	        String rest = s.substring( 0, lastIndex );
 
 	        if (rest != null && last != null){
@@ -8482,7 +8751,6 @@ public class myArray {
 	private static void doPerm( StringBuffer str, int index ){
 
 	    if ( index <= 0 ){
-
 	    	System.out.println(str);    
 	    }
 	        
@@ -8545,14 +8813,12 @@ public class myArray {
     of an array from 0*/
     public static int closeToZero(int[] arr){
 
-
         if (arr.length == 0 ){
             return Integer.MIN_VALUE;
         }
 
         int closeToZero = Integer.MAX_VALUE;
         int index = 0 ;
-
 
         for (int j = 0; j< arr.length; j++){
 
@@ -8581,7 +8847,6 @@ public class myArray {
         Integer[] ar = Arrays.stream(arr).boxed().toArray(Integer[]:: new );
 
         if( arr[index] < 0 && !Arrays.asList(ar).contains(closeToZero) ){
-
             return -closeToZero;
         }
 
@@ -8655,14 +8920,13 @@ public class myArray {
 		Scanner sc = new Scanner(input);
 		Stack<String> stack = new Stack<String>();
 
-		while( sc.hasNext() ) {
+		while(sc.hasNext()) {
 		    stack.push( sc.next() );
 		}
 
 		StringBuilder sb = new StringBuilder();
 
 		while(!stack.isEmpty()) { 
-
 		    sb.append(stack.pop()).append(" ");
 		}
 
@@ -8711,15 +8975,13 @@ public class myArray {
 		String rev = "";
 
 		for (int i = words.length - 1; i >= 0 ; i--){
-
-			   rev += words[i] + " ";
+			rev += words[i] + " ";
 		}
 
 		// do the same using StringBuilder 
 		StringBuilder sb = new StringBuilder();
 
 		for( int i = words.length - 1 ; i >= 0 ; i-- ){
-
 		   sb.append(words[i]).append(" ");
 		}
 
@@ -8751,7 +9013,7 @@ public class myArray {
     the duplicate elements from an int array*/
 
     /*solution-a*/
-    public int[] removeArrDups( int [] arr ){
+    public int[] removeArrDups(int [] arr ){
 
         int len = arr.length;
         
@@ -8792,7 +9054,6 @@ public class myArray {
         int count = 0;
 
         for (int i: arr){
-
             myArr[count++] = i;
         }
 
@@ -8820,7 +9081,6 @@ public class myArray {
 	/*question: conversion between number 
     and string using various syntax*/
 	public static void numberToString(  ){
-
 
         char[] ch = "Seattle".toCharArray();
 
@@ -8906,12 +9166,12 @@ public class myArray {
 
 
     /*solution-b*/
-	public static void printMap( String word ) {
+	public static void printMap(String word ) {
 
-		Map<Character, Integer> mp = makeMap(word);
-	    Iterator it = mp.entrySet().iterator();
+		Map<Character, Integer> map = makeMap(word);
+	    Iterator it = map.entrySet().iterator();
 
-	    while (it.hasNext()) {
+	    while (it.hasNext()){
 
 	        Map.Entry pair = (Map.Entry)it.next();
 
@@ -8963,13 +9223,14 @@ public class myArray {
 	/*question: design an algoruthm to find the 
     first non-repitative character of a string*/
     /*solution-a*/
-	public static char getFirstNonRepeatedChar( String str ) { 
+	public static char getFirstNonRepeatedChar( String str){ 
 
-
-        /*LinkedHashMap/LinkedHashSet keeps the order, 
-        but, not the HashMap/HashSet, note: LinkedHashSet 
-        has a method clear() that helps for removing 
-        everything from the Set*/
+        /*
+        * LinkedHashMap/LinkedHashSet keeps the order, 
+        * but, not the HashMap/HashSet, note: LinkedHashSet 
+        * has a method clear() that helps for removing 
+        * everything from the Set
+        */
 
 		Map<Character,Integer> counts = new LinkedHashMap<Character,Integer>(str.length()); 
 
@@ -9133,14 +9394,16 @@ public class myArray {
 	/*question 1-1 : design an algorithm to determine 
 	if a string has all the unique characters*/	
 
+
+    /*
+    * the StringBuffer is synchronized while the StringBuilder is asynchronous
+    */ 
     /*solution-a*/
 	public static boolean isUniqueChars ( String str) {
 
 		if (str.length() > 128) {
             return false;
         }
-
-		
 
 		/*ASCII character set 
 		'a' = 97
@@ -9194,7 +9457,7 @@ public class myArray {
     /* solution-b*/
 	public static boolean isUniqueChars1(String str) {
 
-		if ( str.length() > 128) {
+		if (str.length() > 128) {
             return false;
         }
 		
@@ -9338,7 +9601,6 @@ public class myArray {
     /*solution-d*/
 	public static String removeDups4(String str1){
 
-
 	    if (str1 == null) {
 	        return null;
         }
@@ -9387,7 +9649,6 @@ public class myArray {
 
     /*solution-e*/
 	public static String removeDups5 (String str){
-
 
 		StringBuffer buf = new StringBuffer(str);
 		int len = str.length();
@@ -9463,7 +9724,7 @@ public class myArray {
 
 		StringBuilder sb = new StringBuilder();
 
-		for (Character character : charSet ) {
+		for (Character character : charSet){
 		    sb.append(character);
 		}
 
