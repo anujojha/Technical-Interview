@@ -9,8 +9,7 @@ class CircularArray<T> implements Iterable<T> {
 	private T[] items;
 	private int head = 0;
 	
-	public CircularArray(int size) {
-	
+	public CircularArray(int size) {	
 		items = (T[]) new Object[size];
 	}
 	
@@ -45,8 +44,11 @@ class CircularArray<T> implements Iterable<T> {
 	public Iterator<T> iterator() {
 		return new CircularArrayIterator<T>(this);
 	}
+
 	
 	private class CircularArrayIterator<TI> implements Iterator<TI> {
+
+	
 		private int current = -1;
 		private TI[] items;
 		

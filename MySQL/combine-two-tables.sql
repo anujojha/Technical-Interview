@@ -12,6 +12,12 @@
 # PersonId is the primary key column for this table.
 
 
+
+# wouter.verhoog@e-therapists.de
+# christoph.klaerner@e-therapists.de
+
+
+
 # Table: Address
 # +-------------+---------+
 # | Column Name | Type    |

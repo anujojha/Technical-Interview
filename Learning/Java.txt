@@ -4,6 +4,26 @@ JAVA LEARNING LIST
 ——————————————————
 
 
+
+——————————————————————————————————————————————————————————————————————————
+
+Virtual Pair Programmers (VPP)
+——————————————————————————————
+
+	Spring Boot Microservices - Virtual Pair Programmers (VPP)
+
+	Microservice Deployment - Virtual Pair Programmers (VPP)
+
+	Java Advanced Topics - Virtual Pair Programmers (VPP)
+
+	Optimising Application Performance - Virtual Pair Programmers (VPP)
+
+	Spring MVC and WebFlow - Virtual Pair Programmers (VPP)
+	Spring Remoting and Webservices - Virtual Pair Programmers (VPP)
+
+——————————————————————————————————————————————————————————————————————————
+
+
 ——————————————————————————————
 
 LEARN JAVA 
@@ -14,8 +34,6 @@ ii.  CODEJAVA.NET
 iii. JAVACODEGEEKS.COM
 
 ——————————————————————————————
-
-
 
 
 

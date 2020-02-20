@@ -1,87 +1,93 @@
-PYTHON: LEARNING LIST
+python: learning list
 —————————————————————
 
-WRITING IDIOMATIC PYTHON @ JEFF KNUPP
+Writing idiomatic python @ jeff knupp
 
-THE PYTHON STANDARD LIBRARY BY EXAMPLE <HTTP://MY.SAFARIBOOKSONLINE.COM/BOOK/PROGRAMMING/PYTHON/9780132778633> 
+Pymotw <https://pymotw.com/3/index.html> 
 
-PYMOTW <HTTPS://PYMOTW.COM/3/INDEX.HTML> 
 
-PYTHON COURSE EU INCLUDING SCIENTIFIC COMPUTING @ <HTTP://WWW.PYTHON-COURSE.EU>
 
-HARRISON KINSLEY PYTHON PROGRAMMING @ <HTTPS://PYTHONPROGRAMMING.NET/>
+the python standard library by example <http://my.safaribooksonline.com/book/programming/python/9780132778633> 
 
-NATURAL LANGUAGE PROCESSING NLTK <HTTP://WWW.NLTK.ORG/BOOK/>
 
-UDEMY @ AWS MACHINE LEARNING: A COMPLETE GUIDE WITH PYTHON <HTTPS://WWW.UDEMY.COM/AWS-
+python course eu including scientific computing @ <http://www.python-course.eu>
 
-MACHINE-LEARNING-A-COMPLETE-GUIDE-WITH-PYTHON/>
+harrison kinsley python programming @ <https://pythonprogramming.net/>
 
-DEEP LEARNING TUTORIAL @ <HTTP://DEEPLEARNING.NET/TUTORIAL/> 
+natural language processing nltk <http://www.nltk.org/book/>
 
-DEEP LEARNING SERIES @ UDEMY AND LAZY PROGRAMMER INC. 
+udemy @ aws machine learning: a complete guide with python <https://www.udemy.com/aws-
 
-QUANTOPIAN @ FINANCIAL ENGINEERING @ <HTTPS://WWW.QUANTOPIAN.COM/> 
+machine-learning-a-complete-guide-with-python/>
 
-UDEMY @ AWS MACHINE LEARNING: A COMPLETE GUIDE WITH PYTHON 
+deep learning tutorial @ <http://deeplearning.net/tutorial/> 
 
-AI, DEEP LEARNING AND NLP <HTTP://WWW.WILDML.COM/>  
+deep learning series @ udemy and lazy programmer inc. 
 
-THE PYTHON STANDARD LIBRARY <HTTPS://DOCS.PYTHON.ORG/3/LIBRARY/> 
+quantopian @ financial engineering @ <https://www.quantopian.com/> 
 
-LEARN PYTHON THE HARD WAY <HTTPS://LEARNPYTHONTHEHARDWAY.ORG> 
+udemy @ aws machine learning: a complete guide with python 
 
-CHRIS ALBON NOTES ON DATA SCIENCE, ML AND AI <HTTP://CHRISALBON.COM/> 
+ai, deep learning and nlp <http://www.wildml.com/>  
 
-PYTHON: PROGRAMMING EFFICIENTLY - LYNDA 
+the python standard library <https://docs.python.org/3/library/> 
 
-LEARNING PYTHON WEB PENETRATION TESTING - LYNDA 
+learn python the hard way <https://learnpythonthehardway.org> 
 
-PYTHON GENERATORS - LYNDA 
+chris albon notes on data science, ml and ai <http://chrisalbon.com/> 
 
-DESIGN PATTERNS WITH PYTHON - LYNDA 
+python: programming efficiently - lynda 
 
-PYTHON DEISGN PATTERNS <HTTPS://WWW.TOPTAL.COM/PYTHON/PYTHON-DESIGN-PATTERNS> 
+learning python web penetration testing - lynda 
 
-ALEXANDER GALEA | SCIENTIFIC PYTHON AND STATISTICS  <HTTPS://GALEASCIENCE.WORDPRESS.COM/> 
+python generators - lynda 
 
-TEST DRIVEN DEVELOPMENT (TDD) WITH PYTHON  <HTTP://WWW.OBEYTHETESTINGGOAT.COM/PAGES/BOOK.HTML#TOC> 
+design patterns with python - lynda 
 
-PYTHON DJANGO TUTS <HTTP://WWW.MARINAMELE.COM/>  
+python deisgn patterns <https://www.toptal.com/python/python-design-patterns> 
 
-OBJECT ORIENTED DESIGN (OOD) <HTTP://WWW.ITMAYBEAHACK.COM/BOOK/OODESIGN-PYTHON-2.1/HTML/>
+alexander galea | scientific python and statistics  <https://galeascience.wordpress.com/> 
 
-OBJECT ORIENTED DESIGN (OOD) <HTTP://WWW.GEEKSFORGEEKS.ORG/OBJECT-ORIENTED-PROGRAMMING-IN-PYTHON-SET-1-CLASS-AND-ITS-MEMBERS/> 
+test driven development (tdd) with python  <http://www.obeythetestinggoat.com/pages/book.html#toc> 
 
-DISASSEMBLING THE PYTHON BYTECODE <HTTP://WWW.GOLDSBOROUGH.ME/PYTHON/LOW-LEVEL/2016/10/04/00-31-30-DISASSEMBLING_PYTHON_BYTECODE/> 
+python django tuts <http://www.marinamele.com/>  
 
-MANASH MANDAL BLOG ML, NLP, PROBABILITY AND STATISTICS 
-<HTTPS://BLOG.MANASH.ME/MACHINE-LEARNING-1-MAXIMUM-LIKELIHOOD-ESTIMATION-PART-1-9AD37D6AC425?GI=D17FDEEDF85D>
+object oriented design (ood) <http://www.itmaybeahack.com/book/oodesign-python-2.1/html/>
 
-PYTHON INTERNET CODE-I <HTTP://PGBOVINE.NET/CPYTHON-INTERNALS.HTM>
+object oriented design (ood) <http://www.geeksforgeeks.org/object-oriented-programming-in-python-set-1-class-and-its-members/> 
 
-PYTHON INTERNET CODE-II <HTTPS://GITHUB.COM/AMYGDALAMA/PYTHON-INTERNALS>
+disassembling the python bytecode <http://www.goldsborough.me/python/low-level/2016/10/04/00-31-30-disassembling_python_bytecode/> 
 
-DJANGO TUTS <HTTPS://WWW.CODINGFORENTREPRENEURS.COM/>
+manash mandal blog ml, nlp, probability and statistics 
+<https://blog.manash.me/machine-learning-1-maximum-likelihood-estimation-part-1-9ad37d6ac425?gi=d17fdeedf85d>
 
-FLASK TUTORIALS MIGUEL GRINBERG <HTTPS://BLOG.MIGUELGRINBERG.COM/>
+python internet code-i <http://pgbovine.net/cpython-internals.htm>
 
-DEEP LEARNING W/ ADIT DESHPANDE <HTTPS://ADESHPANDE3.GITHUB.IO/ADESHPANDE3.GITHUB.IO/> 
+python internet code-ii <https://github.com/amygdalama/python-internals>
 
-PYTHON DESIGN PATTERN SERIES - DEREK BANAS/ YOUTUBE 
+django tuts <https://www.codingforentrepreneurs.com/>
+
+flask tutorials miguel grinberg <https://blog.miguelgrinberg.com/>
+
+deep learning w/ adit deshpande <https://adeshpande3.github.io/adeshpande3.github.io/> 
+
+python design pattern series - derek banas/ youtube 
+
+
+
 
 ————————————————————————————————————————————————————————————————————
-PYTHON SERIES - DEREK BANAS/ YOUTUBE 
+python series - derek banas/ youtube 
 
-LEARN TO PROGRAM 3 : MATH STRINGS EXCEPTION HANDLING
+learn to program 3: math strings exception handling
 
-LEARN TO PROGRAM 12 LAMBDA MAP FILTER REDUCE
+learn to program 12 lambda map filter reduce
 
-LEARN TO PROGRAM 13 ITERABLES : LIST COMPREHENSIONS : GENERATORS
+learn to program 13 iterables : list comprehensions : generators
 
-LEARN TO PROGRAM 14 : PYTHON THREADS
+learn to program 14 : python threads
 ————————————————————————————————————————————————————————————————————
 
-MULTITHREADING IN PYTHON - UDEMY 
+multithreading in python - udemy 
 
-SCRAPY: POWERFUL WEB SCRAPING & CRAWLING WITH PYTHON - UDEMY
+scrapy: powerful web scraping & crawling with python - udemy

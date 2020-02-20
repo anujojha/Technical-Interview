@@ -71,6 +71,7 @@ public class TopologicalSort {
                     noOutgoing.add(from);
             }
         }
+
         // If we have processed all connected vertices and there are edges remaining, graph has multiple connected components.
         if (edges.size() > 0)
             return null;

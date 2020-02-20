@@ -1678,6 +1678,7 @@ public class BinaryTree {
     check whther a binary tree is balanced*/	
 	public static boolean isBalanced( Node root) {
 
+
 		if (root == null){
             return true;
         } 
@@ -1691,6 +1692,7 @@ public class BinaryTree {
 		else {
             return isBalanced(root.leftChild) && isBalanced(root.rightChild);			
         }
+
 	}
 
     // get the height of binary tree 
@@ -2406,13 +2408,11 @@ public class BinaryTree {
 		BinaryTree myTr = new BinaryTree();
 				
 		for( int j=0; j < myArr.length; j++){
-
 			myTr.addNode(myArr[j]);
 		}
 
 		inOrderTraverseTree2(myTr.root);
 		/* End of the initializatin */
-
 
 
 

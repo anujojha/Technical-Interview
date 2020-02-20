@@ -965,9 +965,101 @@ class DS implements spotIn {
 
 
 
+/*
+* deck of cards 
+*/
+public class Cards {
+
+    protected int rank;
+    protected int suit;
+    
+    protected String[] sNames = { "Hearts", "Clubs", "Spades", "Diamonds" };
+    protected String[] rNames = { "Ace", "2", "3", "4", "5", "6", "7", "8",
+            "9", "10", "Jack", "Queen", "King" };
+
+    public Cards(int Rank, int Suit) {
+        suit = Suit;
+        rank = Rank;
+    }
+
+    public String toString() {
+        return ("Your card is: " + rNames[rank - 1] + " of " + sNames[suit - 1]);
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public int getSuit() {
+        return suit;
+    }
+
+}
+
+
+public class DeckOfCards {
+
+    private Cards[] deck;
+    private int cardHold;
+
+    public DeckOfCards() {
+
+        deck = new Cards[52];
+        int n = 0;
+
+        for (int i = 1; i <= 13; i++) {
+
+            for (int j = 1; j <= 4; j++) {
+                deck[n] = new Cards(i, j);
+                n = n+1;
+            }
+        }
+
+        cardHold = -1;
+    }
+
+
+    public void shuffle() {
+        
+        int i = 0;
+        
+        while (i < 52) {
+
+            int rando = (int) (5.0*(Math.random()));
+            Cards temp = deck[rando];
+            deck[rando] = deck[i];
+            deck[i] = temp;
+            i++;
+        }
+    }
+
+    public Cards deal() {
+        return (hasMoreCards() ? deck[++cardHold] : null);
+    }
+
+    public boolean hasMoreCards() {
+        return (cardHold != 0);
+    }
+
+    public static void main(String[] args) {
+        DeckOfCards deck2 = new DeckOfCards();
+        deck2.shuffle();
+        for (int i = 0; i < 52; i++)
+            System.out.println(deck2.deal());
+    }
+}
+
+/*
+* END of deck of cards
+*/
+
+
+
 
 
 public class myArray {
+
+
 
 
     /*question:*/
@@ -1076,6 +1168,7 @@ public class myArray {
 
         for(String line: lines){
 
+
             rainfalls = new ArrayList<Double>();
         
             int index = line.indexOf(":");
@@ -1113,6 +1206,7 @@ public class myArray {
 
         return stat.getMean();    
     }
+
 
     public static double variance(String town, String strng) {
      
@@ -1988,6 +2082,10 @@ public class myArray {
     }
     /*END of solution-h*/
 
+
+
+
+
     private class Tester {  
 
         public static Piece convertIntToPiece(int i) {
@@ -2085,6 +2183,7 @@ public class myArray {
 
     /*Solution-a*/
     public static int factorsOf5(int i) {            
+
 
         int count = 0;
 
@@ -2832,7 +2931,6 @@ public class myArray {
     /*Question 17-12: */
     public static void printPairSums(int[] array, int sum) {
 
-
         Arrays.sort(array);
 
         int first = 0;
@@ -2925,6 +3023,7 @@ public class myArray {
         
         /* break current word */
         int bestExact = parseOptimized(wordEnd + 1, wordEnd + 1, cache);
+
         if (!validPartial || !dictionary.contains(currentWord, true)) {
             bestExact += currentWord.length();
         }
@@ -2942,6 +3041,7 @@ public class myArray {
         return min;
     }
     
+
     public static int parseSimple(int wordStart, int wordEnd) {
 
         if (wordEnd >= sentence.length()) {
@@ -2978,9 +3078,12 @@ public class myArray {
 
     /*18-1*/
     public static int add(int a, int b) {
+
         if (b == 0) return a;
+
         int sum = a ^ b; // add without carrying
         int carry = (a & b) << 1; // carry, but don’t add
+
         return add(sum, carry); // recurse
     }
     
@@ -3242,6 +3345,7 @@ public class myArray {
     public static int shortest(String[] words, String word1, String word2) {
 
         int min = Integer.MAX_VALUE;
+
         int lastPosWord1 = -1;
         int lastPosWord2 = -1;
 
@@ -3363,7 +3467,6 @@ public class myArray {
 
 
     public static boolean validateFull(int[] array) {
-
 
         for (int i = 0; i < array.length; i++) {
 
@@ -3491,9 +3594,12 @@ public class myArray {
 
     /*Question 18-7*/
     class LengthComparator implements Comparator<String> {
+
         public int compare(String o1, String o2) {
+
             if (o1.length() < o2.length()) return 1;
             if (o1.length() > o2.length()) return -1;
+
             return 0;
         }
     }
@@ -4470,7 +4576,6 @@ public class myArray {
         return null;
     }
 
-
     private static Set<String> getOneEditWords(String word) {
 
         Set<String> words = new TreeSet<String>();
@@ -4487,6 +4592,7 @@ public class myArray {
                 }
             }
         }
+
         return words;
     }
     
@@ -4601,15 +4707,17 @@ public class myArray {
         return true;
     }
     
-
     public static SquareCell[][] processSquare(int[][] matrix) {
         
         SquareCell[][] processed = new SquareCell[matrix.length][matrix.length];
         
         for (int r = matrix.length - 1; r >= 0; r--) {
+
             for (int c = matrix.length - 1; c >= 0; c--) {
+
                 int rightZeros = 0;
                 int belowZeros = 0;
+
                 if (matrix[r][c] == 0) { // only need to process if it's a black cell
                     rightZeros++;
                     belowZeros++;
@@ -4632,6 +4740,7 @@ public class myArray {
 
         int[][] matrix = AssortedMethods.randomMatrix(7, 7, 0, 1);
         AssortedMethods.printMatrix(matrix);
+
         Subsquare square = findSquare(matrix);
         square.print();
     }
@@ -7580,7 +7689,189 @@ public class myArray {
 
 
 
+    /*
+    * find the maximum repeated number for the square root for 
+    * the numbers between (incl.) provided range 
+    */
 
+    final int[] table = {
+
+            0, 16, 22, 27, 32, 35, 39, 42, 45, 48, 50, 53, 55, 57,
+            59, 61, 64, 65, 67, 69, 71, 73, 75, 76, 78, 80, 81, 83,
+            84, 86, 87, 89, 90, 91, 93, 94, 96, 97, 98, 99, 101, 102,
+            103, 104, 106, 107, 108, 109, 110, 112, 113, 114, 115, 116, 117, 118,
+            119, 120, 121, 122, 123, 124, 125, 126, 128, 128, 129, 130, 131, 132,
+            133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 144, 145,
+            146, 147, 148, 149, 150, 150, 151, 152, 153, 154, 155, 155, 156, 157,
+            158, 159, 160, 160, 161, 162, 163, 163, 164, 165, 166, 167, 167, 168,
+            169, 170, 170, 171, 172, 173, 173, 174, 175, 176, 176, 177, 178, 178,
+            179, 180, 181, 181, 182, 183, 183, 184, 185, 185, 186, 187, 187, 188,
+            189, 189, 190, 191, 192, 192, 193, 193, 194, 195, 195, 196, 197, 197,
+            198, 199, 199, 200, 201, 201, 202, 203, 203, 204, 204, 205, 206, 206,
+            207, 208, 208, 209, 209, 210, 211, 211, 212, 212, 213, 214, 214, 215,
+            215, 216, 217, 217, 218, 218, 219, 219, 220, 221, 221, 222, 222, 223,
+            224, 224, 225, 225, 226, 226, 227, 227, 228, 229, 229, 230, 230, 231,
+            231, 232, 232, 233, 234, 234, 235, 235, 236, 236, 237, 237, 238, 238,
+            239, 240, 240, 241, 241, 242, 242, 243, 243, 244, 244, 245, 245, 246,
+            246, 247, 247, 248, 248, 249, 249, 250, 250, 251, 251, 252, 252, 253,
+            253, 254, 254, 255
+    };
+
+
+    public int sqrt(int x) {
+
+        int xn;
+
+        if (x >= 0x10000) {
+            if (x >= 0x1000000) {
+                if (x >= 0x10000000) {
+                    if (x >= 0x40000000) {
+                        xn = table[x >> 24] << 8;
+                    } else {
+                        xn = table[x >> 22] << 7;
+                    }
+                } else {
+                    if (x >= 0x4000000) {
+                        xn = table[x >> 20] << 6;
+                    } else {
+                        xn = table[x >> 18] << 5;
+                    }
+                }
+
+                xn = (xn + 1 + (x / xn)) >> 1;
+                xn = (xn + 1 + (x / xn)) >> 1;
+                return ((xn * xn) > x) ? --xn : xn;
+            } else {
+                if (x >= 0x100000) {
+                    if (x >= 0x400000) {
+                        xn = table[x >> 16] << 4;
+                    } else {
+                        xn = table[x >> 14] << 3;
+                    }
+                } else {
+                    if (x >= 0x40000) {
+                        xn = table[x >> 12] << 2;
+                    } else {
+                        xn = table[x >> 10] << 1;
+                    }
+                }
+
+                xn = (xn + 1 + (x / xn)) >> 1;
+
+                return ((xn * xn) > x) ? --xn : xn;
+            }
+        } else {
+            if (x >= 0x100) {
+                if (x >= 0x1000) {
+                    if (x >= 0x4000) {
+                        xn = (table[x >> 8]) + 1;
+                    } else {
+                        xn = (table[x >> 6] >> 1) + 1;
+                    }
+                } else {
+                    if (x >= 0x400) {
+                        xn = (table[x >> 4] >> 2) + 1;
+                    } else {
+                        xn = (table[x >> 2] >> 3) + 1;
+                    }
+                }
+
+                return ((xn * xn) > x) ? --xn : xn;
+            } else {
+                if (x >= 0) {
+                    return table[x] >> 4;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    long goodMask; // 0xC840C04048404040 computed below
+
+    {
+        for (int i = 0; i < 64; ++i) goodMask |= Long.MIN_VALUE >>> (i * i);
+    }
+
+    public boolean isSquare(long x) {
+
+        /*
+        *
+        * This tests if the 6 least significant bits are right. Moving the to
+        * be tested bit to the highest position saves us masking.
+        * */
+        if (goodMask << x >= 0) return false;
+        final int numberOfTrailingZeros = Long.numberOfTrailingZeros(x);
+
+
+        /*
+        * Each square ends with an even number of zeros.
+        * */
+        if ((numberOfTrailingZeros & 1) != 0) return false;
+        x >>= numberOfTrailingZeros;
+
+        /*
+        * Now x is either 0 or odd. In binary each odd square ends with 001.
+        * Postpone the sign maxRepeatedNumber until now; handle zero in the branch.
+        * */
+        if ((x & 7) != 1 | x <= 0) return x == 0;
+
+
+        /*
+        *
+        * Do it in the classical way. The correctness is not trivial as the conversion
+        * from long to double is lossy!
+        * */
+        final long tst = (long) Math.sqrt(x);
+        return tst * tst == x;
+    }
+
+
+
+
+    public int maxRepeatedNumber(int N, int count) {
+
+        if (!isSquare(N)) {
+            return count;
+        }
+
+        // the int has the sqrt, so, find the value
+        else {
+
+            count += 1;
+
+            int root = sqrt(N);
+
+            return maxRepeatedNumber(root, count);
+        }
+    }
+
+
+    public int solution(int A, int B) {
+
+        int count = 0;
+        int temp = -1;
+
+        for (int i = A; i <= B; i++) {
+
+            if (!isSquare(i)) {
+                continue;
+            }
+
+            temp = maxRepeatedNumber(i, 0);
+
+            if (temp > count) {
+                count = temp;
+            }
+        }
+
+        return count;
+    }
+    /*
+    * END of question: find the maximum repeated number for the square 
+    root for the numbers between (incl.) provided range 
+    */
 
 
     /*question: design a program to find the 
@@ -8341,12 +8632,14 @@ public class myArray {
     /* Bairesdev*/
     public static int MostPopularNumber(int[] arr, int N) {
 
+
         int count = 1;
         int maxCount = 1;
 
         Arrays.sort(arr);
 
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
 
         for (int i = 1; i < N; i++) {
 
@@ -8418,7 +8711,7 @@ public class myArray {
             'c' is char or Character
             "c" is Stirng*/
 
-            count = str.length() - str.replace( String.valueOf(array[i]) , "");
+            count = str.length() - str.replace(String.valueOf(array[i]) , "");
 
             if (count >1){
 
@@ -8456,8 +8749,10 @@ public class myArray {
     count the vowels of a string*/
 	public static void getVowels(){
 
+
 		System.out.println("Please enter some text"); 
 		Scanner reader = new Scanner(System.in); 
+
 
 		String input = reader.nextLine(); 
 		char[] letters = input.toCharArray(); 
@@ -8510,6 +8805,7 @@ public class myArray {
         if ( fr.charAt( f_len -1 ) == sn.charAt(s_len -1 ) )
             return isSubstring(fr, sn, f_len -1, s_len -1 );
 
+
         return isSubstring(fr, sn, f_len, s_len -1 );
     }
     /*END of solution*/
@@ -8524,6 +8820,7 @@ public class myArray {
     substring of another string. If not found, 
     return -1*/
     public static int beginningIndex(String fr, String sn){
+
 
         // fr is the small string here 
         // sn is the big string here 
@@ -8681,6 +8978,7 @@ public class myArray {
 	        	permutation(prefix + str.charAt(i),  str.substring(0, i) + str.substring(i+1),  lis);
 	        }	        		            
 	    }
+
 	}
 	/*END of solution-a*/
 	 
@@ -8768,7 +9066,6 @@ public class myArray {
 	    }
 	}
 
-
 	private  static void swap( StringBuffer str, int pos1, int pos2 ){
 
 	    char t1 = str.charAt(pos1);
@@ -8828,7 +9125,6 @@ public class myArray {
                 index = j; 
             }
         }
-
 
         /* // 1st way:
         !Arrays.toList(ar).contains(closeToZero); 
@@ -8941,6 +9237,7 @@ public class myArray {
     /*solution-b */
 	public static String sentenceReverse4(String sen){
 
+
 		/* "\\s" is for one white spaces 
 		"\\s+" is for one or more than one whitespaces*/
 
@@ -8988,7 +9285,6 @@ public class myArray {
 		return sb.toString().trim(); 
 	}
     /*END of solution-c*/
-
 
 
 
@@ -9082,7 +9378,9 @@ public class myArray {
     and string using various syntax*/
 	public static void numberToString(  ){
 
+
         char[] ch = "Seattle".toCharArray();
+
 
         // convert character array to Stirng 
         System.out.println(String.valueOf(ch));
@@ -9168,6 +9466,7 @@ public class myArray {
     /*solution-b*/
 	public static void printMap(String word ) {
 
+
 		Map<Character, Integer> map = makeMap(word);
 	    Iterator it = map.entrySet().iterator();
 
@@ -9190,7 +9489,6 @@ public class myArray {
 
     /*solution-a,b*/
     public static Map<Character, Integer> makeMap (String word) {
-
 
         char[] characters = word.toCharArray(); 
         Map<Character, Integer> charMap = new HashMap<Character, Integer>(); 
@@ -9401,36 +9699,39 @@ public class myArray {
     /*solution-a*/
 	public static boolean isUniqueChars ( String str) {
 
+
 		if (str.length() > 128) {
             return false;
         }
 
-		/*ASCII character set 
-		'a' = 97
-		'z' = 122
-		'A' = 65
-		'Z' =  90*/
+		/*
+            ASCII character set 
+    		'a' = 97
+    		'z' = 122
+    		'A' = 65
+    		'Z' =  90
+        */
 
         /*
-        Let's represent cominations of N-element set as N-bit numbers, where jth bit is 1 
-        if jth item is included in the combintation, and 0 otherwise. This way you can 
-        represent all possible combinations as numbers in range [0, 2N).
+            Let's represent cominations of N-element set as N-bit numbers, where jth bit is 1 
+            if jth item is included in the combintation, and 0 otherwise. This way you can 
+            represent all possible combinations as numbers in range [0, 2N).
 
-        The outer loop iterates over these numbers (1 << N == 2N).
+            The outer loop iterates over these numbers (1 << N == 2N).
 
-        The inner loop iterates over items of the set and if condition checks whether j-th 
-        item is included into the current combination. In other words, it checks if jth bit 
-        of i is 1.
+            The inner loop iterates over items of the set and if condition checks whether j-th 
+            item is included into the current combination. In other words, it checks if jth bit 
+            of i is 1.
 
-        1<<j gives you a number where only jth bit is 1, i & (1 << j) resets all bits of i 
-        other than that bit, and > checks that result is not 0.
+            1<<j gives you a number where only jth bit is 1, i & (1 << j) resets all bits of i 
+            other than that bit, and > checks that result is not 0.
 
-        Note that this code (with ints) only works for N < 31.
+            Note that this code (with ints) only works for N < 31.
         */
 
         int checker = 0;
 
-		for ( int i = 0; i < str.length() ; i++ ) {
+		for ( int i = 0; i < str.length() ; i++) {
 
 			int val = str.charAt(i) - 'a';
 
@@ -9444,6 +9745,10 @@ public class myArray {
 		return true;
 	}
     /* END of solution-a*/
+
+
+
+
 
 
     /*
@@ -9465,7 +9770,7 @@ public class myArray {
 		boolean [] char_set = new boolean[128];
         // boolean [] char_set = new boolean[256];
 
-		for ( int i = 0; i < str.length(); i++ ) {
+		for ( int i = 0; i < str.length(); i++) {
 
 			int val = str.charAt(i);
 
@@ -9479,6 +9784,7 @@ public class myArray {
 		return true;
 	}
     /* END of solution-b*/
+
 
 
     /* solution-c*/
@@ -9522,8 +9828,8 @@ public class myArray {
     /* solution-a */
 	public static String removeDups1( String str1) {
 
-		ArrayList<Character> lis = new ArrayList<Character>();
 
+		ArrayList<Character> lis = new ArrayList<Character>();
 	    char[] str = str1.toCharArray();
 
 	    for(int i = 0 ; i < str.length; i++){
@@ -9565,6 +9871,7 @@ public class myArray {
 
     /*solution-b*/
 	public static String removeDups2 ( String s ) {
+
 
 	    StringBuilder noDupes = new StringBuilder();
 
@@ -9650,6 +9957,7 @@ public class myArray {
     /*solution-e*/
 	public static String removeDups5 (String str){
 
+
 		StringBuffer buf = new StringBuffer(str);
 		int len = str.length();
 
@@ -9677,6 +9985,7 @@ public class myArray {
     /*solution-f*/
     public static String removeDups6( String str ){
 
+
         // StringBuffer constructors 
         // 1. StringBuffer ()
         // 2. StringBuffer(int capacity)
@@ -9689,7 +9998,7 @@ public class myArray {
 
         for (int i = 0; i < len ; i++){
 
-            int j = len-1;
+            int j = (len-1);
 
             while(j > i){
 
@@ -9739,7 +10048,6 @@ public class myArray {
 
     /*solution-h*/
 	public static String removeDups8 (String str1){
-
 
 	    StringBuilder sb = new StringBuilder(str1);
 
@@ -9815,6 +10123,7 @@ public class myArray {
 
 	/*solution-j*/
     public static String removeDups11 ( String string ){
+
 
         if ( string == null) {
             return null;
@@ -9926,9 +10235,8 @@ public class myArray {
 	}
 
 
-
-
 	public static boolean checkAnagram (String first, String second) {
+
 
 		char[] characters = first.toCharArray();
 		StringBuilder sbSecond = new StringBuilder(second);
@@ -9990,6 +10298,7 @@ public class myArray {
 	/*second solution of anagram*/
 	public static boolean anagram( String s, String t ) {
 
+
 		if (s.length() != t.length()){
 			return false;
         }
@@ -10013,9 +10322,10 @@ public class myArray {
 
 		for (char c : s_array) { // count number of each char in s.
 
-			if (letters[c] == 0)
-				++num_unique_chars;
-
+			if (letters[c] == 0){
+                ++num_unique_chars;
+            }
+				
 			++letters[c];
 		}
 
@@ -10036,7 +10346,8 @@ public class myArray {
 				++num_completed_t;
 
 				if (num_completed_t == num_unique_chars){
-					// itÕs a match if t has been processed completely
+
+					// it's a match if t has been processed completely
 					return true;
 					//return i == t.length() - 1;
 				}
@@ -10052,6 +10363,7 @@ public class myArray {
 
 	/* method for checking anagram */
 	public static boolean permutation2(String s, String t){
+
 
 		if ( s.length() != t.length() ) {
 			return false;
@@ -10103,7 +10415,6 @@ public class myArray {
 
         int len = ch.length + 2 * count;
         char[] modified = new char[len];
-        // modified[len] = '\0';
 
         for(int j = ch.length -1; j >= 0 && len > 0; j--){
 
@@ -10119,8 +10430,7 @@ public class myArray {
                 len -= 3;
             }
 
-            else {
-                
+            else {                
                 modified[ len - 1] = c;
                 len--;
             }
@@ -10128,7 +10438,6 @@ public class myArray {
 
         return new String(modified).trim();
     }
-
 
 
     public static String replaceSpaces1(String in) {
@@ -10144,6 +10453,7 @@ public class myArray {
         */
 
         return in.replace(" ", "%20");
+        return in.replaceAll(" ", "%20");
     }
     /* END of solution: design an algorithm to replace 
     all spaces in a string with ‘%20’*/
@@ -10156,7 +10466,6 @@ public class myArray {
 	/*Question : An unlabeled break statement terminates the innermost switch, for, while, 
 	or do-while  statement, but a labeled break terminates an outer statement.*/
 	public static void breakTest(){
-
 
         int[][] arrayOfInts = { 
 
@@ -10171,23 +10480,25 @@ public class myArray {
         boolean foundIt = false;
 
 	    search:
-	        for ( i = 0; i < arrayOfInts.length; i++ ) {
+            for ( i = 0; i < arrayOfInts.length; i++ ) {
 
-	            for ( j = 0; j < arrayOfInts[i].length; j++ ) {
+                for ( j = 0; j < arrayOfInts[i].length; j++ ) {
 
-	                if (arrayOfInts[i][j] == searchfor) {
+                    if (arrayOfInts[i][j] == searchfor) {
 
-	                    foundIt = true;
-	                    break search;
-	                }
-	            }
-	        }
+                        foundIt = true;
+                        break search;
+                    }
+                }
+            }
 
-        if (foundIt)
+        if (foundIt){
             System.out.println("The number is found");
+        }
         
-        else
-            System.out.println("Not found");
+        else {
+            System.out.println("Not found");    
+        }
     }
 	/*END of question 1-5 */
 
@@ -10207,12 +10518,19 @@ public class myArray {
         if (in == null) {
             return null;
         }
+
+        // 1,1   1,2   1,3    
+        // 1,3   2,3   3,3
+
+        // 2,1   2,2   2,3 
+        // 1,2   2,2   3,2
+
+        // 3,1   3,2   3,3 
+        // 1,1   2,1   3,1
+
                 
         final int N = in.length; // NxN matrix
         int[][] out = new int[N][N];
-
-        // for (x,y) co-ordinate 
-        // finally, y, (dim-1-x)
         
         for (int x = 0; x < N; x++) {
 
@@ -10225,7 +10543,6 @@ public class myArray {
         return out;
     }
     /*END of solution-a*/
-
 
 
 	public static void rotate ( int[][] matrix, int n ) {
@@ -10299,8 +10616,7 @@ public class myArray {
 				System.out.print( matrix[i][j] + " ");
 			}
 
-			System.out.println();
-		
+			System.out.println();		
 		}
 	}
 	/*END solution 1-6*/
@@ -10336,6 +10652,7 @@ public class myArray {
 			}
 		}
 
+
 		for (int i = 0; i < matrix.length; i++) {
 
 			for (int j = 0; j < matrix[0].length;j++) {
@@ -10349,8 +10666,6 @@ public class myArray {
 
 		printMatrix(matrix);
 	}
-
-
 
 	public static int[][] cloneMatrix( int[][] matrix ) {
 
@@ -10407,8 +10722,6 @@ public class myArray {
     /*END of solution - a*/
 	
 
-
-
 	/*solution -b*/
     public static boolean isRotation(String s1, String s2) {
 
@@ -10422,6 +10735,7 @@ public class myArray {
 
 	/* END solution 1-8 design an algorithm to check for 
     two strings, s1 and s2 if s2 is a rotation of s1 */
+
 
 
 
@@ -10440,7 +10754,7 @@ public class myArray {
 
 	public static void main ( String[] args  ){
 
-        
+
         /*question 19-1: Write a function to swap a number 
         in place without temporary variables.*/
         int a = 1672;

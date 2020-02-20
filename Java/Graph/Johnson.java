@@ -19,9 +19,11 @@ import com.jwetherell.algorithms.data_structures.Graph;
  */
 public class Johnson {
 
+
     private Johnson() { }
 
     public static Map<Graph.Vertex<Integer>, Map<Graph.Vertex<Integer>, List<Graph.Edge<Integer>>>> getAllPairsShortestPaths(Graph<Integer> g) {
+        
         if (g == null)
             throw (new NullPointerException("Graph must be non-NULL."));
 
@@ -31,8 +33,10 @@ public class Johnson {
 
         // Add the connector Vertex to all edges.
         for (Graph.Vertex<Integer> v : graph.getVertices()) {
+            
             final int indexOfV = graph.getVertices().indexOf(v);
             final Graph.Edge<Integer> edge = new Graph.Edge<Integer>(0, connector, graph.getVertices().get(indexOfV));
+            
             connector.addEdge(edge);
             graph.getEdges().add(edge);
         }
@@ -65,12 +69,14 @@ public class Johnson {
         // other vertex in the re-weighted graph.
         final int indexOfConnector = graph.getVertices().indexOf(connector);
         graph.getVertices().remove(indexOfConnector);
+
         for (Graph.Edge<Integer> e : connector.getEdges()) {
             final int indexOfConnectorEdge = graph.getEdges().indexOf(e);
             graph.getEdges().remove(indexOfConnectorEdge);
         }
 
         final Map<Graph.Vertex<Integer>, Map<Graph.Vertex<Integer>, List<Graph.Edge<Integer>>>> allShortestPaths = new HashMap<Graph.Vertex<Integer>, Map<Graph.Vertex<Integer>, List<Graph.Edge<Integer>>>>();
+        
         for (Graph.Vertex<Integer> v : graph.getVertices()) {
             final Map<Graph.Vertex<Integer>, Graph.CostPathPair<Integer>> costPaths = Dijkstra.getShortestPaths(graph, v);
             final Map<Graph.Vertex<Integer>, List<Graph.Edge<Integer>>> paths = new HashMap<Graph.Vertex<Integer>, List<Graph.Edge<Integer>>>();

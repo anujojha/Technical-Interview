@@ -27,6 +27,7 @@ for element in view:
 
 
 colors = ["blue", "lavender", "red", "yellow"]
+
 # Sort colors by length, in reverse (descending) order.
 for color in sorted(colors, key=lambda color: len(color), reverse=True):
     print(color)
@@ -66,7 +67,7 @@ birds.append(Bird(5))
 birds.append(Bird(200))
 
 # Sort the birds by their weights.
-birds.sort(lambda b: b.weight())
+birds.sort(key = lambda b: b.weight())
 
 # Display sorted birds.
 for b in birds:
@@ -108,6 +109,7 @@ list = os.listdir(directory)
 
 # Loop and add files to list.
 pairs = []
+
 for file in list:
 
     # Use join to get full file path.
@@ -135,6 +137,7 @@ paths = []
 paths.append("C:\directory\name")
 paths.append("C:\directory\image")
 paths.append("C:\directory\folder\index")
+
 
 # Get common prefix of the paths.
 prefix = path.commonprefix(paths)
@@ -259,6 +262,7 @@ creation = path.getctime("/enable1.txt")
 # Display the times.
 print(access, modification, creation)
 
+
 # Convert timestamps to dates.
 access_ = date.fromtimestamp(access)
 modification_ = date.fromtimestamp(modification)
@@ -334,6 +338,7 @@ lines = s.splitlines()
 
 for line in lines:
     print("[" + line + "]")
+
 
 s = "123 Oak Street, New York"
 t = s.partition(" ") # partition based on the data type 
@@ -569,7 +574,6 @@ if str.casefold(value) == "cat":
 
 if str.lower(value) == "cat":
     print("D")
-
 
 
 # In a raw string "\" characters do not escape.
